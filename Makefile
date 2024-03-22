@@ -12,10 +12,10 @@
 
 BINARY		= minishell
 LIB			= libft.a
-CODEDIRS	= src
-INCDIR		= ./include/
+CODEDIRS	= src/
+INCDIR		= include/
 LIBDIR		= libft/
-BIN_DIR		= ./bin/
+BIN_DIR		= bin/
 
 CC			= gcc
 OPT			= -g3
