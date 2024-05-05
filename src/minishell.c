@@ -14,5 +14,12 @@
 
 int	main()
 {
-	printf("holiwis\n");
+	char	*str;
+
+	while (1)
+	{
+		str = readline("minishell >");
+		printf("%s\n", str);
+	}
+	return (EXIT_SUCCESS);
 }
