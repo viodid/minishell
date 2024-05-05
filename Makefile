@@ -10,41 +10,53 @@
 #                                                                              #
 # **************************************************************************** #
 
-BINARY		= minishell
-LIB			= libft.a
-CODEDIRS	= src/
+NAME		= minishell
+LIBNAME		= libft.a
+
+SRCDIR		= src/
 INCDIR		= include/
 LIBDIR		= libft/
-BIN_DIR		= bin/
+BINDIR		= bin/
+
+INCLUDE		= $(INCDIR)minishell.h
+SRC			= $(SRCDIR)minishell.c
+OBJS		= $(SRC:.c=.o)
 
 CC			= gcc
-OPT			= -g3
-CFLAGS		= -Wall -Wextra -Werror -I$(INCDIR) $(OPT)
+CFLAGS		= -Wall -Wextra -Werror
+# CFLAGS		+= -fsanitize=address
+# CFLAGS		+= -fsanitize=leak
+LIBREADLINE	= -lreadline
+LDFLAGS		= $(LIBREADLINE)
 
-CFILES		= $(shell find $(CODEDIRS) -name '*.c')
-OBJECTS		= $(CFILES:.c=.o)
+RM			= rm
+RFLAGS		= -rf
 
-all:		$(BINARY)
+all:		$(NAME)
 
-$(BINARY):	$(OBJECTS) $(LIB)
-	$(CC) $(CFLAGS) $(LIB) -o $@ $^
+$(NAME):	$(OBJS) $(LIBNAME)
+			$(CC) -o $@ $^ $(LDFLAGS)
+			@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 
-$(LIB):		$(LIBDIR)
-	$(MAKE) -C $(LIBDIR)
-	cp $(LIBDIR)$(LIB) .
-	$(MAKE) -C $(LIBDIR) fclean
+$(LIBNAME):
+			$(MAKE) -C $(LIBDIR)
+			cp $(LIBDIR)$(LIBNAME) .
+			$(MAKE) -C $(LIBDIR) fclean
 
 clean:
-	rm -f $(OBJECTS)
+			$(RM) $(RFLAGS) $(OBJS)
+			@echo "\033[0;32m--- Objects cleaned successfully! ---\033[0m"
 
 fclean:		clean
-	rm -f $(BINARY)
+			$(RM) $(RFLAGS) $(NAME) $(LIBNAME)
+			@echo "\033[0;32m--- Archive cleaned successfully! ---\033[0m"
 
 re:			fclean all
 
 diff:
-	$(info The status of the repository, and the volume of per-file changes:)
-	@git status
-	@git --no-pager diff --stat
+			$(info The status of the repository, and the volume of per-file changes:)
+			git status
+			git --no-pager diff --stat
 
+.SILENT:	diff
 .PHONY:		all clean fclean re diff
