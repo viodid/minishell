@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+         #
+#    By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/22 17:09:42 by kde-la-c          #+#    #+#              #
 #    Updated: 2024/03/22 17:09:44 by kde-la-c         ###   ########.fr        #
@@ -19,8 +19,14 @@ LIBDIR		= libft/
 BINDIR		= bin/
 
 INCLUDE		= $(INCDIR)minishell.h
-SRC			= $(SRCDIR)minishell.c
-OBJS		= $(SRC:.c=.o)
+SRC			= $(SRCDIR)main.c				\
+			$(SRCDIR)core/minishell.c		\
+			$(SRCDIR)parser/parser.c		\
+			$(SRCDIR)executor/executor.c	\
+			$(SRCDIR)signals/signals.c		\
+			$(SRCDIR)builtins/echo.c		\
+
+OBJS		= $(SRC:%.c=%.o)
 
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror

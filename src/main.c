@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/03/22 18:27:31 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/05/27 21:29:17 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/05/27 21:30:30 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../include/minishell.h"
 
-# include "../libft/libft.h"
-# include <readline/history.h>
-# include <readline/readline.h>
+int	main()
+{
+	int	i;
 
-int	minishell();
+	while (1)
+	{
+		i = minishell();
+		if (i)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
 
-#endif

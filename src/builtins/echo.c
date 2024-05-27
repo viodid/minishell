@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/03/22 18:27:31 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/05/27 17:29:44 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/05/27 17:29:48 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../../include/minishell.h"
 
-# include "../libft/libft.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-
-int	minishell();
-
-#endif
+void	echo(int option, char *str)
+{
+	printf("%s", str);
+	if (!option)
+		printf("\n");
+}
