@@ -10,64 +10,64 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= minishell
-LIBNAME		= libft.a
+NAME			= minishell
+LIBNAME			= libft.a
 
-SRCDIR		= src/
-INCDIR		= include/
-LIBDIR		= libft/
-OBJDIR		= obj/
-BINDIR		= bin/
+SRCDIR			= src/
+INCDIR			= include/
+LIBDIR			= libft/
+OBJDIR			= obj/
+BINDIR			= bin/
 
-INCLUDE		= $(INCDIR)minishell.h
-SRC			= $(SRCDIR)main.c				\
-			$(SRCDIR)core/minishell.c		\
-			$(SRCDIR)parser/parser.c		\
-			$(SRCDIR)executor/executor.c	\
-			$(SRCDIR)signals/signals.c		\
-			$(SRCDIR)builtins/echo.c		\
+INCLUDE			= $(INCDIR)minishell.h
+SRC				= $(SRCDIR)main.c				\
+				$(SRCDIR)core/minishell.c		\
+				$(SRCDIR)parser/parser.c		\
+				$(SRCDIR)executor/executor.c	\
+				$(SRCDIR)signals/signals.c		\
+				$(SRCDIR)builtins/echo.c		\
 
-OBJS		= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
+OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
-CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
-# CFLAGS		+= -fsanitize=address
-# CFLAGS		+= -fsanitize=leak
-LIBREADLINE	= -lreadline
-LDFLAGS		= $(LIBREADLINE)
+CC				= gcc
+CFLAGS			= -Wall -Wextra -Werror
+# CFLAGS			+= -fsanitize=address
+# CFLAGS			+= -fsanitize=leak
+LIBREADLINE		= -lreadline
+LDFLAGS			= $(LIBREADLINE)
 
-RM			= rm
-RFLAGS		= -rf
+RM				= rm
+RFLAGS			= -rf
 
-all:		$(NAME)
+all:			$(NAME)
 
-$(NAME):	$(OBJS) $(LIBNAME)
-			$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-			@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
+$(NAME):		$(OBJS) $(LIBNAME)
+				$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 
 $(LIBNAME):
-			$(MAKE) -C $(LIBDIR)
-			cp $(LIBDIR)$(LIBNAME) .
-			$(MAKE) -C $(LIBDIR) fclean
+				$(MAKE) -C $(LIBDIR)
+				cp $(LIBDIR)$(LIBNAME) .
+				$(MAKE) -C $(LIBDIR) fclean
 
 $(OBJDIR)%.o:	$(SRCDIR)%.c
-			@mkdir -p $(dir $@)
-			$(CC) $(CFLAGS) -c -o $@ $<
+				@mkdir -p $(dir $@)
+				$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-			$(RM) $(RFLAGS) $(OBJDIR)
-			@echo "\033[0;32m--- Objects cleaned successfully! ---\033[0m"
+				$(RM) $(RFLAGS) $(OBJS)
+				@echo "\033[0;32m--- Objects cleaned successfully! ---\033[0m"
 
-fclean:		clean
-			$(RM) $(RFLAGS) $(NAME) $(LIBNAME)
-			@echo "\033[0;32m--- Archive cleaned successfully! ---\033[0m"
+fclean:			clean
+				$(RM) $(RFLAGS) $(NAME) $(LIBNAME)
+				@echo "\033[0;32m--- Archive cleaned successfully! ---\033[0m"
 
-re:			fclean all
+re:				fclean all
 
 diff:
-			$(info The status of the repository, and the volume of per-file changes:)
-			git status
-			git --no-pager diff --stat
+				$(info The status of the repository, and the volume of per-file changes:)
+				git status
+				git --no-pager diff --stat
 
-.SILENT:	diff
-.PHONY:		all clean fclean re diff
+.SILENT:		diff
+.PHONY:			all clean fclean re diff
