@@ -14,5 +14,13 @@
 
 int	minishell()
 {
+	char *str;
+
+	str = readline("minishell >");
+	if (!str)
+		return (EXIT_FAILURE);
+	else
+		printf("%s\n", str);
+	free(str);
 	return (EXIT_SUCCESS);
 }

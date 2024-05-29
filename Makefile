@@ -41,7 +41,7 @@ RFLAGS		= -rf
 all:		$(NAME)
 
 $(NAME):	$(OBJS) $(LIBNAME)
-			$(CC) -o $@ $^ $(LDFLAGS)
+			$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 			@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 
 $(LIBNAME):
