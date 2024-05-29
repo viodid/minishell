@@ -16,6 +16,7 @@ LIBNAME		= libft.a
 SRCDIR		= src/
 INCDIR		= include/
 LIBDIR		= libft/
+OBJDIR		= obj/
 BINDIR		= bin/
 
 INCLUDE		= $(INCDIR)minishell.h
@@ -26,7 +27,7 @@ SRC			= $(SRCDIR)main.c				\
 			$(SRCDIR)signals/signals.c		\
 			$(SRCDIR)builtins/echo.c		\
 
-OBJS		= $(SRC:%.c=%.o)
+OBJS		= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror
@@ -49,8 +50,12 @@ $(LIBNAME):
 			cp $(LIBDIR)$(LIBNAME) .
 			$(MAKE) -C $(LIBDIR) fclean
 
+$(OBJDIR)%.o:	$(SRCDIR)%.c
+			@mkdir -p $(dir $@)
+			$(CC) $(CFLAGS) -c -o $@ $<
+
 clean:
-			$(RM) $(RFLAGS) $(OBJS)
+			$(RM) $(RFLAGS) $(OBJDIR)
 			@echo "\033[0;32m--- Objects cleaned successfully! ---\033[0m"
 
 fclean:		clean
