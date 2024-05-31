@@ -12,15 +12,26 @@
 
 #include "../../include/minishell.h"
 
+int	exec(char *cmd)
+{
+	if (!cmd)
+		return (EXIT_FAILURE);
+	else if (!ft_strncmp(cmd, "pwd", 4))
+		pwd();
+	else
+		printf("%s\n", cmd);
+	return (EXIT_SUCCESS);
+}
+
 int	minishell()
 {
-	char *str;
+	int		retcode;
+	char	*str;
 
 	str = readline("minishell >");
-	if (!str)
-		return (EXIT_FAILURE);
-	else
-		printf("%s\n", str);
+	retcode = exec(str);
 	free(str);
+	if (retcode)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

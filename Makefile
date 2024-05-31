@@ -26,6 +26,7 @@ SRC				= $(SRCDIR)main.c				\
 				$(SRCDIR)executor/executor.c	\
 				$(SRCDIR)signals/signals.c		\
 				$(SRCDIR)builtins/echo.c		\
+				$(SRCDIR)builtins/pwd.c			\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 

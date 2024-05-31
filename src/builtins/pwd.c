@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/03/22 18:27:31 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/05/31 18:39:26 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/05/31 18:39:28 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../../include/minishell.h"
 
-# include "../libft/libft.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <unistd.h>
+void	pwd(void)
+{
+	char *path;
 
-int		minishell();
-
-
-void	pwd(void);
-void	echo(int option, char *str);
-
-
-#endif
+	path = getcwd(NULL, 0);
+	printf("%s\n", path);
+	free(path);
+}
