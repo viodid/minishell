@@ -17,6 +17,17 @@ void	pwd(void)
 	char *path;
 
 	path = getcwd(NULL, 0);
+	if (!path)
+	{
+		path = getenv("PWD");
+		if (!path)
+		{
+			perror("pwd");
+			return ;
+		}
+		printf("%s\n", path);
+		return ;
+	}
 	printf("%s\n", path);
 	free(path);
 }

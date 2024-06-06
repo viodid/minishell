@@ -17,6 +17,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <unistd.h>
+# include <stdlib.h>
 
 int		minishell();
 
