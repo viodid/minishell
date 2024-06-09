@@ -33,6 +33,7 @@ char	*ft_getenv(char *key, char **envp);
 
 void	pwd(t_data *core);
 void	echo(int option, char *str);
+void	cd(char *dest, t_data *core);
 
 
 #endif

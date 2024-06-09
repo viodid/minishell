@@ -18,6 +18,8 @@ int	exec(char *cmd, t_data *core)
 		return (EXIT_FAILURE);
 	else if (!ft_strncmp(cmd, "pwd", 4))
 		pwd(core);
+	else if (!ft_strncmp(cmd, "cd ", 3))
+		cd(cmd + 3, core);
 	else
 		printf("%s\n", cmd);
 	return (EXIT_SUCCESS);
