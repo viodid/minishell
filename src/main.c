@@ -12,13 +12,17 @@
 
 #include "../include/minishell.h"
 
-int	main()
+int	main(int argc, char **argv, char **envp)
 {
-	int	i;
+	int		i;
+	t_data	core;
+	(void)argc;
+	(void)argv;
 
+	core.envp = envp;
 	while (1)
 	{
-		i = minishell();
+		i = minishell(&core);
 		if (i)
 			return (EXIT_FAILURE);
 	}

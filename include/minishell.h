@@ -18,11 +18,20 @@
 # include <readline/readline.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <errno.h>
 
-int		minishell();
+typedef struct s_data
+{
+	char	**envp;
+}	t_data;
+
+int		minishell(t_data *core);
 
 
-void	pwd(void);
+char	*ft_getenv(char *key, char **envp);
+
+
+void	pwd(t_data *core);
 void	echo(int option, char *str);
 
 

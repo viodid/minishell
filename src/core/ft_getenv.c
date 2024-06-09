@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 18:39:26 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/05/31 18:39:28 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/06/09 18:54:21 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/06/09 18:54:24 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	pwd(t_data *core)
+char	*ft_getenv(char *key, char **envp)
 {
-	char *path;
+	int		i;
+	int		keylen;
 
-	path = getcwd(NULL, 0);
-	if (!path)
+	if (!envp)
+		return (NULL);
+	key = ft_strjoin(key, "=");
+	keylen = ft_strlen(key);
+	i = -1;
+	while (envp[++i])
 	{
-		path = ft_getenv("PWD", core->envp);
-		if (!path)
-		{
-			perror("pwd");
-			return ;
-		}
-		printf("%s i\n", path);
-		return ;
+		if (!ft_strncmp(key, envp[i], keylen))
+			return (free(key), ft_strchr(envp[i], '=') + 1);
 	}
-	printf("%s\n", path);
-	free(path);
+	return (free(key), NULL);
 }
+

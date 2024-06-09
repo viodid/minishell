@@ -22,6 +22,7 @@ BINDIR			= bin/
 INCLUDE			= $(INCDIR)minishell.h
 SRC				= $(SRCDIR)main.c				\
 				$(SRCDIR)core/minishell.c		\
+				$(SRCDIR)core/ft_getenv.c		\
 				$(SRCDIR)parser/parser.c		\
 				$(SRCDIR)executor/executor.c	\
 				$(SRCDIR)signals/signals.c		\
@@ -32,7 +33,7 @@ OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
-# CFLAGS			+= -fsanitize=address
+CFLAGS			+= -fsanitize=address
 # CFLAGS			+= -fsanitize=leak
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)
