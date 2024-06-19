@@ -34,8 +34,8 @@ OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
-CFLAGS			+= -fsanitize=address
-# CFLAGS			+= -fsanitize=leak
+CFLAGS			+= -fsanitize=address -g3
+# CFLAGS			+= -fsanitize=leak -g3
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)
 

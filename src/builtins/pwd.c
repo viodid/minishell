@@ -23,11 +23,12 @@ int	pwd(t_data *core)
 		if (!path)
 		{
 			perror("pwd");
-			return ;
+			return (EXIT_FAILURE);
 		}
 		printf("%s i\n", path);
-		return ;
+		return (EXIT_SUCCESS);
 	}
 	printf("%s\n", path);
 	free(path);
+	return (EXIT_SUCCESS);
 }

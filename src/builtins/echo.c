@@ -17,4 +17,5 @@ int	echo(int option, char *str)
 	printf("%s", str);
 	if (!option)
 		printf("\n");
+	return (EXIT_SUCCESS);
 }

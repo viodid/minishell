@@ -12,21 +12,21 @@
 
 #include "../../include/minishell.h"
 
-char	*ft_getenv(char *key, char **envp)
-{
-	int		i;
-	int		keylen;
+// char	*ft_getenv(char *key, char **envp)
+// {
+// 	int		i;
+// 	int		keylen;
 
-	if (!envp)
-		return (NULL);
-	key = ft_strjoin(key, "=");
-	keylen = ft_strlen(key);
-	i = -1;
-	while (envp[++i])
-	{
-		if (!ft_strncmp(key, envp[i], keylen))
-			return (free(key), ft_strchr(envp[i], '=') + 1);
-	}
-	return (free(key), NULL);
-}
+// 	if (!envp)
+// 		return (NULL);
+// 	key = ft_strjoin(key, "=");
+// 	keylen = ft_strlen(key);
+// 	i = -1;
+// 	while (envp[++i])
+// 	{
+// 		if (!ft_strncmp(key, envp[i], keylen))
+// 			return (free(key), ft_strchr(envp[i], '=') + 1);
+// 	}
+// 	return (free(key), NULL);
+// }
 

@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	export()
+#include "../../include/minishell.h"
+
+int	export(t_data *core, char **var)
 {
-	
+	char	*envvar;
+
+	envvar = ft_getenv(var[0], core->envp);
 }

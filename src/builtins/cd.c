@@ -14,6 +14,7 @@
 
 int	cd(char *dest, t_data *core)
 {
+	//TODO export builtin required to change PWD and OLDPWD env vars
 	int	retcode;
 	(void)core;
 
@@ -22,4 +23,5 @@ int	cd(char *dest, t_data *core)
 	{
 		printf("cd: %s: %s\n", strerror(errno), dest);
 	}
+	return (EXIT_SUCCESS);
 }

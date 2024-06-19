@@ -20,9 +20,16 @@
 # include <stdlib.h>
 # include <errno.h>
 
+typedef struct s_var
+{
+	char	*key;
+	char	*value;
+}	t_var;
+
 typedef struct s_data
 {
 	char	**envp;
+	t_list	*envl;
 }	t_data;
 
 int		minishell(t_data *core);
@@ -31,9 +38,9 @@ int		minishell(t_data *core);
 char	*ft_getenv(char *key, char **envp);
 
 
-int	pwd(t_data *core);
-int	echo(int option, char *str);
-int	cd(char *dest, t_data *core);
+int		pwd(t_data *core);
+int		echo(int option, char *str);
+int		cd(char *dest, t_data *core);
 
 
 #endif
