@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void	echo(int option, char *str)
+int	echo(int option, char *str)
 {
 	printf("%s", str);
 	if (!option)

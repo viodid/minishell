@@ -31,9 +31,9 @@ int		minishell(t_data *core);
 char	*ft_getenv(char *key, char **envp);
 
 
-void	pwd(t_data *core);
-void	echo(int option, char *str);
-void	cd(char *dest, t_data *core);
+int	pwd(t_data *core);
+int	echo(int option, char *str);
+int	cd(char *dest, t_data *core);
 
 
 #endif

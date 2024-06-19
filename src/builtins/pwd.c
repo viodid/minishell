@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void	pwd(t_data *core)
+int	pwd(t_data *core)
 {
 	char *path;
 
