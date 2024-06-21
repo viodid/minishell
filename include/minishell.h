@@ -42,5 +42,7 @@ int		pwd(t_data *core);
 int		echo(int option, char *str);
 int		cd(char *dest, t_data *core);
 
+/* debug */
+void	print_var(void *cont);
 
 #endif

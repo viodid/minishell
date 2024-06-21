@@ -30,6 +30,7 @@ int	minishell(t_data *core)
 	int		retcode;
 	char	*str;
 
+	ft_lstiter(core->envl, print_var);
 	str = readline("minishell >");
 	retcode = exec(str, core);
 	free(str);
