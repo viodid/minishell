@@ -29,4 +29,3 @@ char	*get_env(char *key, char **envp)
 	}
 	return (free(key), NULL);
 }
-

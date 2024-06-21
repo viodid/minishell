@@ -16,8 +16,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	int		i;
 	t_data	core;
-	(void)argc;
-	(void)argv;
 
 	core.envp = envp;
 	core.envl = set_env(envp);
@@ -30,4 +28,3 @@ int	main(int argc, char **argv, char **envp)
 	free_struct(&core);
 	return (EXIT_SUCCESS);
 }
-

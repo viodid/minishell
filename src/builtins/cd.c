@@ -12,11 +12,11 @@
 
 #include "../../include/minishell.h"
 
+//TODO export builtin required to change PWD and OLDPWD env vars
+
 int	cd(char *dest, t_data *core)
 {
-	//TODO export builtin required to change PWD and OLDPWD env vars
 	int	retcode;
-	(void)core;
 
 	retcode = chdir(dest);
 	if (retcode)

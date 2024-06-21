@@ -25,4 +25,3 @@ void	free_struct(t_data *core)
 {
 	ft_lstclear(&core->envl, &free_var);
 }
-

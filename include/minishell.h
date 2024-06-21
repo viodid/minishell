@@ -34,10 +34,8 @@ typedef struct s_data
 
 int		minishell(t_data *core);
 
-
 char	*get_env(char *key, char **envp);
 t_list	*set_env(char **envp);
-
 
 int		pwd(t_data *core);
 int		echo(int option, char *str);

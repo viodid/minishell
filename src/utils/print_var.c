@@ -18,5 +18,4 @@ void	print_var(void *cont)
 
 	var = (t_var *)cont;
 	printf("%s=%s\n", var->key, var->value);
-} 
-
+}
