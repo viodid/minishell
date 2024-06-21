@@ -37,8 +37,7 @@ OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
-# CFLAGS			+= -fsanitize=address -g3
-# CFLAGS			+= -fsanitize=leak -g3
+LIBFLAG			=
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)
 
@@ -51,8 +50,18 @@ $(NAME):		$(OBJS) $(LIBNAME)
 				$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 
+asan:			fclean
+asan:			CFLAGS += -fsanitize=address -g3
+asan:			LIBFLAG = asan
+asan:			all
+
+lsan:			fclean
+lsan:			CFLAGS += -fsanitize=leak -g3
+lsan:			LIBFLAG = lsan
+lsan:			all
+
 $(LIBNAME):
-				$(MAKE) -C $(LIBDIR)
+				$(MAKE) -C $(LIBDIR) $(LIBFLAG)
 				cp $(LIBDIR)$(LIBNAME) .
 				$(MAKE) -C $(LIBDIR) fclean
 
