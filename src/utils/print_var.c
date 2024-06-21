@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   print_var.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 18:39:26 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/05/31 18:39:28 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/06/21 16:58:20 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/06/21 16:58:20 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	pwd(t_data *core)
+void	print_var(void *cont)
 {
-	char *path;
+	t_var	*var;
 
-	path = getcwd(NULL, 0);
-	if (!path)
-	{
-		path = get_env("PWD", core->envp);
-		if (!path)
-		{
-			perror("pwd");
-			return (EXIT_FAILURE);
-		}
-		printf("%s i\n", path);
-		return (EXIT_SUCCESS);
-	}
-	printf("%s\n", path);
-	free(path);
-	return (EXIT_SUCCESS);
+	var = (t_var *)cont;
+	printf("%s=%s\n", var->key, var->value);
 }

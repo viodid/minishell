@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getenv.c                                        :+:      :+:    :+:   */
+/*   free_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/09 18:54:21 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/06/09 18:54:24 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/06/21 17:12:21 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/06/21 17:12:21 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*ft_getenv(char *key, char **envp)
+static void	free_var(void *cont)
 {
-	int		i;
-	int		keylen;
+	t_var	*var;
 
-	if (!envp)
-		return (NULL);
-	key = ft_strjoin(key, "=");
-	keylen = ft_strlen(key);
-	i = -1;
-	while (envp[++i])
-	{
-		if (!ft_strncmp(key, envp[i], keylen))
-			return (free(key), ft_strchr(envp[i], '=') + 1);
-	}
-	return (free(key), NULL);
+	var = (t_var *)cont;
+	free(var->key);
+	free(var->value);
+}
+
+void	free_struct(t_data *core)
+{
+	ft_lstclear(&core->envl, &free_var);
 }
 

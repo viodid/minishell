@@ -35,7 +35,8 @@ typedef struct s_data
 int		minishell(t_data *core);
 
 
-char	*ft_getenv(char *key, char **envp);
+char	*get_env(char *key, char **envp);
+t_list	*set_env(char **envp);
 
 
 int		pwd(t_data *core);
@@ -44,5 +45,6 @@ int		cd(char *dest, t_data *core);
 
 /* debug */
 void	print_var(void *cont);
+void	free_struct(t_data *core);
 
 #endif

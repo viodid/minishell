@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 18:39:26 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/05/31 18:39:28 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/06/21 16:56:20 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/06/21 16:56:20 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	pwd(t_data *core)
+t_list	*set_env(char **envp)
 {
-	char *path;
+	int		i;
+	char	*tmpenv;
+	t_var	*var;
+	t_list	*ret;
 
-	path = getcwd(NULL, 0);
-	if (!path)
+	i = -1;
+	ret = NULL;
+	while (envp[++i])
 	{
-		path = get_env("PWD", core->envp);
-		if (!path)
-		{
-			perror("pwd");
-			return (EXIT_FAILURE);
-		}
-		printf("%s i\n", path);
-		return (EXIT_SUCCESS);
+		var = ft_calloc(1, sizeof(t_var));
+		tmpenv = ft_strdup(envp[i]);
+		var->key = ft_substr(tmpenv, 0, ft_strchr(tmpenv, '=') - tmpenv);
+		free(tmpenv);
+		tmpenv = ft_strdup(envp[i]);
+		var->value = ft_strdup(ft_strchr(tmpenv, '=') + 1);
+		free(tmpenv);
+		ft_lstadd_back(&ret, ft_lstnew(var));
 	}
-	printf("%s\n", path);
-	free(path);
-	return (EXIT_SUCCESS);
+	return (ret);
 }
+
