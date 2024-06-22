@@ -15,16 +15,18 @@
 int	main(int argc, char **argv, char **envp)
 {
 	int		i;
-	t_data	core;
+	t_data	*core;
+	(void)argc;
+	(void)argv;
 
-	core.envp = envp;
-	core.envl = set_env(envp);
+	core = ft_calloc(1, sizeof(t_data));
+	core->envp = set_env(envp);
 	while (1)
 	{
-		i = minishell(&core);
+		i = minishell(core);
 		if (i)
 			return (EXIT_FAILURE);
 	}
-	free_struct(&core);
+	free_struct(core);
 	return (EXIT_SUCCESS);
 }

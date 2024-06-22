@@ -19,7 +19,7 @@ int	pwd(t_data *core)
 	path = getcwd(NULL, 0);
 	if (!path)
 	{
-		path = get_env("PWD", core->envp);
+		path = get_env("PWD", core);
 		if (!path)
 		{
 			perror("pwd");

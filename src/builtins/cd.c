@@ -17,6 +17,7 @@
 int	cd(char *dest, t_data *core)
 {
 	int	retcode;
+	(void)core;
 
 	retcode = chdir(dest);
 	if (retcode)

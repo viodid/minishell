@@ -28,13 +28,12 @@ typedef struct s_var
 
 typedef struct s_data
 {
-	char	**envp;
-	t_list	*envl;
+	t_list	*envp;
 }	t_data;
 
 int		minishell(t_data *core);
 
-char	*get_env(char *key, char **envp);
+char	*get_env(char *key, t_data *core);
 t_list	*set_env(char **envp);
 
 int		pwd(t_data *core);
