@@ -28,8 +28,12 @@ SRC				= $(SRCDIR)main.c				\
 				$(SRCDIR)executor/executor.c	\
 				$(SRCDIR)signals/signals.c		\
 				$(SRCDIR)builtins/echo.c		\
-				$(SRCDIR)builtins/pwd.c			\
 				$(SRCDIR)builtins/cd.c			\
+				$(SRCDIR)builtins/pwd.c			\
+				$(SRCDIR)builtins/export.c		\
+				$(SRCDIR)builtins/unset.c		\
+				$(SRCDIR)builtins/env.c			\
+				$(SRCDIR)builtins/exit.c		\
 				$(SRCDIR)utils/free_struct.c	\
 				$(SRCDIR)utils/print_var.c		\
 

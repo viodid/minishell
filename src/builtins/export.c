@@ -12,9 +12,19 @@
 
 #include "../../include/minishell.h"
 
-int	export(t_data *core, char **var)
+int	export(t_data *core, char *var)
 {
-	char	*envvar;
+	t_var	*envvar;
+	t_var	*tmp;
 
-	envvar = ft_getenv(var[0], core->envp);
+	tmp = split_var(var);
+	envvar = get_env(tmp->key, core);
+	if (envvar)
+	{
+		free(envvar->value);
+		envvar->value = ft_strdup(tmp->value);
+		free_var(tmp);
+		return (EXIT_SUCCESS);
+	}
+	return (EXIT_SUCCESS);	
 }

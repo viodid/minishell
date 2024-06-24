@@ -14,5 +14,7 @@
 
 int	unset(char *key, t_data *core)
 {
+	(void)key;
+	(void)core;
 	return (EXIT_SUCCESS);
 }

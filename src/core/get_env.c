@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char	*get_env(char *key, t_data *core)
+t_var	*get_env(char *key, t_data *core)
 {
 	int	keylen;
 
@@ -20,7 +20,7 @@ char	*get_env(char *key, t_data *core)
 	while (core->envp)
 	{
 		if (!ft_strncmp(key, ((t_var *)(core->envp->content))->key, keylen))
-			return (((t_var *)(core->envp->content))->value);
+			return ((t_var *)(core->envp->content));
 		core->envp = core->envp->next;
 	}
 	return (NULL);
