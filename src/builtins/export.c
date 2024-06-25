@@ -24,7 +24,8 @@ int	export(t_data *core, char *var)
 		free(envvar->value);
 		envvar->value = ft_strdup(tmp->value);
 		free_var(tmp);
-		return (EXIT_SUCCESS);
 	}
+	else
+		ft_lstadd_back(&core->envp, ft_lstnew(tmp));
 	return (EXIT_SUCCESS);	
 }

@@ -22,6 +22,8 @@ int	exec(char *cmd, t_data *core)
 		cd(cmd + 3, core);
 	else if (!ft_strncmp(cmd, "env", 4))
 		env(core);
+	else if (!ft_strncmp(cmd, "export ", 7))
+		export(core, cmd + 7);
 	else
 		printf("%s\n", cmd);
 	return (EXIT_SUCCESS);
