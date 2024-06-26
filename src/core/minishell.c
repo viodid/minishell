@@ -18,11 +18,11 @@ int	exec(char *cmd, t_data *core)
 		return (EXIT_FAILURE);
 	else if (!ft_strncmp(cmd, "pwd", 4))
 		pwd(core);
-	else if (!ft_strncmp(cmd, "cd ", 3))
-		cd(cmd + 3, core);
+	else if (!ft_strncmp(cmd, "cd", 3))
+		cd(core, cmd + 3);
 	else if (!ft_strncmp(cmd, "env", 4))
 		env(core);
-	else if (!ft_strncmp(cmd, "export ", 7))
+	else if (!ft_strncmp(cmd, "export ", 7) && ft_strchr(cmd, '='))
 		export(core, cmd + 7);
 	else
 		printf("%s\n", cmd);

@@ -33,17 +33,16 @@ typedef struct s_data
 
 int		minishell(t_data *core);
 
-t_var	*get_env(char *key, t_data *core);
+t_var	*get_env(t_data *core, char *key);
 t_var	*split_var(char *var_brut);
-// char	*get_env(char *key, t_data *core);
 t_list	*set_env(char **envp);
 
 int		pwd(t_data *core);
 int		echo(int option, char *str);
-int		cd(char *dest, t_data *core);
+int		cd(t_data *core, char *dest);
 int		env(t_data *core);
 int		export(t_data *core, char *var);
-int		unset(char *key, t_data *core);
+int		unset(t_data *core, char *key);
 
 /* utils */
 void	print_var(void *cont);

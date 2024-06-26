@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-t_var	*get_env(char *key, t_data *core)
+t_var	*get_env(t_data *core, char *key)
 {
 	int	keylen;
 

@@ -12,17 +12,47 @@
 
 #include "../../include/minishell.h"
 
-//TODO export builtin required to change PWD and OLDPWD env vars
-
-int	cd(char *dest, t_data *core)
+//TODO protect allocations
+int	update_pwd(t_data *core, char *oldpwd)
 {
-	int	retcode;
-	(void)core;
+	char	*newcwd;
+	char	*var;
 
-	retcode = chdir(dest);
+	newcwd = getcwd(NULL, 0);
+	var = ft_strjoin_f2("PWD=", newcwd);
+	export(core, var);
+	free(var);
+	var = ft_strjoin_f2("OLDPWD=", oldpwd);
+	export(core, var);
+	free(var);
+	return (EXIT_SUCCESS);
+}
+
+//TODO protect allocations
+int	cd(t_data *core, char *dest)
+{
+	int		retcode;
+	char	*oldpwd;
+	t_var	*home;
+
+	oldpwd = getcwd(NULL, 0);	
+	if (!dest)
+	{
+		home = get_env(core, "HOME");
+		if (!home)
+		{
+			printf("cdd: %s: %s\n", strerror(errno), dest);
+			return(EXIT_FAILURE);
+		}
+		retcode = chdir(home->value);
+	}
+	else
+		retcode = chdir(dest);
 	if (retcode)
 	{
 		printf("cd: %s: %s\n", strerror(errno), dest);
+		return (EXIT_FAILURE);
 	}
+	update_pwd(core, oldpwd);
 	return (EXIT_SUCCESS);
 }

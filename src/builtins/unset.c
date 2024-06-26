@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	unset(char *key, t_data *core)
+int	unset(t_data *core, char *key)
 {
 	(void)key;
 	(void)core;
