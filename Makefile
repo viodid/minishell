@@ -55,13 +55,17 @@ $(NAME):		$(OBJS) $(LIBNAME)
 				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 
 asan:			fclean
+# asan:			cleanbin
 asan:			CFLAGS += -fsanitize=address -g3
 asan:			LIBFLAG = asan
+# asan:			LIBNAME = libft_asan.a
 asan:			all
 
 lsan:			fclean
+# lsan:			cleanbin
 lsan:			CFLAGS += -fsanitize=leak -g3
 lsan:			LIBFLAG = lsan
+# lsan:			LIBNAME = libft_lsan.a
 lsan:			all
 
 $(LIBNAME):
@@ -77,9 +81,13 @@ clean:
 				$(RM) $(RFLAGS) $(OBJS)
 				@echo "\033[0;32m--- Objects cleaned successfully! ---\033[0m"
 
-fclean:			clean
+cleanbin:		clean
+				$(RM) $(RFLAGS) $(NAME)
+				@echo "\033[0;32m--- $(NAME) cleaned successfully! ---\033[0m"
+
+fclean:			cleanbin
 				$(RM) $(RFLAGS) $(NAME) $(LIBNAME)
-				@echo "\033[0;32m--- Archive cleaned successfully! ---\033[0m"
+				@echo "\033[0;32m--- Libft cleaned successfully! ---\033[0m"
 
 re:				fclean all
 
