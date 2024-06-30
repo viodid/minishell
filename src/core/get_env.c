@@ -14,14 +14,16 @@
 
 t_var	*get_env(t_data *core, char *key)
 {
-	int	keylen;
+	int		keylen;
+	t_list	*tmp;
 
+	tmp = core->envp;
 	keylen = ft_strlen(key);
-	while (core->envp)
+	while (tmp)
 	{
-		if (!ft_strncmp(key, ((t_var *)(core->envp->content))->key, keylen))
-			return ((t_var *)(core->envp->content));
-		core->envp = core->envp->next;
+		if (!ft_strncmp(key, ((t_var *)(tmp->content))->key, keylen))
+			return ((t_var *)(tmp->content));
+		tmp = tmp->next;
 	}
 	return (NULL);
 }

@@ -12,7 +12,6 @@
 
 #include "../../include/minishell.h"
 
-//TODO BUG: export seems to be erasing all previous env vars
 int	export(t_data *core, char *var)
 {
 	t_var	*envvar;
