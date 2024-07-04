@@ -24,6 +24,8 @@ int	exec(char *cmd, t_data *core)
 		env(core);
 	else if (!ft_strncmp(cmd, "export ", 7) && ft_strchr(cmd, '='))
 		export(core, cmd + 7);
+	else if (!ft_strncmp(cmd, "unset ", 6))
+		unset(core, cmd + 6);
 	else
 		printf("%s\n", cmd);
 	return (EXIT_SUCCESS);
