@@ -43,6 +43,7 @@ int		cd(t_data *core, char *dest);
 int		env(t_data *core);
 int		export(t_data *core, char *var);
 int		unset(t_data *core, char *key);
+int		builtin_exit(t_data *core);
 
 /* utils */
 void	print_var(void *cont);

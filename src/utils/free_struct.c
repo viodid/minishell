@@ -19,9 +19,10 @@ void	free_var(void *cont)
 	var = (t_var *)cont;
 	free(var->key);
 	free(var->value);
+	free(var);
 }
 
 void	free_struct(t_data *core)
 {
-	ft_lstclear(&core->envp, &free_var);
+	ft_lstclear(&core->envp, free_var);
 }

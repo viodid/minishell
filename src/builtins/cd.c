@@ -41,7 +41,7 @@ int	cd(t_data *core, char *dest)
 		home = get_env(core, "HOME");
 		if (!home)
 		{
-			printf("cdd: %s: %s\n", strerror(errno), dest);
+			printf("cd: %s: %s\n", strerror(errno), dest);
 			return(EXIT_FAILURE);
 		}
 		retcode = chdir(home->value);
