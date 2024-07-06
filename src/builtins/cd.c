@@ -12,7 +12,6 @@
 
 #include "../../include/minishell.h"
 
-//TODO protect allocations
 int	update_pwd(t_data *core, char *oldpwd)
 {
 	char	*newcwd;
@@ -20,15 +19,18 @@ int	update_pwd(t_data *core, char *oldpwd)
 
 	newcwd = getcwd(NULL, 0);
 	var = ft_strjoin_f2("PWD=", newcwd);
+	if (!var)
+		return (EXIT_FAILURE);
 	export(core, var);
 	free(var);
 	var = ft_strjoin_f2("OLDPWD=", oldpwd);
+	if (!var)
+		return (EXIT_FAILURE);
 	export(core, var);
 	free(var);
 	return (EXIT_SUCCESS);
 }
 
-//TODO protect allocations
 int	cd(t_data *core, char *dest)
 {
 	int		retcode;
@@ -36,7 +38,7 @@ int	cd(t_data *core, char *dest)
 	t_var	*home;
 
 	oldpwd = getcwd(NULL, 0);	
-	if (!dest)
+	if (!dest || !dest[0])
 	{
 		home = get_env(core, "HOME");
 		if (!home)
