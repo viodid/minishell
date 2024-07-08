@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		i = minishell(core);
 		if (i)
-			return (EXIT_FAILURE);
+			return (i);
 	}
 	free_struct(core);
 	return (EXIT_SUCCESS);
