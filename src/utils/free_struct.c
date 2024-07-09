@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   free_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 17:29:44 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/05/27 17:29:48 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/06/21 17:12:21 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/06/21 17:12:21 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	echo(int option, char *str)
+void	free_var(void *cont)
 {
-	printf("%s", str);
-	if (!option)
-		printf("\n");
-	return (EXIT_SUCCESS);
+	t_var	*var;
+
+	var = (t_var *)cont;
+	free(var->key);
+	free(var->value);
+	free(var);
+}
+
+void	free_struct(t_data *core)
+{
+	ft_lstclear(&core->envp, free_var);
 }

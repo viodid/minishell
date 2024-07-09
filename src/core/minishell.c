@@ -12,26 +12,38 @@
 
 #include "../../include/minishell.h"
 
-int	exec(char *cmd)
+static int	tmp_exec(char *cmd, t_data *core)
 {
 	if (!cmd)
 		return (EXIT_FAILURE);
+	else if (!ft_strncmp(cmd, "cd ", 3))
+		cd(core, cmd + 3);
+	else if (!ft_strncmp(cmd, "echo", 4))
+		echo(!ft_strncmp(cmd, "echo -n", 7), cmd + 4 + (!ft_strncmp(cmd, "echo -n", 7) * 3));
+	else if (!ft_strncmp(cmd, "env", 4))
+		env(core);
+	else if (!ft_strncmp(cmd, "exit", 4))
+		builtin_exit(core);
+	else if (!ft_strncmp(cmd, "export ", 7) && ft_strchr(cmd, '='))
+		export(core, cmd + 7);
 	else if (!ft_strncmp(cmd, "pwd", 4))
-		pwd();
+		pwd(core);
+	else if (!ft_strncmp(cmd, "unset ", 6))
+		unset(core, cmd + 6);
 	else
 		printf("%s\n", cmd);
 	return (EXIT_SUCCESS);
 }
 
-int	minishell()
+int	minishell(t_data *core)
 {
 	int		retcode;
 	char	*str;
 
 	str = readline("minishell >");
-	retcode = exec(str);
+	retcode = tmp_exec(str, core);
+	add_history(str);
 	free(str);
-	if (retcode)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+
+	return (retcode);
 }

@@ -12,3 +12,9 @@
 
 #include "../../include/minishell.h"
 
+int	temp_parser()
+{
+	
+
+	return (EXIT_SUCCESS);
+}

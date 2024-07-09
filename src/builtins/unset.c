@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 21:29:17 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/05/27 21:30:30 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/06/22 17:07:48 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/06/22 17:07:48 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	unset(t_data *core, char *key)
 {
-	int		i;
-	t_data	*core;
-	(void)argc;
-	(void)argv;
+	t_list	*tmp;
+	t_var	*var;
 
-	core = ft_calloc(1, sizeof(t_data));
-	core->envp = set_env(envp);
-	while (1)
+	tmp = core->envp;
+	var = get_env(core, key);
+	while (tmp && tmp->next)
 	{
-		i = minishell(core);
-		if (i)
-			return (i);
+		if (tmp->next->content == var)
+			break;
+		tmp = tmp->next;
 	}
-	free_struct(core);
+	ft_lstdelnext(&tmp, &free_var);
 	return (EXIT_SUCCESS);
 }

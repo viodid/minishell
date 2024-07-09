@@ -12,11 +12,23 @@
 
 #include "../../include/minishell.h"
 
-void	pwd(void)
+int	pwd(t_data *core)
 {
-	char *path;
+	char	*path;
 
 	path = getcwd(NULL, 0);
+	if (!path)
+	{
+		path = get_env(core, "PWD")->value;
+		if (!path)
+		{
+			perror("pwd");
+			return (EXIT_FAILURE);
+		}
+		printf("%s i\n", path);
+		return (EXIT_SUCCESS);
+	}
 	printf("%s\n", path);
 	free(path);
+	return (EXIT_SUCCESS);
 }

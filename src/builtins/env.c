@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 17:29:44 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/05/27 17:29:48 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/06/24 20:57:58 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/06/24 20:57:58 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	echo(int option, char *str)
+int	env(t_data *core)
 {
-	printf("%s", str);
-	if (!option)
-		printf("\n");
-	return (EXIT_SUCCESS);
+	ft_lstiter(core->envp, &print_var);
+	return(EXIT_SUCCESS);
 }
