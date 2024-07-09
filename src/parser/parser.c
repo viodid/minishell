@@ -12,9 +12,44 @@
 
 #include "../../include/minishell.h"
 
-int	temp_parser()
+void	print_element(void *content)
 {
-	
+	printf("%s\n", (char *)content);
+}
 
+t_command	*parse_command(char *str)
+{
+	int			i;
+	char		**split;
+	t_list		*lst;
+	t_command	*cmd;
+
+	i = -1;
+	lst = NULL;
+	split = ft_split(str, ' ');
+	cmd = ft_calloc(sizeof(t_command), 1);
+	while (split[++i])
+	{
+		ft_lstadd_back(&lst, ft_lstnew(split[i]));
+	}
+	ft_lstiter(lst, &print_element);
+	cmd->tokens = lst;
+	// cmd->i_cmd = pos[0];
+	// cmd->i_outredir = pos[1];
+	return (cmd);
+}
+
+int	temp_parser(t_data *core, char **cmds)
+{
+	int			i;
+	t_command	*command;
+
+	i = 0;
+	while (cmds[i])
+	{
+		command = parse_command(cmds[i]);
+		ft_lstadd_back(&core->cmds, ft_lstnew(command));
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }

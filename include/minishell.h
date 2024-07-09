@@ -20,6 +20,13 @@
 # include <stdlib.h>
 # include <errno.h>
 
+typedef enum e_tmp_pos
+{
+	NBTOK,
+	ICMD,
+	IOUTREDIR,
+}	t_tmp_pos;
+
 typedef enum e_token_type
 {
 	COMMAND,
@@ -27,6 +34,7 @@ typedef enum e_token_type
 	ARGUMENT,
 	REDIRECTION,
 	APPEND,
+	HEREDOC,
 	INFILE,
 	OUTFILE,
 }	t_token_type;
@@ -46,11 +54,15 @@ typedef struct s_token
 typedef struct s_command
 {
 	t_list	*tokens;
+	/* total amount of tokens */
 	int		nb_tokens;
+	/* position of command statement */
 	int		i_cmd;
+	/* position of first redirection if any */
+	int		i_outredir;
 }	t_command;
 
-/* REDIR INF REDIR INF CMD OPT ARG ARG REDIR OUTF REDIR OUTF */
+/* REDIR INF REDIR INF CMD OPT ARG ARG REDIR OUTF APPEND OUTF */
 
 typedef struct s_data
 {
@@ -76,5 +88,7 @@ int		builtin_exit(t_data *core);
 void	print_var(void *cont);
 void	free_struct(t_data *core);
 void	free_var(void *cont);
+
+int		temp_parser(t_data *core, char **cmds);
 
 #endif
