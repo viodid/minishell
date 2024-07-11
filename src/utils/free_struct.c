@@ -12,6 +12,11 @@
 
 #include "../../include/minishell.h"
 
+// void	free_cmd(t_data *core)
+// {
+	
+// }
+
 void	free_var(void *cont)
 {
 	t_var	*var;

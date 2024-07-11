@@ -30,14 +30,16 @@ typedef enum e_tmp_pos
 typedef enum e_token_type
 {
 	COMMAND,
-	OPTION,
 	ARGUMENT,
-	REDIRECTION,
-	APPEND,
-	HEREDOC,
-	INFILE,
-	OUTFILE,
 }	t_token_type;
+
+typedef enum e_redir_type
+{
+	HEREDOC,
+	INPUT,
+	OUTPUT,
+	APPEND,
+}	t_redir_type;
 
 typedef struct s_var
 {
@@ -47,13 +49,20 @@ typedef struct s_var
 
 typedef struct s_token
 {
-	char	*value;
-	int		type;
+	char			*value;
+	t_token_type	type;
 }	t_token;
+
+typedef struct s_redir
+{
+	char			*file;
+	t_redir_type	type;
+}	t_redir;
 
 typedef struct s_command
 {
 	t_list	*tokens;
+	t_list	*redirs;
 	/* total amount of tokens */
 	int		nb_tokens;
 	/* position of command statement */
@@ -76,6 +85,8 @@ t_var	*get_env(t_data *core, char *key);
 t_var	*split_var(char *var_brut);
 t_list	*set_env(char **envp);
 
+int		exec(t_data *core);
+
 int		pwd(t_data *core);
 int		echo(int option, char *str);
 int		cd(t_data *core, char *dest);
@@ -85,10 +96,13 @@ int		unset(t_data *core, char *key);
 int		builtin_exit(t_data *core);
 
 /* utils */
-void	print_var(void *cont);
 void	free_struct(t_data *core);
 void	free_var(void *cont);
 
 int		temp_parser(t_data *core, char **cmds);
+
+/* printers */
+void	print_var(void *cont);
+void	print_str(void *cont);
 
 #endif

@@ -40,13 +40,15 @@ int	minishell(t_data *core)
 	int			retcode;
 	char		*str;
 	char		**cmds;
-	
 
 	str = readline("minishell >");
 	cmds = ft_split(str, '|');
+	if (!cmds)
+		return (EXIT_SUCCESS);
 	temp_parser(core, cmds);
 
 	retcode = tmp_exec(str, core);
+	// retcode = executor();
 	add_history(str);
 	free(str);
 	ft_dfree((void **)cmds);

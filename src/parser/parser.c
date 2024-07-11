@@ -12,12 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void	print_element(void *content)
-{
-	printf("%s\n", (char *)content);
-}
-
-t_command	*parse_command(char *str)
+/* t_command	*parse_command(char *str)
 {
 	int			i;
 	char		**split;
@@ -32,11 +27,23 @@ t_command	*parse_command(char *str)
 	{
 		ft_lstadd_back(&lst, ft_lstnew(split[i]));
 	}
-	ft_lstiter(lst, &print_element);
+	ft_lstiter(lst, &print_str);
 	cmd->tokens = lst;
-	// cmd->i_cmd = pos[0];
-	// cmd->i_outredir = pos[1];
 	return (cmd);
+} */
+
+//TODO finish command parser according to structures
+t_command	*parse_command(char *str)
+{
+	int		i;
+	char	**tokens;
+	(void)tokens;
+	(void)i;
+
+	i = 0;
+	tokens = ft_split(str, ' ');
+	
+	return (NULL);
 }
 
 int	temp_parser(t_data *core, char **cmds)

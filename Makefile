@@ -35,7 +35,7 @@ SRC				= $(SRCDIR)main.c				\
 				$(SRCDIR)builtins/env.c			\
 				$(SRCDIR)builtins/exit.c		\
 				$(SRCDIR)utils/free_struct.c	\
-				$(SRCDIR)utils/print_var.c		\
+				$(SRCDIR)utils/printers.c		\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
