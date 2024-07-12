@@ -35,14 +35,48 @@
 //TODO finish command parser according to structures
 t_command	*parse_command(char *str)
 {
-	int		i;
-	char	**tokens;
-	(void)tokens;
-	(void)i;
+	int			i;
+	int			j;
+	char		**tokens;
+	t_command	*ret;
+	t_redir		*redir;
+	t_token		*token;
 
+	ret = ft_calloc(1, sizeof(t_command));
 	i = 0;
+	j = 0;
 	tokens = ft_split(str, ' ');
-	
+	while (tokens[i])
+	{
+		// get rid of first redirections
+		if (j == 0 && !ft_strncmp(tokens[i], "<", 1))
+		{
+			redir = ft_calloc(1, sizeof(t_redir));
+			if (!ft_strncmp(tokens[i], "<<", 2))
+				redir->type = HEREDOC;
+			else
+				redir->type = INPUT;
+			redir->file = tokens[++i];
+			ft_lstadd_back(&ret->redirs, ft_lstnew(redir));
+		}
+		else
+			j = 1;
+
+
+		if (j == 1)
+		{
+			token = ft_calloc(1, sizeof(t_token));
+			token->value = tokens[i];
+			token->type = ARGUMENT;
+		}
+		if (!ft_strncmp(tokens[i + 1], ">", 1))
+		{
+			
+		}
+
+
+		i++;
+	}
 	return (NULL);
 }
 
