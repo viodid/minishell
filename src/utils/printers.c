@@ -25,3 +25,28 @@ void	print_str(void *cont)
 	printf("%s\n", (char *)cont);
 }
 
+void	print_redirs(void *cont)
+{
+	t_redir	*redir;
+
+	redir = (t_redir *)cont;
+	printf(" redir %i to %s\n", redir->type, redir->file);
+}
+
+void	print_tokens(void *cont)
+{
+	t_token	*token;
+
+	token = (t_token *)cont;
+	printf(" token %s\n", token->value);
+}
+
+void	print_command(void *cont)
+{
+	t_command	*command;
+
+	command = (t_command *)cont;
+	printf("printing command:\n");
+	ft_lstiter(command->redirs, print_redirs);
+	ft_lstiter(command->tokens, print_tokens);
+}

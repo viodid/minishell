@@ -45,6 +45,8 @@ int	minishell(t_data *core)
 	cmds = ft_split(str, '|');
 	if (!cmds)
 		return (EXIT_SUCCESS);
+	if (core->cmds)
+		ft_lstclear(&core->cmds, free_cmd);
 	temp_parser(core, cmds);
 
 	retcode = tmp_exec(str, core);

@@ -12,31 +12,10 @@
 
 #include "../../include/minishell.h"
 
-/* t_command	*parse_command(char *str)
-{
-	int			i;
-	char		**split;
-	t_list		*lst;
-	t_command	*cmd;
-
-	i = -1;
-	lst = NULL;
-	split = ft_split(str, ' ');
-	cmd = ft_calloc(sizeof(t_command), 1);
-	while (split[++i])
-	{
-		ft_lstadd_back(&lst, ft_lstnew(split[i]));
-	}
-	ft_lstiter(lst, &print_str);
-	cmd->tokens = lst;
-	return (cmd);
-} */
-
-//TODO finish command parser according to structures
+// temp command parser, divides a command into redirections and arguments
 t_command	*parse_command(char *str)
 {
 	int			i;
-	int			j;
 	char		**tokens;
 	t_command	*ret;
 	t_redir		*redir;
@@ -44,40 +23,34 @@ t_command	*parse_command(char *str)
 
 	ret = ft_calloc(1, sizeof(t_command));
 	i = 0;
-	j = 0;
-	tokens = ft_split(str, ' ');
+	tokens = ft_split(str, ' ');	
 	while (tokens[i])
 	{
-		// get rid of first redirections
-		if (j == 0 && !ft_strncmp(tokens[i], "<", 1))
+		if (ft_strchr(tokens[i], '<') || ft_strchr(tokens[i], '>'))
 		{
 			redir = ft_calloc(1, sizeof(t_redir));
-			if (!ft_strncmp(tokens[i], "<<", 2))
-				redir->type = HEREDOC;
-			else
-				redir->type = INPUT;
-			redir->file = tokens[++i];
+			redir->type = HEREDOC + (!ft_strncmp(tokens[i], "<", 2) && 1)
+						+ (!ft_strncmp(tokens[i], ">", 1) && 1) * 2
+						+ (!ft_strncmp(tokens[i], ">>", 2) && 1);
+			i++;
+			redir->file = tokens[i];
 			ft_lstadd_back(&ret->redirs, ft_lstnew(redir));
 		}
-		else
-			j = 1;
-
-
-		if (j == 1)
-		{
-			token = ft_calloc(1, sizeof(t_token));
-			token->value = tokens[i];
-			token->type = ARGUMENT;
-		}
-		if (!ft_strncmp(tokens[i + 1], ">", 1))
-		{
-			
-		}
-
-
 		i++;
 	}
-	return (NULL);
+	i = 0;
+	while (tokens[i] && !ft_strchr(tokens[i], '>'))
+	{
+		if (!(i % 2) && (i > 1 && !ft_strchr(tokens[i - 1], '<')))
+		{
+			token = ft_calloc(1, sizeof(t_token));
+			token->type = ARGUMENT;
+			token->value = tokens[i];
+			ft_lstadd_back(&ret->tokens, ft_lstnew(token));
+		}
+		i++;
+	}
+	return (ret);
 }
 
 int	temp_parser(t_data *core, char **cmds)

@@ -63,12 +63,6 @@ typedef struct s_command
 {
 	t_list	*tokens;
 	t_list	*redirs;
-	/* total amount of tokens */
-	int		nb_tokens;
-	/* position of command statement */
-	int		i_cmd;
-	/* position of first redirection if any */
-	int		i_outredir;
 }	t_command;
 
 /* REDIR INF REDIR INF CMD OPT ARG ARG REDIR OUTF APPEND OUTF */
@@ -98,11 +92,13 @@ int		builtin_exit(t_data *core);
 /* utils */
 void	free_struct(t_data *core);
 void	free_var(void *cont);
+void	free_cmd(void *cont);
 
 int		temp_parser(t_data *core, char **cmds);
 
 /* printers */
 void	print_var(void *cont);
 void	print_str(void *cont);
+void	print_command(void *cont);
 
 #endif
