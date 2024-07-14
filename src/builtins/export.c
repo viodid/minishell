@@ -26,6 +26,6 @@ int	export(t_data *core, char *var)
 		free_var(tmp);
 	}
 	else
-		ft_lstadd_back(&core->envp, ft_lstnew(tmp));
+		ft_lstadd_back(&core->env, ft_lstnew(tmp));
 	return (EXIT_SUCCESS);
 }

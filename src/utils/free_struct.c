@@ -51,6 +51,6 @@ void	free_var(void *cont)
 
 void	free_struct(t_data *core)
 {
-	ft_lstclear(&core->envp, free_var);
+	ft_lstclear(&core->env, free_var);
 	ft_lstclear(&core->cmds, free_cmd);
 }

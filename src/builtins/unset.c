@@ -17,7 +17,7 @@ int	unset(t_data *core, char *key)
 	t_list	*tmp;
 	t_var	*var;
 
-	tmp = core->envp;
+	tmp = core->env;
 	var = get_env(core, key);
 	while (tmp && tmp->next)
 	{

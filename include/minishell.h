@@ -69,7 +69,7 @@ typedef struct s_command
 
 typedef struct s_data
 {
-	t_list	*envp;
+	t_list	*env;
 	t_list	*cmds;
 }	t_data;
 

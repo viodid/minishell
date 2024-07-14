@@ -17,7 +17,7 @@ t_var	*get_env(t_data *core, char *key)
 	int		keylen;
 	t_list	*tmp;
 
-	tmp = core->envp;
+	tmp = core->env;
 	keylen = ft_strlen(key);
 	while (tmp)
 	{
