@@ -15,6 +15,6 @@
 int	executor(t_data *core)
 {
 	(void)core;
-	
+
 	return (EXIT_SUCCESS);
 }

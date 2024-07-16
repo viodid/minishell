@@ -38,7 +38,7 @@ void	print_tokens(void *cont)
 	t_token	*token;
 
 	token = (t_token *)cont;
-	printf(" token %s\n", token->value);
+	printf(" token %s\n type %i\n", token->value, token->type);
 }
 
 void	print_command(void *cont)
@@ -49,4 +49,5 @@ void	print_command(void *cont)
 	printf("printing command:\n");
 	ft_lstiter(command->redirs, print_redirs);
 	ft_lstiter(command->tokens, print_tokens);
+	printf("\n");
 }
