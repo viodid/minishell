@@ -91,13 +91,13 @@ char	**get_env_array(t_data *core);
 
 int		executor(t_data *core);
 
-int		pwd(t_data *core);
-int		echo(int option, char *str);
-int		cd(t_data *core, char *dest);
-int		env(t_data *core);
-int		export(t_data *core, char *var);
-int		unset(t_data *core, char *key);
-int		builtin_exit(t_data *core);
+int		ft_pwd(t_data *core);
+int		ft_echo(int option, char *str);
+int		ft_cd(t_data *core, char *dest);
+int		ft_env(t_data *core);
+int		ft_export(t_data *core, char *var);
+int		ft_unset(t_data *core, char *key);
+int		ft_exit(t_data *core);
 
 /* utils */
 void	free_struct(t_data *core);

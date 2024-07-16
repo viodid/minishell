@@ -12,7 +12,8 @@
 
 #include "../../include/minishell.h"
 
-int	unset(t_data *core, char *key)
+// int	ft_unset(t_list *env, char **args)
+int	ft_unset(t_data *core, char *key)
 {
 	t_list	*tmp;
 	t_var	*var;

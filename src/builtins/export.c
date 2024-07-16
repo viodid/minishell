@@ -12,7 +12,9 @@
 
 #include "../../include/minishell.h"
 
-int	export(t_data *core, char *var)
+//TODO take multiple arguments and export all all the valid ones
+// int	ft_export(t_list **env, char **args)
+int	ft_export(t_data *core, char *var)
 {
 	t_var	*envvar;
 	t_var	*tmp;
