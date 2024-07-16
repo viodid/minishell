@@ -62,7 +62,7 @@ int	temp_parser(t_data *core, char **cmds)
 	while (cmds[i])
 	{
 		command = parse_command(cmds[i]);
-		ft_lstadd_back(&core->cmds, ft_lstnew(command));
+		ft_lstadd_back(&core->line.cmds, ft_lstnew(command));
 		i++;
 	}
 	return (EXIT_SUCCESS);

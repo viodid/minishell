@@ -65,12 +65,21 @@ typedef struct s_command
 	t_list	*redirs;
 }	t_command;
 
-/* REDIR INF REDIR INF CMD OPT ARG ARG REDIR OUTF APPEND OUTF */
+typedef struct s_line
+{
+	// t_command	*cmds;
+	// int			nb_cmds;
+	t_list	*cmds;
+	int		*fds;
+	int		*pids;
+}	t_line;
 
 typedef struct s_data
 {
 	t_list	*env;
-	t_list	*cmds;
+	// t_list	*cmds;
+
+	t_line	line;
 }	t_data;
 
 int		minishell(t_data *core);
@@ -78,8 +87,9 @@ int		minishell(t_data *core);
 t_var	*get_env(t_data *core, char *key);
 t_var	*split_var(char *var_brut);
 t_list	*set_env(char **envp);
+char	**get_env_array(t_data *core);
 
-int		exec(t_data *core);
+int		executor(t_data *core);
 
 int		pwd(t_data *core);
 int		echo(int option, char *str);

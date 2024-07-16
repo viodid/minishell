@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-static int	tmp_exec(char *cmd, t_data *core)
+int	tmp_exec(char *cmd, t_data *core)
 {
 	if (!cmd)
 		return (EXIT_FAILURE);
@@ -45,12 +45,12 @@ int	minishell(t_data *core)
 	cmds = ft_split(str, '|');
 	if (!cmds)
 		return (EXIT_SUCCESS);
-	if (core->cmds)
-		ft_lstclear(&core->cmds, free_cmd);
+	if (core->line.cmds)
+		ft_lstclear(&core->line.cmds, free_cmd);
 	temp_parser(core, cmds);
 
-	retcode = tmp_exec(str, core);
-	// retcode = executor();
+	// retcode = tmp_exec(str, core);
+	retcode = executor(core);
 	add_history(str);
 	free(str);
 	ft_dfree((void **)cmds);

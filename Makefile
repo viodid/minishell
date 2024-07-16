@@ -24,6 +24,7 @@ SRC				= $(SRCDIR)main.c				\
 				$(SRCDIR)core/minishell.c		\
 				$(SRCDIR)core/get_env.c			\
 				$(SRCDIR)core/set_env.c			\
+				$(SRCDIR)core/get_env_array.c	\
 				$(SRCDIR)parser/parser.c		\
 				$(SRCDIR)executor/executor.c	\
 				$(SRCDIR)signals/signals.c		\

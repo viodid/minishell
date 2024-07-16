@@ -12,9 +12,9 @@
 
 #include "../../include/minishell.h"
 
-int	exec(t_data *core)
+int	executor(t_data *core)
 {
 	(void)core;
-
+	
 	return (EXIT_SUCCESS);
 }
