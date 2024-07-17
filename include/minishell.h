@@ -63,6 +63,7 @@ typedef struct s_command
 {
 	t_list	*tokens;
 	t_list	*redirs;
+	int		builtin;
 }	t_command;
 
 typedef struct s_line
