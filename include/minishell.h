@@ -78,8 +78,6 @@ typedef struct s_line
 typedef struct s_data
 {
 	t_list	*env;
-	// t_list	*cmds;
-
 	t_line	line;
 }	t_data;
 
@@ -93,7 +91,7 @@ char	**get_env_array(t_data *core);
 int		executor(t_data *core);
 
 int		ft_pwd(t_data *core);
-int		ft_echo(int option, char *str);
+int		ft_echo(int option, char **args);
 int		ft_cd(t_data *core, char *dest);
 int		ft_env(t_data *core);
 int		ft_export(t_data *core, char *var);

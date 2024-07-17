@@ -12,11 +12,16 @@
 
 #include "../../include/minishell.h"
 
-//TODO take multiple arguments and print them separated by a single space
-// int	ft_echo(int option, char **args)
-int	ft_echo(int option, char *str)
+int	ft_echo(int option, char **args)
 {
-	printf("%s", str);
+	int	i;
+
+	i = 0;
+	while (args[i])
+	{
+		printf("%s", args[i]);
+		i++;
+	}
 	if (!option)
 		printf("\n");
 	return (EXIT_SUCCESS);

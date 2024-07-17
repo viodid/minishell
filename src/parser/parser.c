@@ -23,7 +23,7 @@ t_command	*parse_command(char *str)
 
 	ret = ft_calloc(1, sizeof(t_command));
 	i = 0;
-	tokens = ft_split(str, ' ');	
+	tokens = ft_split(str, ' ');
 	while (tokens[i])
 	{
 		if (ft_strchr(tokens[i], '<') || ft_strchr(tokens[i], '>'))
