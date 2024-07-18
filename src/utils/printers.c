@@ -51,3 +51,9 @@ void	print_command(void *cont)
 	ft_lstiter(command->tokens, print_tokens);
 	printf("\n");
 }
+
+void	hola(char *str)
+{
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+}

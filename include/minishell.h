@@ -68,8 +68,6 @@ typedef struct s_command
 
 typedef struct s_line
 {
-	// t_command	*cmds;
-	// int			nb_cmds;
 	t_list	*cmds;
 	int		*fds;
 	int		*pids;
@@ -81,14 +79,20 @@ typedef struct s_data
 	t_line	line;
 }	t_data;
 
-int		minishell(t_data *core);
+/* core */
 
+int		minishell(t_data *core);
 t_var	*get_env(t_data *core, char *key);
 t_var	*split_var(char *var_brut);
 t_list	*set_env(char **envp);
 char	**get_env_array(t_data *core);
 
+/* exec */
+
 int		executor(t_data *core);
+int		redirect(t_list *redirs);
+
+/* builtins */
 
 int		ft_pwd(t_data *core);
 int		ft_echo(int option, char **args);
@@ -99,6 +103,7 @@ int		ft_unset(t_data *core, char *key);
 int		ft_exit(t_data *core);
 
 /* utils */
+
 void	free_struct(t_data *core);
 void	free_var(void *cont);
 void	free_cmd(void *cont);
@@ -106,8 +111,10 @@ void	free_cmd(void *cont);
 int		temp_parser(t_data *core, char **cmds);
 
 /* printers */
+
 void	print_var(void *cont);
 void	print_str(void *cont);
 void	print_command(void *cont);
+void	hola(char *str);
 
 #endif

@@ -31,9 +31,11 @@ int	isbuiltin(t_command *cmd)
 int	run_single(t_command *command, t_list *env)
 {
 	int	errcode;
+	(void)env;
 
 	errcode = redirect((t_list *)command->redirs);
 	//TODO make execution after redirection
+	return (errcode);
 }
 
 int	executor(t_data *core)
@@ -41,11 +43,12 @@ int	executor(t_data *core)
 	int		errcode;
 	t_list	*commands;
 
+	errcode = EXIT_SUCCESS;
 	commands = core->line.cmds;
 	if (ft_lstsize(commands) == 1)
 		errcode = run_single((t_command *)commands->content, core->env);
 	//TODO make run_multiple function, it should take all structure and create pipes and all
 	// else
 	// 	pipex(commands);
-	return (EXIT_SUCCESS);
+	return (errcode);
 }

@@ -44,7 +44,6 @@ t_command	*parse_command(char *str)
 		if (!(ft_strchr(tokens[i], '<') || ft_strchr(tokens[i], '>'))
 		&& (!i || (i && !(ft_strchr(tokens[i - 1], '<') || ft_strchr(tokens[i - 1], '>')))))
 		{
-			write(2, "hola\n", 5);
 			token = ft_calloc(1, sizeof(t_token));
 			token->value = tokens[i];
 			token->type = COMMAND + (ret->tokens && 1);

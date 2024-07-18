@@ -19,7 +19,8 @@ int	tmp_exec(char *cmd, t_data *core)
 	else if (!ft_strncmp(cmd, "cd ", 3))
 		ft_cd(core, cmd + 3);
 	else if (!ft_strncmp(cmd, "echo", 4))
-		ft_echo(!ft_strncmp(cmd, "echo -n", 7), cmd + 4 + (!ft_strncmp(cmd, "echo -n", 7) * 3));
+		ft_echo(!ft_strncmp(cmd, "echo -n", 7), &cmd);
+		// ft_echo(!ft_strncmp(cmd, "echo -n", 7), cmd + 4 + (!ft_strncmp(cmd, "echo -n", 7) * 3));
 	else if (!ft_strncmp(cmd, "env", 4))
 		ft_env(core);
 	else if (!ft_strncmp(cmd, "exit", 4))
@@ -49,11 +50,11 @@ int	minishell(t_data *core)
 		ft_lstclear(&core->line.cmds, free_cmd);
 	temp_parser(core, cmds);
 
-	retcode = tmp_exec(str, core);
-	// retcode = executor(core);
+	// retcode = tmp_exec(str, core);
+	retcode = executor(core);
 	add_history(str);
 	free(str);
 	ft_dfree((void **)cmds);
-
+	hola("hey");
 	return (retcode);
 }
