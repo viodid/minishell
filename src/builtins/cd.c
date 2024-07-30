@@ -12,6 +12,7 @@
 
 #include "../../include/minishell.h"
 
+// int	update_pwd(t_list **env, char *oldpwd)
 int	update_pwd(t_data *core, char *oldpwd)
 {
 	char	*newcwd;
@@ -21,17 +22,18 @@ int	update_pwd(t_data *core, char *oldpwd)
 	var = ft_strjoin_f2("PWD=", newcwd);
 	if (!var)
 		return (EXIT_FAILURE);
-	export(core, var);
+	ft_export(core, var);
 	free(var);
 	var = ft_strjoin_f2("OLDPWD=", oldpwd);
 	if (!var)
 		return (EXIT_FAILURE);
-	export(core, var);
+	ft_export(core, var);
 	free(var);
 	return (EXIT_SUCCESS);
 }
 
-int	cd(t_data *core, char *dest)
+// int	ft_cd(t_list **env, char *arg)
+int	ft_cd(t_data *core, char *dest)
 {
 	int		retcode;
 	char	*oldpwd;

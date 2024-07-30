@@ -20,7 +20,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	core = ft_calloc(1, sizeof(t_data));
-	core->envp = set_env(envp);
+	core->env = set_env(envp);
+	core->line.cmds = NULL;
 	while (1)
 	{
 		i = minishell(core);

@@ -20,16 +20,26 @@
 # include <stdlib.h>
 # include <errno.h>
 
+typedef enum e_tmp_pos
+{
+	NBTOK,
+	ICMD,
+	IOUTREDIR,
+}	t_tmp_pos;
+
 typedef enum e_token_type
 {
 	COMMAND,
-	OPTION,
 	ARGUMENT,
-	REDIRECTION,
-	APPEND,
-	INFILE,
-	OUTFILE,
 }	t_token_type;
+
+typedef enum e_redir_type
+{
+	HEREDOC,
+	INPUT,
+	OUTPUT,
+	APPEND,
+}	t_redir_type;
 
 typedef struct s_var
 {
@@ -39,42 +49,72 @@ typedef struct s_var
 
 typedef struct s_token
 {
-	char	*value;
-	int		type;
+	char			*value;
+	t_token_type	type;
 }	t_token;
+
+typedef struct s_redir
+{
+	char			*file;
+	t_redir_type	type;
+}	t_redir;
 
 typedef struct s_command
 {
 	t_list	*tokens;
-	int		nb_tokens;
-	int		i_cmd;
+	t_list	*redirs;
+	int		builtin;
 }	t_command;
 
-/* REDIR INF REDIR INF CMD OPT ARG ARG REDIR OUTF REDIR OUTF */
+typedef struct s_line
+{
+	t_list	*cmds;
+	int		*fds;
+	int		*pids;
+}	t_line;
 
 typedef struct s_data
 {
-	t_list	*envp;
-	t_list	*cmds;
+	t_list	*env;
+	t_line	line;
 }	t_data;
 
-int		minishell(t_data *core);
+/* core */
 
+int		minishell(t_data *core);
 t_var	*get_env(t_data *core, char *key);
 t_var	*split_var(char *var_brut);
 t_list	*set_env(char **envp);
+char	**get_env_array(t_data *core);
 
-int		pwd(t_data *core);
-int		echo(int option, char *str);
-int		cd(t_data *core, char *dest);
-int		env(t_data *core);
-int		export(t_data *core, char *var);
-int		unset(t_data *core, char *key);
-int		builtin_exit(t_data *core);
+/* exec */
+
+int		executor(t_data *core);
+int		redirect(t_list *redirs);
+
+/* builtins */
+
+int		ft_pwd(t_data *core);
+int		ft_echo(int option, char **args);
+int		ft_cd(t_data *core, char *dest);
+int		ft_env(t_data *core);
+int		ft_export(t_data *core, char *var);
+int		ft_unset(t_data *core, char *key);
+int		ft_exit(t_data *core);
 
 /* utils */
-void	print_var(void *cont);
+
 void	free_struct(t_data *core);
 void	free_var(void *cont);
+void	free_cmd(void *cont);
+
+int		temp_parser(t_data *core, char **cmds);
+
+/* printers */
+
+void	print_var(void *cont);
+void	print_str(void *cont);
+void	print_command(void *cont);
+void	hola(char *str);
 
 #endif

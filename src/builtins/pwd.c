@@ -12,7 +12,8 @@
 
 #include "../../include/minishell.h"
 
-int	pwd(t_data *core)
+// int	ft_pwd(t_list *env)
+int	ft_pwd(t_data *core)
 {
 	char	*path;
 

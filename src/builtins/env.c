@@ -12,8 +12,9 @@
 
 #include "../../include/minishell.h"
 
-int	env(t_data *core)
+// int	ft_env(t_list *env)
+int	ft_env(t_data *core)
 {
-	ft_lstiter(core->envp, &print_var);
+	ft_lstiter(core->env, &print_var);
 	return(EXIT_SUCCESS);
 }

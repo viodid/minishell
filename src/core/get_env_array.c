@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   get_env_array.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/09 18:54:21 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/06/09 18:54:24 by kde-la-c         ###   ########.fr       */
+/*   Created: 2024/07/16 18:28:59 by kde-la-c          #+#    #+#             */
+/*   Updated: 2024/07/16 18:28:59 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_var	*get_env(t_data *core, char *key)
+char	**get_env_array(t_data *core)
 {
-	int		keylen;
+	int		i;
+	char	**envp;
 	t_list	*tmp;
 
+	i = 0;
 	tmp = core->env;
-	keylen = ft_strlen(key);
+	envp = ft_calloc(ft_lstsize(tmp) + 1, sizeof(char *));
+	if (!envp)
+		return (NULL);
 	while (tmp)
 	{
-		if (!ft_strncmp(key, ((t_var *)(tmp->content))->key, keylen))
-			return ((t_var *)(tmp->content));
+		envp[i] = ft_strjoin(((t_var *)tmp->content)->key, "=");
+		if (!envp[i])
+			return (ft_dfree((void **)envp), NULL);
+		envp[i] = ft_strjoin_f1(envp[i], ((t_var *)tmp->content)->value);
+		if (!envp[i])
+			return (ft_dfree((void **)envp), NULL);
 		tmp = tmp->next;
+		i++;
 	}
-	return (NULL);
+	return (envp);
 }

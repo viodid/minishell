@@ -12,7 +12,8 @@
 
 #include "../../include/minishell.h"
 
-int	builtin_exit(t_data *core)
+// int	ft_exit(t_data *core, int status)
+int	ft_exit(t_data *core)
 {
 	free_struct(core);
 	exit(EXIT_SUCCESS);

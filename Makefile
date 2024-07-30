@@ -24,8 +24,10 @@ SRC				= $(SRCDIR)main.c				\
 				$(SRCDIR)core/minishell.c		\
 				$(SRCDIR)core/get_env.c			\
 				$(SRCDIR)core/set_env.c			\
+				$(SRCDIR)core/get_env_array.c	\
 				$(SRCDIR)parser/parser.c		\
 				$(SRCDIR)executor/executor.c	\
+				$(SRCDIR)executor/redirections.c\
 				$(SRCDIR)signals/signals.c		\
 				$(SRCDIR)builtins/echo.c		\
 				$(SRCDIR)builtins/cd.c			\
@@ -35,7 +37,7 @@ SRC				= $(SRCDIR)main.c				\
 				$(SRCDIR)builtins/env.c			\
 				$(SRCDIR)builtins/exit.c		\
 				$(SRCDIR)utils/free_struct.c	\
-				$(SRCDIR)utils/print_var.c		\
+				$(SRCDIR)utils/printers.c		\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
