@@ -6,12 +6,14 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/03/22 18:27:31 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:38:25 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define TRUE 1
+# define FALSE 0
 
 # include "../libft/libft.h"
 # include <readline/history.h>
