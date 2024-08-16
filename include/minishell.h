@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/12 20:38:25 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/16 18:18:44 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ typedef enum e_token_type
 {
 	COMMAND,
 	ARGUMENT,
+	IDENTIFIER,
+	CONTROL_OPERATOR,
+	METACHARACTER
 }	t_token_type;
 
 typedef enum e_redir_type
