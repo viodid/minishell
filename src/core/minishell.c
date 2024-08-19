@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/03/22 18:27:10 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/19 18:21:49 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	minishell(t_data *core)
 	char		*str;
 	char		**cmds;
 
-	str = readline("minishell >");
+	str = join_all_commands();
 	cmds = ft_split(str, '|');
 	if (!cmds)
 		return (EXIT_SUCCESS);

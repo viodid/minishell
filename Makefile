@@ -25,6 +25,7 @@ SRC				= $(SRCDIR)main.c				\
 				$(SRCDIR)core/get_env.c			\
 				$(SRCDIR)core/set_env.c			\
 				$(SRCDIR)core/get_env_array.c	\
+				$(SRCDIR)lexer/lexer.c			\
 				$(SRCDIR)parser/parser.c		\
 				$(SRCDIR)executor/executor.c	\
 				$(SRCDIR)executor/redirections.c\
@@ -42,7 +43,7 @@ SRC				= $(SRCDIR)main.c				\
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -g3
 LIBFLAG			=
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)
