@@ -13,15 +13,21 @@
 
 #include "../../include/minishell.h"
 
-//t_list	*lexer(void)
-//{
-//	const char	*metacharacters = " \t\n\\|&;()<>";
-//	char	*user_input;
-//
-//	user_input = readline("minishell >");
-//}
+static char	*loop_readline(const char metachar);
 
-char	*join_all_commands(void)
+t_list	*lexer(void)
+{
+	// const char	*metacharacters = " \t\n\\|&;()<>";
+	char	*user_input;
+	t_list	*token_list;
+
+	user_input = loop_readline('\\');
+	if (!*user_input)
+		return (EXIT_SUCCESS);
+	return (token_list);
+}
+
+static char	*loop_readline(const char metachar)
 {
 	char		*tmp_str1;
 	char		*tmp_str2;
@@ -33,9 +39,10 @@ char	*join_all_commands(void)
 	{
 		tmp_str2 = ft_strtrim(tmp_str1, " ");
 		free(tmp_str1);
-		if (tmp_str2[ft_strlen(tmp_str2) - 1] != '\\')
+		if (tmp_str2[ft_strlen(tmp_str2) - 1] != metachar)
 			break ;
-		tmp_str1 = ft_strjoin_f12(tmp_str2, readline("minishell >"));
+		tmp_str1 = ft_strjoin_f12(tmp_str2, readline(">"));
 	}
 	return (tmp_str2);
 }
+
