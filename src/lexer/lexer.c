@@ -23,17 +23,19 @@
 
 char	*join_all_commands(void)
 {
-	char		*output_command;
-	char		*user_input;
-	char		*tmp_str;
+	char		*tmp_str1;
+	char		*tmp_str2;
 
-	output_command = NULL;
-	user_input = readline("minishell >");
-	tmp_str = ft_strtrim(user_input, " ");
-	output_command = ft_strdup(tmp_str);
-	free(user_input);
-	while (output_command[ft_strlen(output_command) - 1] == '\\')
-		output_command = ft_strjoin_f12(output_command, readline("minishell >"));
-	free(tmp_str);
-	return (output_command);
+	tmp_str1 = NULL;
+	tmp_str2 = NULL;
+	tmp_str1 = readline("minishell >");
+	while (TRUE)
+	{
+		tmp_str2 = ft_strtrim(tmp_str1, " ");
+		free(tmp_str1);
+		if (tmp_str2[ft_strlen(tmp_str2) - 1] != '\\')
+			break ;
+		tmp_str1 = ft_strjoin_f12(tmp_str2, readline("minishell >"));
+	}
+	return (tmp_str2);
 }
