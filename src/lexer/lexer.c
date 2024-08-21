@@ -14,12 +14,13 @@
 #include "../../include/minishell.h"
 
 static char	*loop_readline(const char metachar);
-t_list	*tokenizer(const char *user_input);
+t_list** tokenizer(const char* user_input);
+static t_token	*allocate_token(char* value, t_token_type type);
 
-t_list	*lexer(void)
+t_list	**lexer(void)
 {
 	char	*user_input;
-	t_list	*token_list;
+	t_list	**token_list;
 
 	user_input = loop_readline('\\');
 	if (!*user_input)
@@ -28,24 +29,43 @@ t_list	*lexer(void)
 	return (token_list);
 }
 
-t_list	*tokenizer(const char *user_input)
+t_list	**tokenizer(const char* user_input)
 {
 	const char	*metacharacters = " \t\n|&;()<>";
+	char		*tmp_str;
 	t_list		*token_list;
-	t_token		*token;
+	uint32_t	offset;
 	uint32_t	i;
 
+	token_list = (t_list *)malloc(sizeof(t_list));
+	if (!token_list)
+		exit(EXIT_FAILURE);
+	token_list = NULL;
 	i = 0;
+	offset = 0;
 	while (user_input[i])
 	{
 		if (ft_strchr(metacharacters, user_input[i]))
 		{
-			token = (t_token *)malloc(sizeof(t_token));
-			token->value = (char *)TODO;
-			token_list = ft_lstnew();
+			if (ft_strchr(" \t\n", user_input[i]))
+				tmp_str = ft_substr(user_input, offset, i - offset);
+			else
+				tmp_str = ft_substr(user_input, offset, i - offset);
+			ft_lstadd_back((t_list **)token_list, ft_lstnew(allocate_token(tmp_str, COMMAND)));
 		}
 		i++;
 	}
+	return (token_list);
+}
+
+static t_token	*allocate_token(char* value, t_token_type type)
+{
+	t_token		*token;
+
+	token = (t_token *)malloc(sizeof(t_token));
+	token->value = value;
+	token->type = type;
+	return (token);
 }
 
 static char	*loop_readline(const char metachar)
