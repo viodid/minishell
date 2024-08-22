@@ -15,7 +15,7 @@
 
 static char	*loop_readline(const char metachar);
 t_list* tokenizer(const char* user_input);
-static t_token	*allocate_token(char* value);
+static void insert_token(char* value, t_list** token_list);
 
 t_list	*lexer(void)
 {
@@ -48,9 +48,9 @@ t_list	*tokenizer(const char* user_input)
 		if (ft_strchr(metacharacters, user_input[i]))
 		{
 			tmp_str = ft_substr(user_input, offset, i - offset);
-			ft_lstadd_back(&token_list, ft_lstnew(allocate_token(tmp_str)));
+			insert_token(tmp_str, &token_list);
 			tmp_str = ft_substr(user_input, i, 1);
-			ft_lstadd_back(&token_list, ft_lstnew(allocate_token(tmp_str)));
+			insert_token(tmp_str, &token_list);
 			offset = i + 1;
 		}
 		i++;
@@ -58,14 +58,18 @@ t_list	*tokenizer(const char* user_input)
 	return (token_list);
 }
 
-static t_token	*allocate_token(char* value)
+static void insert_token(char* value, t_list** token_list)
 {
 	t_token		*token;
 
+	if (ft_strchr(" \t\n\0", *value))
+		return ;
 	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+		exit(EXIT_FAILURE);
 	token->value = value;
 	token->type = UNDEFINED;
-	return (token);
+	ft_lstadd_back(token_list, ft_lstnew(token));
 }
 
 static char	*loop_readline(const char metachar)
