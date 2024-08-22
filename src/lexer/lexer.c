@@ -15,12 +15,12 @@
 
 static char	*loop_readline(const char metachar);
 t_list* tokenizer(const char* user_input);
-static t_token	*allocate_token(char* value, t_token_type type);
+static t_token	*allocate_token(char* value);
 
-t_list	**lexer(void)
+t_list	*lexer(void)
 {
 	char	*user_input;
-	t_list	**token_list;
+	t_list	*token_list;
 
 	user_input = loop_readline('\\');
 	if (!*user_input)
@@ -47,11 +47,10 @@ t_list	*tokenizer(const char* user_input)
 	{
 		if (ft_strchr(metacharacters, user_input[i]))
 		{
-			if (ft_strchr(" \t\n", user_input[i]))
-				tmp_str = ft_substr(user_input, offset, i - offset);
-			else
-				tmp_str = ft_substr(user_input, offset, i - offset);
-			ft_lstadd_back(&token_list, ft_lstnew(allocate_token(tmp_str, COMMAND)));
+			tmp_str = ft_substr(user_input, offset, i - offset);
+			ft_lstadd_back(&token_list, ft_lstnew(allocate_token(tmp_str)));
+			tmp_str = ft_substr(user_input, i, i + 1);
+			ft_lstadd_back(&token_list, ft_lstnew(allocate_token(tmp_str)));
 			offset = i;
 		}
 		i++;
@@ -59,14 +58,13 @@ t_list	*tokenizer(const char* user_input)
 	return (token_list);
 }
 
-static t_token	*allocate_token(char* value, t_token_type type)
+static t_token	*allocate_token(char* value)
 {
-	char		*controll_operators = "&"
 	t_token		*token;
 
 	token = (t_token *)malloc(sizeof(t_token));
 	token->value = value;
-	token->type = type;
+	token->type = UNDEFINED;
 	return (token);
 }
 
