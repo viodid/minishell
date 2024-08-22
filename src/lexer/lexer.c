@@ -49,9 +49,9 @@ t_list	*tokenizer(const char* user_input)
 		{
 			tmp_str = ft_substr(user_input, offset, i - offset);
 			ft_lstadd_back(&token_list, ft_lstnew(allocate_token(tmp_str)));
-			tmp_str = ft_substr(user_input, i, i + 1);
+			tmp_str = ft_substr(user_input, i, 1);
 			ft_lstadd_back(&token_list, ft_lstnew(allocate_token(tmp_str)));
-			offset = i;
+			offset = i + 1;
 		}
 		i++;
 	}
