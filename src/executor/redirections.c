@@ -3,25 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 03:08:16 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/07/17 03:08:16 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:18:23 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	heredoc_loop(char *limiter, int i)
+int	heredoc_loop(char *limiter)
 {
 	int		fd;
 	char	*line;
-	char	*filename;
-	
-	filename = ft_strjoin_f2("tmp-", ft_itoa(i));
-	fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	printf("%s, %i\n", filename, fd);
-	free(filename);
+
+	unlink(HDOC_TMP);
+	fd = open(HDOC_TMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (fd);
 	line = readline(">");
@@ -37,20 +34,26 @@ int	heredoc_loop(char *limiter, int i)
 int	heredocs(t_list *redirs)
 {
 	int		fd;
-	int		i;
+	int		ishdoclast;
 	t_redir	*redir;
+	t_list	*tmp;
 
-	i = 0;
-	while (redirs)
+	ishdoclast = 0;
+	tmp = redirs;
+	while (tmp)
 	{
-		redir = (t_redir *)redirs->content;
-		if (redir->type == HEREDOC)
+		redir = (t_redir *)tmp->content;
+		if (redir->type == INPUT)
+			ishdoclast = 0;
+		else if (redir->type == HEREDOC)
 		{
-			fd = heredoc_loop(redir->file, i);
+			fd = heredoc_loop(redir->file);
+			ishdoclast = 1;
 		}
-		redirs = redirs->next;
-		i++;
+		tmp = tmp->next;
 	}
+	if (!ishdoclast)
+		return (unlink(HDOC_TMP), -2); //return fd of last input (open "file")
 	return (fd);
 }
 
@@ -67,11 +70,8 @@ int	redirect(t_list *redirs)
 	//TODO finish making heredocs and start other redirections
 	errcode = EXIT_SUCCESS;
 	fdhdoc = heredocs(redirs);
-	// while (redirs)
-	// {
-	// 	redir = redirs->content;
-		
-	// 	redirs = redirs->next;
-	// }
+	if (fdhdoc == -1)
+		return (EXIT_FAILURE); //heredoc file couldnt be created
+	
 	return (errcode);
 }
