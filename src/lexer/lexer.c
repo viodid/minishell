@@ -14,7 +14,7 @@
 #include "../../include/minishell.h"
 
 static char	*loop_readline(const char metachar);
-t_list** tokenizer(const char* user_input);
+t_list* tokenizer(const char* user_input);
 static t_token	*allocate_token(char* value, t_token_type type);
 
 t_list	**lexer(void)
@@ -29,7 +29,7 @@ t_list	**lexer(void)
 	return (token_list);
 }
 
-t_list	**tokenizer(const char* user_input)
+t_list	*tokenizer(const char* user_input)
 {
 	const char	*metacharacters = " \t\n|&;()<>";
 	char		*tmp_str;
@@ -51,7 +51,8 @@ t_list	**tokenizer(const char* user_input)
 				tmp_str = ft_substr(user_input, offset, i - offset);
 			else
 				tmp_str = ft_substr(user_input, offset, i - offset);
-			ft_lstadd_back((t_list **)token_list, ft_lstnew(allocate_token(tmp_str, COMMAND)));
+			ft_lstadd_back(&token_list, ft_lstnew(allocate_token(tmp_str, COMMAND)));
+			offset = i;
 		}
 		i++;
 	}
@@ -60,6 +61,7 @@ t_list	**tokenizer(const char* user_input)
 
 static t_token	*allocate_token(char* value, t_token_type type)
 {
+	char		*controll_operators = "&"
 	t_token		*token;
 
 	token = (t_token *)malloc(sizeof(t_token));
@@ -76,7 +78,7 @@ static char	*loop_readline(const char metachar)
 	tmp_str1 = NULL;
 	tmp_str2 = NULL;
 	tmp_str1 = readline("minishell >");
-	while (tmp_str1[ft_strlen(tmp_str1) - 1] != metachar)
+	while (tmp_str1[ft_strlen(tmp_str1) - 1] == metachar)
 	{
 		tmp_str2 = ft_strtrim(tmp_str1, " \t\n");
 		free(tmp_str1);
