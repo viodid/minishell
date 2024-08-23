@@ -1,5 +1,6 @@
 minishell
 .vscode
+.idea
 
 # Prerequisites
 *.d

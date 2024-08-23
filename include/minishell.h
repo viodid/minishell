@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/12 20:38:25 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/19 19:14:36 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # define TRUE 1
 # define FALSE 0
+# define NULL ((void *)0)
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -21,6 +22,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <errno.h>
+
+typedef enum e_colors
+{
+	RESET,
+	RED,
+	GREEN,
+	YELLOW,
+	BLUE
+}	t_colors;
 
 typedef enum e_tmp_pos
 {
@@ -33,6 +43,9 @@ typedef enum e_token_type
 {
 	COMMAND,
 	ARGUMENT,
+	IDENTIFIER,
+	CONTROL_OPERATOR,
+	METACHARACTER
 }	t_token_type;
 
 typedef enum e_redir_type
@@ -89,6 +102,10 @@ t_var	*split_var(char *var_brut);
 t_list	*set_env(char **envp);
 char	**get_env_array(t_data *core);
 
+/* lexer */
+
+char	*join_all_commands(void);
+
 /* exec */
 
 int		executor(t_data *core);
@@ -109,6 +126,7 @@ int		ft_exit(t_data *core);
 void	free_struct(t_data *core);
 void	free_var(void *cont);
 void	free_cmd(void *cont);
+char	*colored_output(const char* str, t_colors color);
 
 int		temp_parser(t_data *core, char **cmds);
 
