@@ -6,13 +6,13 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/25 19:38:33 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/25 20:41:31 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*handle_quotes(char quote, uint16_t total_quotes, char *str)
+char	*handle_odd_quotes(char quote, uint16_t total_quotes, char *str)
 {
 	char		*output_str;
 	uint16_t	quote_n;
@@ -35,5 +35,7 @@ char	*handle_quotes(char quote, uint16_t total_quotes, char *str)
 			*output_str++ = *str;
 		str++;
 	}
-	return (output_str - str_len + 1);
+	*output_str = '\0';
+	free(str - str_len);
+	return (output_str - (str_len - 1));
 }

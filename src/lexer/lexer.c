@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/25 19:42:45 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/25 20:22:17 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,11 @@ static char	*remove_odd_quotes(char *user_input)
 	uint16_t	single_quotes;
 	uint16_t	double_quotes;
 	uint16_t	i;
-	char		*parse_str;
 
-	parse_str = NULL;
 	single_quotes = 0;
 	double_quotes = 0;
-	i = 0;
-	while (user_input[i])
+	i = -1;
+	while (user_input[++i])
 	{
 		if(user_input[i] == '\'')
 			single_quotes++;
@@ -76,11 +74,10 @@ static char	*remove_odd_quotes(char *user_input)
 			double_quotes++;
 	}
 	if ((single_quotes % 2) == 1)
-		parse_str = handle_quotes('\'', single_quotes, user_input);
+		user_input = handle_odd_quotes('\'', single_quotes, user_input);
 	if ((double_quotes % 2) == 1)
-		parse_str = handle_quotes('\"', single_quotes, user_input);
-	free(user_input);
-	return (parse_str);
+		user_input = handle_odd_quotes('\"', double_quotes, user_input);
+	return (user_input);
 }
 
 
