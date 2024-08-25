@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/25 20:22:17 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/25 21:27:14 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static char	*loop_readline(char metachar);
 t_list* tokenizer(const char* user_input);
 static void insert_token(char* value, t_list** token_list);
 static char	*remove_odd_quotes(char *user_input);
+uint32_t	get_end_quote_idx(const char *str, uint32_t i);
 
 t_list	*lexer(void)
 {
@@ -33,26 +34,29 @@ t_list	*lexer(void)
 
 t_list	*tokenizer(const char* user_input)
 {
-	const char	*metacharacters = " |&;()<>\t\n";
+	const char	*metacharacters = " \"\'|&;()<>\t\n";
 	char		*tmp_str;
 	t_list		*token_list;
 	uint32_t	offset;
 	uint32_t	i;
 
 	token_list = NULL;
-	i = 0;
+	i = -1;
 	offset = 0;
-	while (i <= ft_strlen(user_input))
+	while (++i <= ft_strlen(user_input))
 	{
 		if (ft_strchr(metacharacters, user_input[i]))
 		{
+			if (ft_strchr("\"\'", user_input[i]))
+				i = get_end_quote_idx(user_input, i);
+			if (!i)
+				 exit(EXIT_FAILURE);
 			tmp_str = ft_substr(user_input, offset, i - offset);
 			insert_token(tmp_str, &token_list);
 			tmp_str = ft_substr(user_input, i, 1);
 			insert_token(tmp_str, &token_list);
 			offset = i + 1;
 		}
-		i++;
 	}
 	return (token_list);
 }
@@ -80,7 +84,6 @@ static char	*remove_odd_quotes(char *user_input)
 	return (user_input);
 }
 
-
 static void	insert_token(char* value, t_list** token_list)
 {
 	t_token		*token;
@@ -91,10 +94,12 @@ static void	insert_token(char* value, t_list** token_list)
 	if (!token)
 		exit(EXIT_FAILURE);
 	token->value = value;
+	// TODO: define token type
 	token->type = UNDEFINED;
 	ft_lstadd_back(token_list, ft_lstnew(token));
 }
 
+// TODO: handle heredoc
 static char	*loop_readline(const char metachar)
 {
 	char		*tmp_str1;

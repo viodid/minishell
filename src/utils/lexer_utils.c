@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/25 20:41:31 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/25 21:26:29 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,16 @@ char	*handle_odd_quotes(char quote, uint16_t total_quotes, char *str)
 	free(str - str_len);
 	return (output_str - (str_len - 1));
 }
+
+uint32_t	get_end_quote_idx(const char *str, uint32_t i)
+{
+	char	quote_type;
+	quote_type = str[i];
+	while(str[++i])
+	{
+		if (str[i] == quote_type)
+			return (i + 1);
+	}
+	return (0);
+}
+

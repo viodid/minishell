@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/25 18:07:55 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/25 21:26:37 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,9 @@ char	**get_env_array(t_data *core);
 
 /* lexer */
 
-t_list	*lexer(void);
+t_list		*lexer(void);
+char		*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
+uint32_t	get_end_quote_idx(const char *str, uint32_t i);
 
 /* exec */
 
