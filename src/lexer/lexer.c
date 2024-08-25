@@ -6,14 +6,14 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/19 19:53:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/25 18:24:43 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
 
-static char	*loop_readline(const char metachar);
+static char	*loop_readline(char metachar);
 t_list* tokenizer(const char* user_input);
 static void insert_token(char* value, t_list** token_list);
 
@@ -43,7 +43,7 @@ t_list	*tokenizer(const char* user_input)
 	token_list = NULL;
 	i = 0;
 	offset = 0;
-	while (user_input[i])
+	while (i <= ft_strlen(user_input))
 	{
 		if (ft_strchr(metacharacters, user_input[i]))
 		{

@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/19 19:14:36 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/25 18:07:55 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ typedef enum e_token_type
 	ARGUMENT,
 	IDENTIFIER,
 	CONTROL_OPERATOR,
-	METACHARACTER
+	METACHARACTER,
+	UNDEFINED
 }	t_token_type;
 
 typedef enum e_redir_type
@@ -104,7 +105,7 @@ char	**get_env_array(t_data *core);
 
 /* lexer */
 
-char	*join_all_commands(void);
+t_list	*lexer(void);
 
 /* exec */
 
