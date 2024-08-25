@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/25 18:58:56 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/25 19:42:45 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 static char	*loop_readline(char metachar);
 t_list* tokenizer(const char* user_input);
 static void insert_token(char* value, t_list** token_list);
+static char	*remove_odd_quotes(char *user_input);
 
 t_list	*lexer(void)
 {
@@ -25,6 +26,7 @@ t_list	*lexer(void)
 	user_input = loop_readline('\\');
 	if (!*user_input)
 		return (EXIT_SUCCESS);
+	user_input = remove_odd_quotes(user_input);
 	token_list = tokenizer(user_input);
 	return (token_list);
 }
@@ -55,7 +57,34 @@ t_list	*tokenizer(const char* user_input)
 	return (token_list);
 }
 
-static void insert_token(char* value, t_list** token_list)
+static char	*remove_odd_quotes(char *user_input)
+{
+	uint16_t	single_quotes;
+	uint16_t	double_quotes;
+	uint16_t	i;
+	char		*parse_str;
+
+	parse_str = NULL;
+	single_quotes = 0;
+	double_quotes = 0;
+	i = 0;
+	while (user_input[i])
+	{
+		if(user_input[i] == '\'')
+			single_quotes++;
+		else if (user_input[i] == '\"')
+			double_quotes++;
+	}
+	if ((single_quotes % 2) == 1)
+		parse_str = handle_quotes('\'', single_quotes, user_input);
+	if ((double_quotes % 2) == 1)
+		parse_str = handle_quotes('\"', single_quotes, user_input);
+	free(user_input);
+	return (parse_str);
+}
+
+
+static void	insert_token(char* value, t_list** token_list)
 {
 	t_token		*token;
 
