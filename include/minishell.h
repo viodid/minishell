@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/22 13:44:01 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/25 19:05:59 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # define HDOC_TMP	"_tmphdoc"
 
+/* ENUMS */
 typedef enum e_tmp_pos
 {
 	NBTOK,
@@ -43,6 +44,7 @@ typedef enum e_redir_type
 	APPEND,
 }	t_redir_type;
 
+/* STRUCTS */
 typedef struct s_var
 {
 	char	*key;
@@ -92,7 +94,7 @@ char	**get_env_array(t_data *core);
 /* exec */
 
 int		executor(t_data *core);
-int		redirect(t_list *redirs);
+int		redirect_input(t_list *redirs);
 
 /* builtins */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:18:39 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/05/27 18:18:42 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/25 22:02:35 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	isbuiltin(t_command *cmd)
 {
 	char	*command;
 
-	command = ((t_token *)cmd->tokens->content)->value;
+	if (cmd->tokens && cmd->tokens->content)
+		command = ((t_token *)cmd->tokens->content)->value;
 	return (
 		ft_strncmp(command, "cd", 3)
 		|| ft_strncmp(command, "echo", 5)
@@ -33,8 +34,13 @@ int	run_single(t_command *command, t_list *env)
 	int	errcode;
 	(void)env;
 
-	errcode = redirect((t_list *)command->redirs);
+	errcode = redirect_input((t_list *)command->redirs);
+	if (errcode == -1)
+		return (errcode);
+	printf("builtin? %i\n", isbuiltin(command));
 	//TODO make execution after redirection
+
+	unlink(HDOC_TMP);
 	return (errcode);
 }
 

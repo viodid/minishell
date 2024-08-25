@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/22 13:07:03 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/24 20:33:10 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ int	minishell(t_data *core)
 	add_history(str);
 	free(str);
 	ft_dfree((void **)cmds);
-	hola("hey");
 	return (retcode);
 }
