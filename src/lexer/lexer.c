@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/25 18:24:43 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/25 18:58:56 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@ t_list	*lexer(void)
 
 t_list	*tokenizer(const char* user_input)
 {
-	const char	*metacharacters = " \t\n|&;()<>";
+	const char	*metacharacters = " |&;()<>\t\n";
 	char		*tmp_str;
 	t_list		*token_list;
 	uint32_t	offset;
 	uint32_t	i;
 
-	token_list = (t_list *)malloc(sizeof(t_list));
-	if (!token_list)
-		exit(EXIT_FAILURE);
 	token_list = NULL;
 	i = 0;
 	offset = 0;
