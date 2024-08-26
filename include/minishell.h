@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/25 21:26:37 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 18:47:49 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ typedef enum e_tmp_pos
 typedef enum e_token_type
 {
 	COMMAND,
-	ARGUMENT,
-	IDENTIFIER,
-	CONTROL_OPERATOR,
-	METACHARACTER,
-	UNDEFINED
+	WORD,
+	FLAGS,
+	VARIABLE,
+	STRING,
+	DIGIT,
+	REDIRECTION,
+	PIPE
 }	t_token_type;
 
 typedef enum e_redir_type

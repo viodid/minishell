@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/25 21:26:29 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 18:55:38 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ char	*handle_odd_quotes(char quote, uint16_t total_quotes, char *str)
 uint32_t	get_end_quote_idx(const char *str, uint32_t i)
 {
 	char	quote_type;
+
 	quote_type = str[i];
 	while(str[++i])
 	{
@@ -50,5 +51,23 @@ uint32_t	get_end_quote_idx(const char *str, uint32_t i)
 			return (i + 1);
 	}
 	return (0);
+}
+
+t_token_type	enum_token_value(const char *value)
+{
+	if (ft_strchr("<>", *value))
+		return (REDIRECTION);
+	else if (ft_strchr("\'\"", *value))
+		return (STRING);
+	else if (*value == '-')
+		return (FLAGS);
+	else if (*value == '$')
+		return (VARIABLE);
+	else if (*value >= '0' && *value <= '9')
+		return (DIGIT);
+	else if (*value == '|')
+		return (PIPE);
+	else
+		return (WORD);
 }
 
