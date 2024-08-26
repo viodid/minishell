@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 03:08:16 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/25 19:13:39 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:53:04 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,15 @@ int	get_input(t_list *redirs)
 	return (fd);
 }
 
-int	redirect_input(t_list *redirs)
+int	redirect_input(t_list *redirs, int *stdinbak)
 {
 	int		fdin;
 
 	fdin = get_input(redirs);
 	if (fdin == -1)
 		return (fdin);
-	if (dup2(fdin, STDIN_FILENO) == -1)
+	*stdinbak = dup(STDIN_FILENO); // this saves STDIN before redirection
+	if (*stdinbak == -1 || dup2(fdin, STDIN_FILENO) == -1)
 		return (-1);
 	return (fdin);
 }

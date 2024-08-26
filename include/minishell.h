@@ -75,6 +75,7 @@ typedef struct s_line
 	t_list	*cmds;
 	int		*fds;
 	int		*pids;
+	int		stdinbak;
 }	t_line;
 
 typedef struct s_data
@@ -94,7 +95,7 @@ char	**get_env_array(t_data *core);
 /* exec */
 
 int		executor(t_data *core);
-int		redirect_input(t_list *redirs);
+int		redirect_input(t_list *redirs, int *stdinbak);
 
 /* builtins */
 
