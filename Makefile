@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+         #
+#    By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/22 17:09:42 by kde-la-c          #+#    #+#              #
-#    Updated: 2024/03/22 17:09:44 by kde-la-c         ###   ########.fr        #
+#    Updated: 2024/08/26 20:13:11 by kde-la-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,28 +52,29 @@ RFLAGS			= -rf
 
 all:			$(NAME)
 
-$(NAME):		$(OBJS) $(LIBNAME)
-				$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
-
 asan:			fclean
 # asan:			cleanbin
 asan:			CFLAGS += -fsanitize=address -g3
 asan:			LIBFLAG = asan
-# asan:			LIBNAME = libft_asan.a
+asan:			LIBNAME = libft_asan.a
 asan:			all
 
 lsan:			fclean
 # lsan:			cleanbin
 lsan:			CFLAGS += -fsanitize=leak -g3
 lsan:			LIBFLAG = lsan
-# lsan:			LIBNAME = libft_lsan.a
+lsan:			LIBNAME = libft_lsan.a
 lsan:			all
 
+$(NAME):		$(OBJS) $(LIBNAME)
+				echo $(LIBNAME)
+				$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBNAME) $(LDFLAGS)
+				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
+
 $(LIBNAME):
-				$(MAKE) -C $(LIBDIR) $(LIBFLAG)
+				$(MAKE) $(LIBFLAG) -C $(LIBDIR)
 				cp $(LIBDIR)$(LIBNAME) .
-				$(MAKE) -C $(LIBDIR) fclean
+				$(MAKE) -C $(LIBDIR) clean
 
 $(OBJDIR)%.o:	$(SRCDIR)%.c
 				@mkdir -p $(dir $@)
