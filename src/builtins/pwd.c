@@ -3,24 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:39:26 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/05/31 18:39:28 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:21:32 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// int	ft_pwd(t_list *env)
-int	ft_pwd(t_data *core)
+int	ft_pwd(t_list *env)
 {
 	char	*path;
 
 	path = getcwd(NULL, 0);
 	if (!path)
 	{
-		path = get_env(core, "PWD")->value;
+		path = get_env(env, "PWD")->value;
 		if (!path)
 		{
 			perror("pwd");

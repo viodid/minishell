@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:23:00 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/06/09 20:23:03 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:11:51 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // int	update_pwd(t_list **env, char *oldpwd)
-int	update_pwd(t_data *core, char *oldpwd)
+int	update_pwd(t_list *env, char *oldpwd)
 {
 	char	*newcwd;
 	char	*var;
@@ -22,18 +22,18 @@ int	update_pwd(t_data *core, char *oldpwd)
 	var = ft_strjoin_f2("PWD=", newcwd);
 	if (!var)
 		return (EXIT_FAILURE);
-	ft_export(core, var);
+	ft_export(env, var);
 	free(var);
 	var = ft_strjoin_f2("OLDPWD=", oldpwd);
 	if (!var)
 		return (EXIT_FAILURE);
-	ft_export(core, var);
+	ft_export(env, var);
 	free(var);
 	return (EXIT_SUCCESS);
 }
 
 // int	ft_cd(t_list **env, char *arg)
-int	ft_cd(t_data *core, char *dest)
+int	ft_cd(t_list *env, char *dest)
 {
 	int		retcode;
 	char	*oldpwd;
@@ -42,7 +42,7 @@ int	ft_cd(t_data *core, char *dest)
 	oldpwd = getcwd(NULL, 0);	
 	if (!dest || !dest[0])
 	{
-		home = get_env(core, "HOME");
+		home = get_env(env, "HOME");
 		if (!home)
 		{
 			printf("cd: %s: %s\n", strerror(errno), dest);
@@ -57,6 +57,6 @@ int	ft_cd(t_data *core, char *dest)
 		printf("cd: %s: %s\n", strerror(errno), dest);
 		return (EXIT_FAILURE);
 	}
-	update_pwd(core, oldpwd);
+	update_pwd(env, oldpwd);
 	return (EXIT_SUCCESS);
 }

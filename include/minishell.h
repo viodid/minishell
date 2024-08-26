@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/25 19:05:59 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:21:27 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct s_data
 /* core */
 
 int		minishell(t_data *core);
-t_var	*get_env(t_data *core, char *key);
+t_var	*get_env(t_list *env, char *key);
 t_var	*split_var(char *var_brut);
 t_list	*set_env(char **envp);
 char	**get_env_array(t_data *core);
@@ -98,12 +98,12 @@ int		redirect_input(t_list *redirs);
 
 /* builtins */
 
-int		ft_pwd(t_data *core);
+int		ft_pwd(t_list *env);
 int		ft_echo(int option, char **args);
-int		ft_cd(t_data *core, char *dest);
-int		ft_env(t_data *core);
-int		ft_export(t_data *core, char *var);
-int		ft_unset(t_data *core, char *key);
+int		ft_cd(t_list *env, char *dest);
+int		ft_env(t_list *env);
+int		ft_export(t_list *env, char *var);
+int		ft_unset(t_list *env, char *key);
 int		ft_exit(t_data *core);
 
 /* utils */
