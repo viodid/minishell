@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/25 21:27:14 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 17:54:44 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static char	*loop_readline(char metachar);
 t_list* tokenizer(const char* user_input);
 static void insert_token(char* value, t_list** token_list);
 static char	*remove_odd_quotes(char *user_input);
-uint32_t	get_end_quote_idx(const char *str, uint32_t i);
 
 t_list	*lexer(void)
 {
@@ -47,7 +46,7 @@ t_list	*tokenizer(const char* user_input)
 	{
 		if (ft_strchr(metacharacters, user_input[i]))
 		{
-			if (ft_strchr("\"\'", user_input[i]))
+			if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
 				i = get_end_quote_idx(user_input, i);
 			if (!i)
 				 exit(EXIT_FAILURE);
@@ -84,7 +83,7 @@ static char	*remove_odd_quotes(char *user_input)
 	return (user_input);
 }
 
-static void	insert_token(char* value, t_list** token_list)
+static void	insert_token(char *value, t_list** token_list)
 {
 	t_token		*token;
 
