@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/26 19:19:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 22:05:02 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,37 @@ uint32_t	get_end_quote_idx(const char *str, uint32_t i)
 	return (0);
 }
 
+static t_token_type	handle_command_argument(uint8_t redirect)
+{
+	static uint8_t	command = FALSE;
+
+	if (redirect)
+	{
+		redirect = TRUE;
+		return (FILE_NAME);
+	}
+
+	if (!command)
+	{
+		command = TRUE;
+		return (COMMAND);
+	}
+	else
+	{
+		command = FALSE;
+		return (ARGUMENT);
+	}
+}
+
 t_token_type	enum_token_value(const char *value)
 {
+	static uint8_t	redirect = FALSE;
+
 	if (ft_strchr("<>", *value))
+	{
+		redirect = TRUE;
 		return (REDIRECTION);
+	}
 	else if (ft_strchr("\'\"", *value))
 		return (STRING);
 	else if (*value == '-')
@@ -67,8 +94,15 @@ t_token_type	enum_token_value(const char *value)
 		return (DIGIT);
 	else if (*value == '|')
 		return (PIPE);
+	else if (ft_strchr("()", *value))
+		return (PARENTHESIS);
 	else
-		return (WORD);
+	{
+		// TODO: rearrange this code
+		t_token_type output = handle_command_argument(redirect);
+		redirect = FALSE;
+		return output;
+	}
 }
 
 void	print_token_list(void	*content)
@@ -78,4 +112,3 @@ void	print_token_list(void	*content)
 	token = (t_token *)content;
 	ft_printf("content: %s\ntype: %d\n\n", token->value, (int)token->type);
 }
-
