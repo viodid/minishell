@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/26 18:55:38 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 19:19:06 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,13 @@ t_token_type	enum_token_value(const char *value)
 		return (PIPE);
 	else
 		return (WORD);
+}
+
+void	print_token_list(void	*content)
+{
+	t_token	*token;
+
+	token = (t_token *)content;
+	ft_printf("content: %s\ntype: %d\n\n", token->value, (int)token->type);
 }
 

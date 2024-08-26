@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/26 17:54:44 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 19:24:30 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_list	*lexer(void)
 		return (EXIT_SUCCESS);
 	user_input = remove_odd_quotes(user_input);
 	token_list = tokenizer(user_input);
+	ft_lstiter(token_list, &print_token_list);
 	return (token_list);
 }
 
@@ -93,8 +94,7 @@ static void	insert_token(char *value, t_list** token_list)
 	if (!token)
 		exit(EXIT_FAILURE);
 	token->value = value;
-	// TODO: define token type
-	token->type = UNDEFINED;
+	token->type = enum_token_value(value);
 	ft_lstadd_back(token_list, ft_lstnew(token));
 }
 

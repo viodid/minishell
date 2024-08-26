@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/26 18:47:49 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 19:26:24 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef enum e_tmp_pos
 
 typedef enum e_token_type
 {
-	COMMAND,
+	COMMAND, // Used in tmp parser
 	WORD,
 	FLAGS,
 	VARIABLE,
@@ -107,9 +107,11 @@ char	**get_env_array(t_data *core);
 
 /* lexer */
 
-t_list		*lexer(void);
-char		*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
-uint32_t	get_end_quote_idx(const char *str, uint32_t i);
+t_list			*lexer(void);
+char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
+uint32_t		get_end_quote_idx(const char *str, uint32_t i);
+t_token_type	enum_token_value(const char *value);
+void			print_token_list(void	*content);
 
 /* exec */
 
