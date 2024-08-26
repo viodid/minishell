@@ -6,16 +6,16 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/26 19:24:30 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 20:09:42 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
 
+static t_list	*tokenizer(const char* user_input);
 static char	*loop_readline(char metachar);
-t_list* tokenizer(const char* user_input);
-static void insert_token(char* value, t_list** token_list);
+static void	insert_token(char* value, t_list** token_list);
 static char	*remove_odd_quotes(char *user_input);
 
 t_list	*lexer(void)
@@ -32,7 +32,7 @@ t_list	*lexer(void)
 	return (token_list);
 }
 
-t_list	*tokenizer(const char* user_input)
+static t_list	*tokenizer(const char* user_input)
 {
 	const char	*metacharacters = " \"\'|&;()<>\t\n";
 	char		*tmp_str;
