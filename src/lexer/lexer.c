@@ -6,16 +6,17 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/19 19:53:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 19:24:30 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
 
-static char	*loop_readline(const char metachar);
+static char	*loop_readline(char metachar);
 t_list* tokenizer(const char* user_input);
 static void insert_token(char* value, t_list** token_list);
+static char	*remove_odd_quotes(char *user_input);
 
 t_list	*lexer(void)
 {
@@ -25,40 +26,65 @@ t_list	*lexer(void)
 	user_input = loop_readline('\\');
 	if (!*user_input)
 		return (EXIT_SUCCESS);
+	user_input = remove_odd_quotes(user_input);
 	token_list = tokenizer(user_input);
+	ft_lstiter(token_list, &print_token_list);
 	return (token_list);
 }
 
 t_list	*tokenizer(const char* user_input)
 {
-	const char	*metacharacters = " \t\n|&;()<>";
+	const char	*metacharacters = " \"\'|&;()<>\t\n";
 	char		*tmp_str;
 	t_list		*token_list;
 	uint32_t	offset;
 	uint32_t	i;
 
-	token_list = (t_list *)malloc(sizeof(t_list));
-	if (!token_list)
-		exit(EXIT_FAILURE);
 	token_list = NULL;
-	i = 0;
+	i = -1;
 	offset = 0;
-	while (user_input[i])
+	while (++i <= ft_strlen(user_input))
 	{
 		if (ft_strchr(metacharacters, user_input[i]))
 		{
+			if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
+				i = get_end_quote_idx(user_input, i);
+			if (!i)
+				 exit(EXIT_FAILURE);
 			tmp_str = ft_substr(user_input, offset, i - offset);
 			insert_token(tmp_str, &token_list);
 			tmp_str = ft_substr(user_input, i, 1);
 			insert_token(tmp_str, &token_list);
 			offset = i + 1;
 		}
-		i++;
 	}
 	return (token_list);
 }
 
-static void insert_token(char* value, t_list** token_list)
+static char	*remove_odd_quotes(char *user_input)
+{
+	uint16_t	single_quotes;
+	uint16_t	double_quotes;
+	uint16_t	i;
+
+	single_quotes = 0;
+	double_quotes = 0;
+	i = -1;
+	while (user_input[++i])
+	{
+		if(user_input[i] == '\'')
+			single_quotes++;
+		else if (user_input[i] == '\"')
+			double_quotes++;
+	}
+	if ((single_quotes % 2) == 1)
+		user_input = handle_odd_quotes('\'', single_quotes, user_input);
+	if ((double_quotes % 2) == 1)
+		user_input = handle_odd_quotes('\"', double_quotes, user_input);
+	return (user_input);
+}
+
+static void	insert_token(char *value, t_list** token_list)
 {
 	t_token		*token;
 
@@ -68,10 +94,11 @@ static void insert_token(char* value, t_list** token_list)
 	if (!token)
 		exit(EXIT_FAILURE);
 	token->value = value;
-	token->type = UNDEFINED;
+	token->type = enum_token_value(value);
 	ft_lstadd_back(token_list, ft_lstnew(token));
 }
 
+// TODO: handle heredoc
 static char	*loop_readline(const char metachar)
 {
 	char		*tmp_str1;
