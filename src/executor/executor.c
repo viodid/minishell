@@ -12,18 +12,17 @@
 
 #include "../../include/minishell.h"
 
-int	run_single(t_data *core, t_command *command, t_list *env, int *stdinbak)
+int	run_single(t_data *core, t_command *command)
 {
 	int	errcode;
-	(void)env;
 
-	errcode = redirect_input((t_list *)command->redirs, stdinbak);
+	errcode = redirect_input((t_list *)command->redirs, &core->line.stdinbak);
 	if (errcode == -1)
-		return (errcode);
-	if (isbuiltin(command))
+		return (perror("post redirect"), errcode);
+	if (command->tokens && isbuiltin(command))
 		exec_builtin(core, command);
 	//TODO make execution after redirection
-
+	dup2(core->line.stdinbak, STDIN_FILENO);
 	unlink(HDOC_TMP);
 	return (errcode);
 }
@@ -36,9 +35,7 @@ int	executor(t_data *core)
 	errcode = EXIT_SUCCESS;
 	commands = core->line.cmds;
 	if (ft_lstsize(commands) == 1)
-		errcode = run_single(core, (t_command *)commands->content, core->env,
-				&core->line.stdinbak);
-	printf("stdinbak %i\n", core->line.stdinbak);
+		errcode = run_single(core, (t_command *)commands->content);
 	//TODO make run_multiple function, it should take all structure and create pipes and all
 	// else
 	// 	pipex(commands);
