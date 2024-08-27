@@ -6,25 +6,65 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:18:39 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/27 21:50:28 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/28 00:24:46 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+char	**get_arg_array(t_command *command)
+{
+	int		i;
+	char	**ret;
+	t_list	*tmp;
+	t_token	*token;
+
+	i = 0;
+	ret = ft_calloc(ft_lstsize(command->tokens), sizeof(char *));
+	if (!ret)
+		return (NULL);
+	tmp = command->tokens;
+	while (tmp)
+	{
+		token = (t_token *)tmp->content;
+		ret[i++] = token->value;
+		tmp = tmp->next;
+	}
+	return (ret);
+}
+
+int	exec_selector(t_data *core, t_command *command)
+{
+	int		retcode;
+	char	*pathname;
+	char	**args;
+	char	**envp;
+
+	pathname = ((t_token *)command->tokens->content)->value;
+	args = get_arg_array(command);
+	envp = get_env_array(core);
+	if (isbuiltin(command))
+		retcode = exec_builtin(core, pathname, args, envp);
+	else
+	{
+		//TODO figure out where to do the fork() and where to do the waitpid()
+		retcode = execve(pathname, args, envp);
+	}
+	return (ft_dfree((void **)envp), free(args), retcode);
+}
+
 int	run_single(t_data *core, t_command *command)
 {
-	int	errcode;
+	int	fdin;
 
-	errcode = redirect_input((t_list *)command->redirs, &core->line.stdinbak);
-	if (errcode == -1)
-		return (perror("post redirect"), errcode);
-	if (command->tokens && isbuiltin(command))
-		exec_builtin(core, command);
-	//TODO make execution after redirection
+	fdin = redirect_input((t_list *)command->redirs, &core->line.stdinbak);
+	if (fdin == -1)
+		return (perror("post redirect"), fdin);
+	if (command->tokens)
+		exec_selector(core, command);
 	dup2(core->line.stdinbak, STDIN_FILENO);
 	unlink(HDOC_TMP);
-	return (errcode);
+	return (fdin);
 }
 
 int	executor(t_data *core)

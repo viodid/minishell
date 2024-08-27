@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/27 21:50:48 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/28 00:24:30 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	**get_env_array(t_data *core);
 int		executor(t_data *core);
 int		redirect_input(t_list *redirs, int *stdinbak);
 int		isbuiltin(t_command *cmd);
-int		exec_builtin(t_data *core, t_command *cmd);
+int		exec_builtin(t_data *core, char *path, char **args, char **envp);
 
 
 /* builtins */
