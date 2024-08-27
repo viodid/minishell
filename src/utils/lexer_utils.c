@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/27 18:40:31 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/27 21:26:06 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,15 @@ t_token_type	enum_token_value(const char *value)
 		new_cmd = TRUE;
 		return (PARENTHESIS);
 	}
-	else
+	else if (ft_isalpha(*value) || *value == '_')
 	{
 		// TODO: rearrange this code
 		t_token_type output = handle_command_argument(redirect, new_cmd);
 		redirect = FALSE;
 		return output;
 	}
+	send_error("syntax error near token: ", (char *)value, 1);
+	exit(1);
 }
 
 void	print_token_list(void	*content)

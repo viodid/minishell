@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/26 21:53:29 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/27 21:21:22 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,11 @@ int		ft_exit(t_data *core);
 void	free_struct(t_data *core);
 void	free_var(void *cont);
 void	free_cmd(void *cont);
-char	*colored_output(const char* str, t_colors color);
 
 int		temp_parser(t_data *core, char **cmds);
+
+/* errors */
+void	send_error(char *err_msg, char *detail_msg, int exit_status);
 
 /* printers */
 
