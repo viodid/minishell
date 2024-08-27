@@ -39,6 +39,8 @@ SRC				= $(SRCDIR)main.c				\
 				$(SRCDIR)builtins/exit.c		\
 				$(SRCDIR)utils/free_struct.c	\
 				$(SRCDIR)utils/printers.c		\
+				$(SRCDIR)utils/lexer_utils.c	\
+				$(SRCDIR)utils/errors.c			\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
@@ -59,14 +61,14 @@ $(NAME):		$(OBJS) $(LIBNAME)
 
 asan:			fclean
 # asan:			cleanbin
-asan:			CFLAGS += -fsanitize=address -g3
+asan:			CFLAGS += -fsanitize=address
 asan:			LIBFLAG = asan
 # asan:			LIBNAME = libft_asan.a
 asan:			all
 
 lsan:			fclean
 # lsan:			cleanbin
-lsan:			CFLAGS += -fsanitize=leak -g3
+lsan:			CFLAGS += -fsanitize=leak
 lsan:			LIBFLAG = lsan
 # lsan:			LIBNAME = libft_lsan.a
 lsan:			all

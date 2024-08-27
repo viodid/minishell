@@ -6,17 +6,16 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/26 19:24:30 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/26 20:14:43 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../include/minishell.h"
 
-static char	*loop_readline(char metachar);
-t_list* tokenizer(const char* user_input);
-static void insert_token(char* value, t_list** token_list);
-static char	*remove_odd_quotes(char *user_input);
+static t_list	*tokenizer(const char *user_input);
+static char		*loop_readline(char metachar);
+static void		insert_token(char *value, t_list **token_list);
+static char		*remove_odd_quotes(char *user_input);
 
 t_list	*lexer(void)
 {
@@ -32,7 +31,7 @@ t_list	*lexer(void)
 	return (token_list);
 }
 
-t_list	*tokenizer(const char* user_input)
+static t_list	*tokenizer(const char *user_input)
 {
 	const char	*metacharacters = " \"\'|&;()<>\t\n";
 	char		*tmp_str;
@@ -50,7 +49,7 @@ t_list	*tokenizer(const char* user_input)
 			if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
 				i = get_end_quote_idx(user_input, i);
 			if (!i)
-				 exit(EXIT_FAILURE);
+				exit(EXIT_FAILURE);
 			tmp_str = ft_substr(user_input, offset, i - offset);
 			insert_token(tmp_str, &token_list);
 			tmp_str = ft_substr(user_input, i, 1);
@@ -72,7 +71,7 @@ static char	*remove_odd_quotes(char *user_input)
 	i = -1;
 	while (user_input[++i])
 	{
-		if(user_input[i] == '\'')
+		if (user_input[i] == '\'')
 			single_quotes++;
 		else if (user_input[i] == '\"')
 			double_quotes++;
@@ -84,7 +83,7 @@ static char	*remove_odd_quotes(char *user_input)
 	return (user_input);
 }
 
-static void	insert_token(char *value, t_list** token_list)
+static void	insert_token(char *value, t_list **token_list)
 {
 	t_token		*token;
 
@@ -115,4 +114,3 @@ static char	*loop_readline(const char metachar)
 	}
 	return (tmp_str1);
 }
-
