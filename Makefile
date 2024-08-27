@@ -6,7 +6,7 @@
 #    By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/22 17:09:42 by kde-la-c          #+#    #+#              #
-#    Updated: 2024/08/26 20:13:11 by kde-la-c         ###   ########.fr        #
+#    Updated: 2024/08/27 21:48:46 by kde-la-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,24 +20,25 @@ OBJDIR			= obj/
 BINDIR			= bin/
 
 INCLUDE			= $(INCDIR)minishell.h
-SRC				= $(SRCDIR)main.c				\
-				$(SRCDIR)core/minishell.c		\
-				$(SRCDIR)core/get_env.c			\
-				$(SRCDIR)core/set_env.c			\
-				$(SRCDIR)core/get_env_array.c	\
-				$(SRCDIR)parser/parser.c		\
-				$(SRCDIR)executor/executor.c	\
-				$(SRCDIR)executor/redirections.c\
-				$(SRCDIR)signals/signals.c		\
-				$(SRCDIR)builtins/echo.c		\
-				$(SRCDIR)builtins/cd.c			\
-				$(SRCDIR)builtins/pwd.c			\
-				$(SRCDIR)builtins/export.c		\
-				$(SRCDIR)builtins/unset.c		\
-				$(SRCDIR)builtins/env.c			\
-				$(SRCDIR)builtins/exit.c		\
-				$(SRCDIR)utils/free_struct.c	\
-				$(SRCDIR)utils/printers.c		\
+SRC				= $(SRCDIR)main.c						\
+				$(SRCDIR)core/minishell.c				\
+				$(SRCDIR)core/get_env.c					\
+				$(SRCDIR)core/set_env.c					\
+				$(SRCDIR)core/get_env_array.c			\
+				$(SRCDIR)parser/parser.c				\
+				$(SRCDIR)executor/executor.c			\
+				$(SRCDIR)executor/executor_builtin.c	\
+				$(SRCDIR)executor/redirections.c		\
+				$(SRCDIR)signals/signals.c				\
+				$(SRCDIR)builtins/echo.c				\
+				$(SRCDIR)builtins/cd.c					\
+				$(SRCDIR)builtins/pwd.c					\
+				$(SRCDIR)builtins/export.c				\
+				$(SRCDIR)builtins/unset.c				\
+				$(SRCDIR)builtins/env.c					\
+				$(SRCDIR)builtins/exit.c				\
+				$(SRCDIR)utils/free_struct.c			\
+				$(SRCDIR)utils/printers.c				\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 

@@ -96,6 +96,9 @@ char	**get_env_array(t_data *core);
 
 int		executor(t_data *core);
 int		redirect_input(t_list *redirs, int *stdinbak);
+int		isbuiltin(t_command *cmd);
+int		exec_builtin(t_data *core, t_command *cmd);
+
 
 /* builtins */
 
