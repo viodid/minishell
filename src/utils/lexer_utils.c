@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/26 22:05:02 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/27 18:40:31 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,14 @@ uint32_t	get_end_quote_idx(const char *str, uint32_t i)
 	return (0);
 }
 
-static t_token_type	handle_command_argument(uint8_t redirect)
+static t_token_type	handle_command_argument(uint8_t redirect, uint8_t new_cmd)
 {
 	static uint8_t	command = FALSE;
 
+	if (new_cmd)
+		command = FALSE;
 	if (redirect)
-	{
-		redirect = TRUE;
 		return (FILE_NAME);
-	}
-
 	if (!command)
 	{
 		command = TRUE;
@@ -78,6 +76,7 @@ static t_token_type	handle_command_argument(uint8_t redirect)
 t_token_type	enum_token_value(const char *value)
 {
 	static uint8_t	redirect = FALSE;
+	static uint8_t	new_cmd = FALSE;
 
 	if (ft_strchr("<>", *value))
 	{
@@ -93,13 +92,19 @@ t_token_type	enum_token_value(const char *value)
 	else if (*value >= '0' && *value <= '9')
 		return (DIGIT);
 	else if (*value == '|')
+	{
+		new_cmd = TRUE;
 		return (PIPE);
+	}
 	else if (ft_strchr("()", *value))
+	{
+		new_cmd = TRUE;
 		return (PARENTHESIS);
+	}
 	else
 	{
 		// TODO: rearrange this code
-		t_token_type output = handle_command_argument(redirect);
+		t_token_type output = handle_command_argument(redirect, new_cmd);
 		redirect = FALSE;
 		return output;
 	}
