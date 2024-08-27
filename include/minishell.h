@@ -6,18 +6,19 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/25 19:05:59 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/27 21:50:48 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define TRUE 1
+# define FALSE 0
+# define NULL ((void *)0)
 
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <unistd.h>
-# include <stdlib.h>
 # include <errno.h>
 
 # define HDOC_TMP	"_tmphdoc"

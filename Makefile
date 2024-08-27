@@ -53,22 +53,21 @@ RFLAGS			= -rf
 
 all:			$(NAME)
 
-asan:			fclean
-# asan:			cleanbin
+# asan:			fclean
+asan:			cleanbin
 asan:			CFLAGS += -fsanitize=address -g3
 asan:			LIBFLAG = asan
 asan:			LIBNAME = libft_asan.a
 asan:			all
 
-lsan:			fclean
-# lsan:			cleanbin
+# lsan:			fclean
+lsan:			cleanbin
 lsan:			CFLAGS += -fsanitize=leak -g3
 lsan:			LIBFLAG = lsan
 lsan:			LIBNAME = libft_lsan.a
 lsan:			all
 
 $(NAME):		$(OBJS) $(LIBNAME)
-				echo $(LIBNAME)
 				$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBNAME) $(LDFLAGS)
 				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 
