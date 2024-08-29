@@ -6,13 +6,14 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/24 20:33:10 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/29 20:13:38 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	tmp_exec(char *cmd, t_data *core)
+// requiert un refractor
+/* int	tmp_exec(char *cmd, t_data *core)
 {
 	if (!cmd)
 		return (EXIT_FAILURE);
@@ -34,7 +35,7 @@ int	tmp_exec(char *cmd, t_data *core)
 	else
 		printf("%s\n", cmd);
 	return (EXIT_SUCCESS);
-}
+} */
 
 int	minishell(t_data *core)
 {
@@ -42,7 +43,7 @@ int	minishell(t_data *core)
 	char		*str;
 	char		**cmds;
 
-	str = readline("minishell >");
+	str = readline("minicheh $>");
 	cmds = ft_split(str, '|');
 	if (!cmds)
 		return (EXIT_SUCCESS);

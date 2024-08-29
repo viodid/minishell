@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:23:00 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/06/09 20:23:03 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/29 21:15:07 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,31 @@ int	update_pwd(t_data *core, char *oldpwd)
 	return (EXIT_SUCCESS);
 }
 
-// int	ft_cd(t_list **env, char *arg)
-int	ft_cd(t_data *core, char *dest)
+int	ft_cd(t_data *core, char **args)
 {
 	int		retcode;
 	char	*oldpwd;
 	t_var	*home;
 
-	oldpwd = getcwd(NULL, 0);	
-	if (!dest || !dest[0])
+	if (args[2])
+		return (perror("cd: too many arguments"), errno);
+	oldpwd = getcwd(NULL, 0);
+	if (!args[1])
 	{
 		home = get_env(core, "HOME");
 		if (!home)
 		{
-			printf("cd: %s: %s\n", strerror(errno), dest);
-			return(EXIT_FAILURE);
+			printf("cd: %s: %s\n", strerror(errno), args[1]);
+			return(errno);
 		}
 		retcode = chdir(home->value);
 	}
 	else
-		retcode = chdir(dest);
+		retcode = chdir(args[1]);
 	if (retcode)
 	{
-		printf("cd: %s: %s\n", strerror(errno), dest);
-		return (EXIT_FAILURE);
+		printf("cd: %s: %s\n", strerror(errno), args[1]);
+		return (errno);
 	}
 	update_pwd(core, oldpwd);
 	return (EXIT_SUCCESS);

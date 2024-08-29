@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:18:39 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/28 00:24:46 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/29 20:25:34 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**get_arg_array(t_command *command)
 	t_token	*token;
 
 	i = 0;
-	ret = ft_calloc(ft_lstsize(command->tokens), sizeof(char *));
+	ret = ft_calloc(ft_lstsize(command->tokens) + 1, sizeof(char *));
 	if (!ret)
 		return (NULL);
 	tmp = command->tokens;

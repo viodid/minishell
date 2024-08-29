@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/28 00:24:30 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/29 21:14:13 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_data
 {
 	t_list	*env;
 	t_line	line;
+	int		errcode;
 }	t_data;
 
 /* core */
@@ -104,8 +105,8 @@ int		exec_builtin(t_data *core, char *path, char **args, char **envp);
 /* builtins */
 
 int		ft_pwd(t_data *core);
-int		ft_echo(int option, char **args);
-int		ft_cd(t_data *core, char *dest);
+int		ft_echo(char **args);
+int		ft_cd(t_data *core, char **args);
 int		ft_env(t_data *core);
 int		ft_export(t_data *core, char *var);
 int		ft_unset(t_data *core, char *key);
@@ -125,5 +126,6 @@ void	print_var(void *cont);
 void	print_str(void *cont);
 void	print_command(void *cont);
 void	hola(char *str);
+void	print_execve(char *path, char **args, char **envp);
 
 #endif

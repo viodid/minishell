@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:48:47 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/28 00:25:58 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/29 21:07:00 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,18 @@ int	exec_builtin(t_data *core, char *path, char **args, char **envp)
 	int		retcode;
 	(void)core;
 	(void)envp;
+	// print_execve(path, args, envp);
 
-	if (!ft_strncmp(path, "cd", 3))
-		retcode = ft_cd(core, args[1]); //TODO change prototypes to get execve like params
+	if (!ft_strncmp(path, "pwd", 4))
+		retcode = ft_pwd(core);
+	else if (!ft_strncmp(path, "cd", 3))
+		retcode = ft_cd(core, args);
+	else if (!ft_strncmp(path, "echo", 5))
+		retcode = ft_echo(args);
+	else if (!ft_strncmp(path, "env", 4))
+		retcode = ft_env(core);
+	else if (!ft_strncmp(path, "exit", 5))
+		retcode = ft_exit(core);
 	return (retcode);
 }
 
