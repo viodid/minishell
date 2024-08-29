@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/27 21:21:22 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/29 20:40:41 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef enum e_tmp_pos
 	IOUTREDIR,
 }	t_tmp_pos;
 
+// REARRANGE
 typedef enum e_token_type
 {
 	COMMAND,
