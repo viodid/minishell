@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:48:47 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/29 21:07:00 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/30 19:24:17 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ int	exec_builtin(t_data *core, char *path, char **args, char **envp)
 	else if (!ft_strncmp(path, "env", 4))
 		retcode = ft_env(core);
 	else if (!ft_strncmp(path, "exit", 5))
-		retcode = ft_exit(core);
+		retcode = ft_exit(core, args);
+	else if (!ft_strncmp(path, "export", 7))
+		retcode = ft_export(core, args);
 	return (retcode);
 }
 

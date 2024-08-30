@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:23:00 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/29 21:15:07 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/30 23:53:04 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	update_pwd(t_data *core, char *oldpwd)
 	var = ft_strjoin_f2("PWD=", newcwd);
 	if (!var)
 		return (EXIT_FAILURE);
-	ft_export(core, var);
+	export_single(core, var);
 	free(var);
 	var = ft_strjoin_f2("OLDPWD=", oldpwd);
 	if (!var)
 		return (EXIT_FAILURE);
-	ft_export(core, var);
+	export_single(core, var);
 	free(var);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/29 21:14:13 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/30 22:08:17 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,10 @@ int		ft_pwd(t_data *core);
 int		ft_echo(char **args);
 int		ft_cd(t_data *core, char **args);
 int		ft_env(t_data *core);
-int		ft_export(t_data *core, char *var);
+int		ft_export(t_data *core, char **args);
+int		export_single(t_data *core, char *arg); // does it go here?
 int		ft_unset(t_data *core, char *key);
-int		ft_exit(t_data *core);
+int		ft_exit(t_data *core, char **args);
 
 /* utils */
 
@@ -122,7 +123,8 @@ int		temp_parser(t_data *core, char **cmds);
 
 /* printers */
 
-void	print_var(void *cont);
+void	print_var_env(void *cont);
+void	print_var_exp(void *cont);
 void	print_str(void *cont);
 void	print_command(void *cont);
 void	hola(char *str);

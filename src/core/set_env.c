@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:56:20 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/06/21 16:56:20 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/30 23:52:11 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_var	*split_var(char *var_brut)
 {
 	char	*tmpenv;
 	t_var	*var;
-	
+
 	var = ft_calloc(1, sizeof(t_var));
 	if (!var)
 		return (NULL);
@@ -30,11 +30,15 @@ t_var	*split_var(char *var_brut)
 	tmpenv = ft_strdup(var_brut);
 	if (!tmpenv)
 		return (free(var), free(var->key), NULL);
+	if (!ft_strchr(tmpenv, '='))
+	{
+		var->value = NULL;
+		return (var);
+	}
 	var->value = ft_strdup(ft_strchr(tmpenv, '=') + 1);
-	free(tmpenv);
 	if (!var->value)
-		return (free(var), free(var->key), NULL);
-	return (var);
+		return (free(tmpenv), free(var), free(var->key), NULL);
+	return (free(tmpenv), var);
 }
 
 t_list	*set_env(char **envp)
