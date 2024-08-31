@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:23:00 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/30 23:53:04 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/31 23:35:27 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	ft_cd(t_data *core, char **args)
 		home = get_env(core, "HOME");
 		if (!home)
 		{
+			//TODO replace printf with send_error when ready
 			printf("cd: %s: %s\n", strerror(errno), args[1]);
 			return(errno);
 		}
@@ -55,6 +56,7 @@ int	ft_cd(t_data *core, char **args)
 		retcode = chdir(args[1]);
 	if (retcode)
 	{
+		//TODO replace printf with send_error when ready
 		printf("cd: %s: %s\n", strerror(errno), args[1]);
 		return (errno);
 	}

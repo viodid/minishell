@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/31 18:34:16 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/31 23:58:22 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,20 +123,22 @@ void			print_token_list(void	*content);
 
 int		executor(t_data *core);
 int		redirect_input(t_list *redirs, int *stdinbak);
-int		isbuiltin(t_command *cmd);
-int		exec_builtin(t_data *core, char *path, char **args, char **envp);
+int		isbuiltin(t_command *cmd, char *cmdpath); //TODO
+
+int		exec_builtin(t_data *core, char *cmdpath, char **args);
 
 
 /* builtins */
 
 int		ft_pwd(t_data *core);
 int		ft_echo(char **args);
-int		ft_cd(t_data *core, char **args);
+int		ft_cd(t_data *core, char **args); //TODO
 int		ft_env(t_data *core);
 int		ft_export(t_data *core, char **args);
 int		export_single(t_data *core, char *arg); // does it go here?
-int		ft_unset(t_data *core, char *key);
-int		ft_exit(t_data *core, char **args);
+int		ft_unset(t_data *core, char **args);
+int		unset_single(t_data *core, char *key); // does it go here?
+int		ft_exit(t_data *core, char **args); //TODO
 
 /* utils */
 
@@ -156,6 +158,6 @@ void	print_var_exp(void *cont);
 void	print_str(void *cont);
 void	print_command(void *cont);
 void	hola(char *str);
-void	print_execve(char *path, char **args, char **envp);
+void	print_execve(char *cmdpath, char **args, char **envp);
 
 #endif

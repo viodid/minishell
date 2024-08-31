@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:58:20 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/30 23:36:59 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/31 23:46:48 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ void	print_command(void *cont)
 	printf("\n");
 }
 
-void	print_execve(char *path, char **args, char **envp)
+void	print_execve(char *cmdpath, char **args, char **envp)
 {
 	int	i;
 	(void)envp;
 
 	i = 0;
-	printf("command :%s\n", path);
+	printf("command :%s\n", cmdpath);
 	printf("args :\n");
 	while (printf("->%i\n", i) && args[i])
 		printf("%s\n", args[i++]);

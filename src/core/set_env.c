@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:56:20 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/31 18:36:08 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:19:34 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_var	*split_var(char *var_brut)
 	if (!ft_strchr(tmpenv, '='))
 	{
 		var->value = NULL;
-		return (var);
+		return (free(tmpenv), var);
 	}
 	var->value = ft_strdup(ft_strchr(tmpenv, '=') + 1);
 	if (!var->value)
