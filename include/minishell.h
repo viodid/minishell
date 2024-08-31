@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/30 22:08:17 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/31 18:34:16 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@
 # define HDOC_TMP	"_tmphdoc"
 
 /* ENUMS */
+typedef enum e_colors
+{
+	RESET,
+	RED,
+	GREEN,
+	YELLOW,
+	BLUE
+}	t_colors;
+
 typedef enum e_tmp_pos
 {
 	NBTOK,
@@ -35,6 +44,14 @@ typedef enum e_token_type
 {
 	COMMAND,
 	ARGUMENT,
+	FLAGS,
+	VARIABLE,
+	STRING,
+	DIGIT,
+	REDIRECTION,
+	FILE_NAME,
+	PIPE,
+	PARENTHESIS
 }	t_token_type;
 
 typedef enum e_redir_type
@@ -94,6 +111,14 @@ t_var	*split_var(char *var_brut);
 t_list	*set_env(char **envp);
 char	**get_env_array(t_data *core);
 
+/* lexer */
+
+t_list			*lexer(void);
+char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
+uint32_t		get_end_quote_idx(const char *str, uint32_t i);
+t_token_type	enum_token_value(const char *value);
+void			print_token_list(void	*content);
+
 /* exec */
 
 int		executor(t_data *core);
@@ -120,6 +145,9 @@ void	free_var(void *cont);
 void	free_cmd(void *cont);
 
 int		temp_parser(t_data *core, char **cmds);
+
+/* errors */
+void	send_error(char *err_msg, char *detail_msg, int exit_status);
 
 /* printers */
 

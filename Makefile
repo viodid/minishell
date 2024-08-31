@@ -6,7 +6,7 @@
 #    By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/22 17:09:42 by kde-la-c          #+#    #+#              #
-#    Updated: 2024/08/27 21:48:46 by kde-la-c         ###   ########.fr        #
+#    Updated: 2024/08/31 18:35:17 by kde-la-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)core/get_env.c					\
 				$(SRCDIR)core/set_env.c					\
 				$(SRCDIR)core/get_env_array.c			\
+				$(SRCDIR)lexer/lexer.c					\
 				$(SRCDIR)parser/parser.c				\
 				$(SRCDIR)executor/executor.c			\
 				$(SRCDIR)executor/executor_builtin.c	\
@@ -39,11 +40,13 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)builtins/exit.c				\
 				$(SRCDIR)utils/free_struct.c			\
 				$(SRCDIR)utils/printers.c				\
+				$(SRCDIR)utils/lexer_utils.c			\
+				$(SRCDIR)utils/errors.c					\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -g3
 LIBFLAG			=
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)
