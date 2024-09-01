@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:18:39 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/31 23:54:33 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/01 17:23:04 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ int	exec_selector(t_data *core, t_command *command)
 	char	**envp;
 
 	args = get_arg_array(command);
-	cmdpath = get_cmdpath(core, args[0]);
 	envp = get_env_array(core);
+	// cmdpath = get_cmdpath(core, args[0]);
+	cmdpath = args[0];
 	if (isbuiltin(command, cmdpath))
 	{
 		retcode = exec_builtin(core, cmdpath, args);
