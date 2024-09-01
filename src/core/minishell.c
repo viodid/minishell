@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/19 18:21:49 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/31 18:35:35 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	tmp_exec(char *cmd, t_data *core)
+// requiert un refractor
+/* int	tmp_exec(char *cmd, t_data *core)
 {
 	if (!cmd)
 		return (EXIT_FAILURE);
@@ -34,7 +35,7 @@ int	tmp_exec(char *cmd, t_data *core)
 	else
 		printf("%s\n", cmd);
 	return (EXIT_SUCCESS);
-}
+} */
 
 int	minishell(t_data *core)
 {
@@ -42,7 +43,7 @@ int	minishell(t_data *core)
 	char		*str;
 	char		**cmds;
 
-	str = join_all_commands();
+	str = readline("minicheh $>");
 	cmds = ft_split(str, '|');
 	if (!cmds)
 		return (EXIT_SUCCESS);
@@ -55,6 +56,5 @@ int	minishell(t_data *core)
 	add_history(str);
 	free(str);
 	ft_dfree((void **)cmds);
-	hola("hey");
 	return (retcode);
 }

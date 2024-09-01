@@ -3,25 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 03:08:16 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/07/17 03:08:16 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/29 20:03:10 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	heredoc_loop(char *limiter, int i)
+int	heredoc_loop(char *limiter, int fd)
 {
-	int		fd;
 	char	*line;
-	char	*filename;
-	
-	filename = ft_strjoin_f2("tmp-", ft_itoa(i));
-	fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	printf("%s, %i\n", filename, fd);
-	free(filename);
+
+	close(fd);
+	if (!access(HDOC_TMP, R_OK))
+		unlink(HDOC_TMP);
+	fd = open(HDOC_TMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (fd);
 	line = readline(">");
@@ -34,44 +32,46 @@ int	heredoc_loop(char *limiter, int i)
 	return (fd);
 }
 
-int	heredocs(t_list *redirs)
+int	check_infile(char *infile, int fd)
+{
+	close(fd);
+	if (!access(HDOC_TMP, R_OK))
+		unlink(HDOC_TMP);
+	fd = open(infile, O_RDONLY);
+	if (fd == -1)
+		perror(infile);
+	return (fd);
+}
+
+int	get_input(t_list *redirs)
 {
 	int		fd;
-	int		i;
 	t_redir	*redir;
+	t_list	*tmp;
 
-	i = 0;
-	while (redirs)
+	fd = STDIN_FILENO;
+	tmp = redirs;
+	while (tmp && fd != -1)
 	{
-		redir = (t_redir *)redirs->content;
-		if (redir->type == HEREDOC)
-		{
-			fd = heredoc_loop(redir->file, i);
-		}
-		redirs = redirs->next;
-		i++;
+		redir = (t_redir *)tmp->content;
+		if (redir->type == INPUT)
+			fd = check_infile(redir->file, fd);
+		else if (redir->type == HEREDOC)
+			fd = heredoc_loop(redir->file, fd);
+		tmp = tmp->next;
 	}
 	return (fd);
 }
 
-int	redirect(t_list *redirs)
+int	redirect_input(t_list *redirs, int *stdinbak)
 {
-	int		errcode;
-	int		fdhdoc;
-	// int		fdin;
-	// int		fdout;
-	t_redir	*redir;
-	(void)redir;
-	(void)fdhdoc;
+	int		fdin;
 
-	//TODO finish making heredocs and start other redirections
-	errcode = EXIT_SUCCESS;
-	fdhdoc = heredocs(redirs);
-	// while (redirs)
-	// {
-	// 	redir = redirs->content;
-		
-	// 	redirs = redirs->next;
-	// }
-	return (errcode);
+	fdin = get_input(redirs);
+	if (fdin == -1 || !fdin)
+		return (fdin);
+	*stdinbak = dup(STDIN_FILENO); // this saves STDIN before redirection
+	if (*stdinbak == -1 || dup2(fdin, STDIN_FILENO) == -1)
+		return (-1);
+	return (fdin);
 }

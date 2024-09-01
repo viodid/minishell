@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/27 21:21:22 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/08/31 23:58:22 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <unistd.h>
-# include <stdlib.h>
 # include <errno.h>
 
+# define HDOC_TMP	"_tmphdoc"
+
+/* ENUMS */
 typedef enum e_colors
 {
 	RESET,
@@ -61,6 +62,7 @@ typedef enum e_redir_type
 	APPEND,
 }	t_redir_type;
 
+/* STRUCTS */
 typedef struct s_var
 {
 	char	*key;
@@ -91,12 +93,14 @@ typedef struct s_line
 	t_list	*cmds;
 	int		*fds;
 	int		*pids;
+	int		stdinbak;
 }	t_line;
 
 typedef struct s_data
 {
 	t_list	*env;
 	t_line	line;
+	int		errcode;
 }	t_data;
 
 /* core */
@@ -118,17 +122,23 @@ void			print_token_list(void	*content);
 /* exec */
 
 int		executor(t_data *core);
-int		redirect(t_list *redirs);
+int		redirect_input(t_list *redirs, int *stdinbak);
+int		isbuiltin(t_command *cmd, char *cmdpath); //TODO
+
+int		exec_builtin(t_data *core, char *cmdpath, char **args);
+
 
 /* builtins */
 
 int		ft_pwd(t_data *core);
-int		ft_echo(int option, char **args);
-int		ft_cd(t_data *core, char *dest);
+int		ft_echo(char **args);
+int		ft_cd(t_data *core, char **args); //TODO
 int		ft_env(t_data *core);
-int		ft_export(t_data *core, char *var);
-int		ft_unset(t_data *core, char *key);
-int		ft_exit(t_data *core);
+int		ft_export(t_data *core, char **args);
+int		export_single(t_data *core, char *arg); // does it go here?
+int		ft_unset(t_data *core, char **args);
+int		unset_single(t_data *core, char *key); // does it go here?
+int		ft_exit(t_data *core, char **args); //TODO
 
 /* utils */
 
@@ -143,9 +153,11 @@ void	send_error(char *err_msg, char *detail_msg, int exit_status);
 
 /* printers */
 
-void	print_var(void *cont);
+void	print_var_env(void *cont);
+void	print_var_exp(void *cont);
 void	print_str(void *cont);
 void	print_command(void *cont);
 void	hola(char *str);
+void	print_execve(char *cmdpath, char **args, char **envp);
 
 #endif
