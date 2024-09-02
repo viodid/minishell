@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/31 23:58:22 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/08/27 21:21:22 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef enum e_redir_type
 	APPEND,
 }	t_redir_type;
 
-/* STRUCTS */
 typedef struct s_var
 {
 	char	*key;
