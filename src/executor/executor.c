@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:18:39 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/01 17:23:04 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:54:05 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,47 +32,6 @@ char	**get_arg_array(t_command *command)
 	}
 	return (ret);
 }
-
-//TODO adapt these couple funcs to get cmdpath for execve
-/* char	*get_envpath(t_data *core, char *cmd, char **envp)
-{
-	t_count	c;
-	char	*ret;
-	char	*tmp;
-	char	**paths;
-
-	ft_bzero((void *)&c, sizeof(t_count));
-	while (envp[c.i] && ft_strncmp(envp[c.i], "PATH", 4))
-		c.i++;
-	paths = ft_split(ft_strnstr(envp[c.i], "=", 7) + 1, ':');
-	if (!paths)
-		perror_exit(core, "env variables", 128); //error handling
-	while (paths[c.j] && paths[c.j + 1] && access(ret, F_OK))
-	{
-		if (c.j)
-			free(ret);
-		c.j++;
-		tmp = ft_strjoin(paths[c.j], "/");
-		ret = ft_strjoin_f1(tmp, cmd);
-	}
-	if (!paths[c.j])
-		perror_exit(core, paths[c.j], 127); //error handling
-	return (ft_dfree((void **)paths), ret);
-}
-
-static char	*get_path(t_data *core, char *cmd, char **envp)
-{
-	if (!cmd)
-		return (NULL);
-	else if (!*envp)
-	{
-		if (access(cmd, F_OK) == -1)
-			perror_exit(core, cmd, 127); //error handling
-		return (ft_strdup(cmd));
-	}
-	else
-		return (get_envpath(core, cmd, envp));
-} */
 
 int	exec_selector(t_data *core, t_command *command)
 {

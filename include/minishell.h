@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/01 19:40:51 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:54:25 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void			print_token_list(void	*content);
 
 /* exec */
 
-int		executor(t_data *core);
+int		executor(t_data *core); //TODO
 int		redirect_input(t_list *redirs, int *stdinbak);
 int		isbuiltin(t_command *cmd, char *cmdpath); //TODO
 

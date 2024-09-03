@@ -31,6 +31,7 @@ int	ft_exit(t_data *core, char **args)
 	int				i;
 	unsigned char	exitcode;
 	(void)args;
+	(void)i;
 
 	i = 0;
 	if (!args[1])
