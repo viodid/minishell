@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/26 20:14:43 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/03 21:40:01 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ static void	insert_token(char *value, t_list **token_list)
 	ft_lstadd_back(token_list, ft_lstnew(token));
 }
 
-// TODO: handle heredoc
 static char	*loop_readline(const char metachar)
 {
 	char		*tmp_str1;
