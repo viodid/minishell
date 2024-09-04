@@ -42,15 +42,16 @@ int	exec_selector(t_data *core, t_command *command)
 
 	args = get_arg_array(command);
 	envp = get_env_array(core);
-	// cmdpath = get_cmdpath(core, args[0]);
-	cmdpath = args[0];
-	if (isbuiltin(command, cmdpath))
+	cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
+	if (isbuiltin(command, args[0]))
 	{
-		retcode = exec_builtin(core, cmdpath, args);
+		free(cmdpath);
+		retcode = exec_builtin(core, args[0], args);
 	}
 	else
 	{
 		retcode = execve(cmdpath, args, envp);
+		free(cmdpath);
 		//TODO print error here?
 	}
 	return (ft_dfree((void **)envp), free(args), retcode);
@@ -59,15 +60,24 @@ int	exec_selector(t_data *core, t_command *command)
 int	run_single(t_data *core, t_command *command)
 {
 	int	fdin;
+	int	retcode;
 
-	fdin = redirect_input((t_list *)command->redirs, &core->line.stdinbak);
-	if (fdin == -1)
-		return (perror("post redirect"), fdin);
+	retcode = EXIT_SUCCESS;
+	if (hasinput(command->redirs))
+	{
+		fdin = redirect_input((t_list *)command->redirs, &core->line.stdinbak,
+				(command->tokens && 1));
+		if (fdin == -1)
+			return (perror("post redirect"), -1);
+	}
 	if (command->tokens)
-		exec_selector(core, command);
-	dup2(core->line.stdinbak, STDIN_FILENO);
-	unlink(HDOC_TMP);
-	return (fdin);
+		retcode = exec_selector(core, command);
+	if (hasinput(command->redirs))
+	{
+		dup2(core->line.stdinbak, STDIN_FILENO);
+		unlink(HDOC_TMP);
+	}
+	return (retcode);
 }
 
 int	executor(t_data *core)

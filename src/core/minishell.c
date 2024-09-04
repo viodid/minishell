@@ -46,7 +46,7 @@ int	minishell(t_data *core)
 	str = readline("minicheh $>");
 	cmds = ft_split(str, '|');
 	if (!cmds)
-		return (EXIT_SUCCESS);
+		return (fprintf(stderr, "!cmds"), EXIT_SUCCESS);
 	if (core->line.cmds)
 		ft_lstclear(&core->line.cmds, free_cmd);
 	temp_parser(core, cmds);

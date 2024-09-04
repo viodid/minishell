@@ -122,11 +122,12 @@ void			print_token_list(void	*content);
 /* exec */
 
 int				executor(t_data *core); //TODO
-int				redirect_input(t_list *redirs, int *stdinbak);
+int				redirect_input(t_list *redirs, int *stdinbak, int iscommand);
 int				isbuiltin(t_command *cmd, char *cmdpath); //TODO
+char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths);
+int				hasinput(t_list *redirs);
 
 int				exec_builtin(t_data *core, char *cmdpath, char **args);
-
 
 /* builtins */
 
@@ -149,6 +150,7 @@ void			free_cmd(void *cont);
 int				temp_parser(t_data *core, char **cmds);
 
 /* errors */
+
 void			send_error(char *err_msg, char *detail_msg, int exit_status);
 
 /* printers */

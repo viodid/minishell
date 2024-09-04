@@ -15,20 +15,21 @@
 //TODO decide on a single method
 int	isbuiltin(t_command *cmd, char *cmdpath)
 {
-	char	*command = "";
+	// char	*command = "";
+	(void)cmd;
 
-	if (cmd->tokens)
-		command = ((t_token *)cmd->tokens->content)->value;
-	else
-		return (FALSE);
+	// if (cmd->tokens)
+	// 	command = ((t_token *)cmd->tokens->content)->value;
+	// else
+	// 	return (FALSE);
 	return (
-		ft_strncmp(command, cmdpath, 3)		//parent
-		|| ft_strncmp(command, cmdpath, 5)
-		|| ft_strncmp(command, cmdpath, 4)	//parent ????
-		|| ft_strncmp(command, cmdpath, 5)	//parent
-		|| ft_strncmp(command, cmdpath, 7)	//parent
-		|| ft_strncmp(command, cmdpath, 4)
-		|| ft_strncmp(command, cmdpath, 6)	//parent
+		!ft_strncmp(cmdpath, "cd", 3)		//parent
+		|| !ft_strncmp(cmdpath, "echo", 5)
+		|| !ft_strncmp(cmdpath, "env", 4)	//parent ????
+		|| !ft_strncmp(cmdpath, "exit", 5)	//parent
+		|| !ft_strncmp(cmdpath, "export", 7)	//parent
+		|| !ft_strncmp(cmdpath, "pwd", 4)
+		|| !ft_strncmp(cmdpath, "unset", 6)	//parent
 	);
 }
 
@@ -37,7 +38,7 @@ int	exec_builtin(t_data *core, char *cmdpath, char **args)
 	int		retcode;
 
 	//TODO get rid of first if when expansion is complete
-	if (!ft_strncmp(cmdpath, "echo", 5) && !ft_strncmp(args[1], "$?", 3))
+	if (!ft_strncmp(cmdpath, "echo", 5) && args[1] && !ft_strncmp(args[1], "$?", 3))
 		printf(">%i\n", core->errcode);
 	else if (!ft_strncmp(cmdpath, "pwd", 4))
 		retcode = ft_pwd(core);

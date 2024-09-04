@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 NAME			= minishell
+NAME_DBG		= dbg
 LIBNAME			= libft.a
 
 SRCDIR			= src/
@@ -29,7 +30,8 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)parser/parser.c				\
 				$(SRCDIR)executor/executor.c			\
 				$(SRCDIR)executor/executor_builtin.c	\
-				$(SRCDIR)executor/redirections.c		\
+				$(SRCDIR)executor/redirect_input.c		\
+				$(SRCDIR)executor/get_cmdpath.c			\
 				$(SRCDIR)signals/signals.c				\
 				$(SRCDIR)builtins/echo.c				\
 				$(SRCDIR)builtins/cd.c					\
@@ -71,6 +73,12 @@ lsan:			LIBNAME = libft_lsan.a
 lsan:			all
 
 $(NAME):		$(OBJS) $(LIBNAME)
+				$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBNAME) $(LDFLAGS)
+				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
+
+debug:			$(NAME_DBG)
+
+$(NAME_DBG):	$(OBJS) $(LIBNAME)
 				$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBNAME) $(LDFLAGS)
 				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 
