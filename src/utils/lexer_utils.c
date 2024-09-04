@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/04 20:54:21 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/04 20:58:51 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_token_type	enum_token_value(const char *value)
 	else if (*value == '-')
 		return (FLAG); // TODO: stronger FLAG checker
 	else if (ft_isalnum(*value))
-		return (LITERAL_STRING); // TODO: stronger LITERAL_STRING checker
+		return (IDENTIFIER); // TODO: stronger IDENTIFIER checker
 	send_error("syntax error near token: ", (char *)value, 1);
 	exit(1);
 }
