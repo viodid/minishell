@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/27 21:21:22 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/04 20:53:30 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define TRUE 1
 # define FALSE 0
 # define NULL ((void *)0)
+# define METACHARACTERS " \"\'|&;()<>$\t\n"
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -42,16 +43,13 @@ typedef enum e_tmp_pos
 
 typedef enum e_token_type
 {
-	COMMAND,
-	ARGUMENT,
-	FLAGS,
 	VARIABLE,
-	STRING,
-	DIGIT,
+	LITERAL_STRING,
+	SINGLE_QUOTE_STRING,
+	DOUBLE_QUOTE_STRING,
 	REDIRECTION,
-	FILE_NAME,
 	PIPE,
-	PARENTHESIS
+	FLAG
 }	t_token_type;
 
 typedef enum e_redir_type

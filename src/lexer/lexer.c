@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/03 21:40:01 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/04 20:46:42 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,28 @@ t_list	*lexer(void)
 	user_input = loop_readline('\\');
 	if (!*user_input)
 		return (EXIT_SUCCESS);
-	user_input = remove_odd_quotes(user_input);
+//	user_input = remove_odd_quotes(user_input);
 	token_list = tokenizer(user_input);
 	ft_lstiter(token_list, &print_token_list);
 	return (token_list);
 }
 
+static uint32_t	tokenizer_helper_bc_damn_norminette(const char *user_input, uint32_t i)
+{
+	if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
+		i = get_end_quote_idx(user_input, i);
+	if (ft_strchr("<>", user_input[i]) && user_input[i] != '\0')
+	{
+		if ((ft_strncmp(&user_input[i], ">>", 2) == 0) || (ft_strncmp(&user_input[i], "<<", 2) == 0))
+			i += 2;
+	}
+	if ((int)i == -1)
+		send_error("unclosed quotes", "", 1);
+	return (i);
+}
+
 static t_list	*tokenizer(const char *user_input)
 {
-	const char	*metacharacters = " \"\'|&;()<>\t\n";
 	char		*tmp_str;
 	t_list		*token_list;
 	uint32_t	offset;
@@ -44,12 +57,9 @@ static t_list	*tokenizer(const char *user_input)
 	offset = 0;
 	while (++i <= ft_strlen(user_input))
 	{
-		if (ft_strchr(metacharacters, user_input[i]))
+		if (ft_strchr(METACHARACTERS, user_input[i]))
 		{
-			if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
-				i = get_end_quote_idx(user_input, i);
-			if (!i)
-				exit(EXIT_FAILURE);
+			i = tokenizer_helper_bc_damn_norminette(user_input, i);
 			tmp_str = ft_substr(user_input, offset, i - offset);
 			insert_token(tmp_str, &token_list);
 			tmp_str = ft_substr(user_input, i, 1);
