@@ -105,11 +105,11 @@ typedef struct s_data
 
 /* core */
 
-int		minishell(t_data *core);
-t_var	*get_env(t_data *core, char *key);
-t_var	*split_var(char *var_brut);
-t_list	*set_env(char **envp);
-char	**get_env_array(t_data *core);
+int				minishell(t_data *core);
+t_var			*get_env(t_data *core, char *key);
+t_var			*split_var(char *var_brut);
+t_list			*set_env(char **envp);
+char			**get_env_array(t_data *core);
 
 /* lexer */
 
@@ -121,43 +121,43 @@ void			print_token_list(void	*content);
 
 /* exec */
 
-int		executor(t_data *core); //TODO
-int		redirect_input(t_list *redirs, int *stdinbak);
-int		isbuiltin(t_command *cmd, char *cmdpath); //TODO
+int				executor(t_data *core); //TODO
+int				redirect_input(t_list *redirs, int *stdinbak);
+int				isbuiltin(t_command *cmd, char *cmdpath); //TODO
 
-int		exec_builtin(t_data *core, char *cmdpath, char **args);
+int				exec_builtin(t_data *core, char *cmdpath, char **args);
 
 
 /* builtins */
 
-int		ft_pwd(t_data *core);
-int		ft_echo(char **args);
-int		ft_cd(t_data *core, char **args); //TODO senderror
-int		ft_env(t_data *core);
-int		ft_export(t_data *core, char **args);
-int		export_single(t_data *core, char *arg); // does it go here?
-int		ft_unset(t_data *core, char **args);
-int		unset_single(t_data *core, char *key); // does it go here?
-int		ft_exit(t_data *core, char **args); //TODO senderror
+int				ft_pwd(t_data *core);
+int				ft_echo(char **args);
+int				ft_cd(t_data *core, char **args); //TODO senderror
+int				ft_env(t_data *core);
+int				ft_export(t_data *core, char **args);
+int				export_single(t_data *core, char *arg); // does it go here?
+int				ft_unset(t_data *core, char **args);
+int				unset_single(t_data *core, char *key); // does it go here?
+int				ft_exit(t_data *core, char **args); //TODO senderror
 
 /* utils */
 
-void	free_struct(t_data *core);
-void	free_var(void *cont);
-void	free_cmd(void *cont);
+void			free_struct(t_data *core);
+void			free_var(void *cont);
+void			free_cmd(void *cont);
 
-int		temp_parser(t_data *core, char **cmds);
+int				temp_parser(t_data *core, char **cmds);
 
 /* errors */
-void	send_error(char *err_msg, char *detail_msg, int exit_status);
+void			send_error(char *err_msg, char *detail_msg, int exit_status);
 
 /* printers */
 
-void	print_var_env(void *cont);
-void	print_var_exp(void *cont);
-void	print_str(void *cont);
-void	print_command(void *cont);
-void	hola(char *str);
-void	print_execve(char *cmdpath, char **args, char **envp);
+void			print_var_env(void *cont);
+void			print_var_exp(void *cont);
+void			print_str(void *cont);
+void			print_command(void *cont);
+void			hola(char *str);
+void			print_execve(char *cmdpath, char **args, char **envp);
 
 #endif
