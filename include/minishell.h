@@ -20,6 +20,8 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <errno.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # define HDOC_TMP	"_tmphdoc"
 
@@ -93,6 +95,7 @@ typedef struct s_line
 	t_list	*cmds;
 	int		*fds;
 	int		*pids;
+	int		nbcommands;
 	int		stdinbak;
 }	t_line;
 

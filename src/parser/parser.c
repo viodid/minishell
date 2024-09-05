@@ -66,5 +66,10 @@ int	temp_parser(t_data *core, char **cmds)
 		ft_lstadd_back(&core->line.cmds, ft_lstnew(command));
 		i++;
 	}
+	if (i)
+		core->line.pids = ft_calloc(i, sizeof(int));
+	else
+		core->line.pids = NULL;
+	core->line.nbcommands = i;
 	return (EXIT_SUCCESS);
 }

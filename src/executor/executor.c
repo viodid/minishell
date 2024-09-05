@@ -80,17 +80,37 @@ int	run_single(t_data *core, t_command *command)
 	return (retcode);
 }
 
+int	process_single(t_data *core, t_command *command, int npid)
+{
+	int	pid;
+	int	retcode;
+
+	pid = core->line.pids[npid];
+	if (command->tokens
+		&& !isbuiltin(((t_token *)command->tokens->content)->value))
+	{
+		pid = fork(); //!start of child process
+		if (pid == 0) // child case
+			retcode = run_single(core, command);
+		else
+			return (EXIT_SUCCESS);
+	}
+	else
+		retcode = run_single(core, command);
+	return (retcode);
+}
+
 int	executor(t_data *core)
 {
-	int		errcode;
+	int		retcode;
 	t_list	*commands;
 
-	errcode = EXIT_SUCCESS;
+	retcode = EXIT_SUCCESS;
 	commands = core->line.cmds;
 	if (ft_lstsize(commands) == 1)
-		errcode = run_single(core, (t_command *)commands->content);
+		retcode = process_single(core, (t_command *)commands->content, 0);
 	//TODO make run_multiple function, it should take all structure and create pipes and all
 	// else
 	// 	pipex(commands);
-	return (errcode);
+	return (retcode);
 }
