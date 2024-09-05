@@ -6,14 +6,14 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/05 19:59:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/05 20:26:29 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static t_list	*tokenizer(const char *user_input);
-static char		*loop_readline(char metachar);
+static char		*loop_readline(void);
 static void		insert_token(char *value, t_list **token_list);
 static char		*remove_odd_quotes(char *user_input);
 
@@ -22,7 +22,7 @@ t_list	*lexer(void)
 	char	*user_input;
 	t_list	*token_list;
 
-	user_input = loop_readline('\\');
+	user_input = loop_readline();
 	if (!*user_input)
 		return (EXIT_SUCCESS);
 //	user_input = remove_odd_quotes(user_input);
@@ -36,7 +36,7 @@ static uint32_t	get_str_size(const char *user_input, uint32_t i)
 	if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
 		i = get_end_quote_idx(user_input, i);
 	if ((int)i == -1)
-		send_error("unclosed quotes", "", 1);
+		send_error("syntax error: ", "unclosed quotes", 1);
 	return (i);
 }
 
@@ -78,7 +78,7 @@ static t_list	*tokenizer(const char *user_input)
 	return (token_list);
 }
 
-static char	*remove_odd_quotes(char *user_input)
+	static char	*remove_odd_quotes(char *user_input)
 {
 	uint16_t	single_quotes;
 	uint16_t	double_quotes;
@@ -115,7 +115,7 @@ static void	insert_token(char *value, t_list **token_list)
 	ft_lstadd_back(token_list, ft_lstnew(token));
 }
 
-static char	*loop_readline(const char metachar)
+static char	*loop_readline(void)
 {
 	char		*tmp_str1;
 	char		*tmp_str2;
@@ -123,9 +123,9 @@ static char	*loop_readline(const char metachar)
 	tmp_str1 = NULL;
 	tmp_str2 = NULL;
 	tmp_str1 = readline("minishell >");
-	while (tmp_str1[ft_strlen(tmp_str1) - 1] == metachar)
+	while (tmp_str1[ft_strlen(tmp_str1) - 1] == '\\')
 	{
-		tmp_str2 = ft_strtrim(tmp_str1, " \t\n");
+		tmp_str2 = ft_strtrim(tmp_str1, "\\");
 		free(tmp_str1);
 		tmp_str1 = ft_strjoin_f12(tmp_str2, readline(">"));
 	}
