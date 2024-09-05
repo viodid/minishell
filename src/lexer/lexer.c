@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/05 20:26:29 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/05 20:46:08 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ t_list	*lexer(void)
 	return (token_list);
 }
 
-static uint32_t	get_str_size(const char *user_input, uint32_t i)
+static int32_t	get_str_size(const char *user_input, int32_t i)
 {
 	if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
 		i = get_end_quote_idx(user_input, i);
 	if ((int)i == -1)
-		send_error("syntax error: ", "unclosed quotes", 1);
+		send_error("syntax error: ", "unclosed quotes", -1);
 	return (i);
 }
 
@@ -55,13 +55,13 @@ static t_list	*tokenizer(const char *user_input)
 	char		*tmp_str;
 	t_list		*token_list;
 	uint32_t	offset;
-	uint32_t	i;
-	int			size_metachar;
+	int32_t		i;
+	uint8_t		size_metachar;
 
 	token_list = NULL;
 	i = -1;
 	offset = 0;
-	while (++i <= ft_strlen(user_input))
+	while (++i <= (int32_t)ft_strlen(user_input))
 	{
 		if (ft_strchr(METACHARACTERS, user_input[i]))
 		{

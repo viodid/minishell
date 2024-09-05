@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/04 20:58:51 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/05 20:42:57 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*handle_odd_quotes(char quote, uint16_t total_quotes, char *str)
 	return (output_str - (str_len - 1));
 }
 
-uint32_t	get_end_quote_idx(const char *str, uint32_t i)
+int32_t get_end_quote_idx(const char *str, int32_t i)
 {
 	char	quote_type;
 
@@ -70,7 +70,7 @@ t_token_type	enum_token_value(const char *value)
 	else if (ft_isalnum(*value))
 		return (IDENTIFIER); // TODO: stronger IDENTIFIER checker
 	send_error("syntax error near token: ", (char *)value, 1);
-	exit(1);
+	return (-1);
 }
 
 void	print_token_list(void	*content)

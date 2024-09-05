@@ -112,7 +112,7 @@ char	**get_env_array(t_data *core);
 
 t_list			*lexer(void);
 char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
-uint32_t		get_end_quote_idx(const char *str, uint32_t i);
+int32_t get_end_quote_idx(const char *str, int32_t i);
 t_token_type	enum_token_value(const char *value);
 void			print_token_list(void	*content);
 
@@ -146,7 +146,7 @@ void	free_cmd(void *cont);
 int		temp_parser(t_data *core, char **cmds);
 
 /* errors */
-void	send_error(char *err_msg, char *detail_msg, int exit_status);
+int send_error(char *err_msg, char *detail_msg, int exit_status);
 
 /* printers */
 
