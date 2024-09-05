@@ -14,7 +14,7 @@
 # define MINISHELL_H
 # define TRUE 1
 # define FALSE 0
-# define NULL ((void *)0)
+# define NULL ((void *)0) //TODO parece que esto no funca bien
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -123,8 +123,8 @@ void			print_token_list(void	*content);
 
 int				executor(t_data *core); //TODO
 int				redirect_input(t_list *redirs, int *stdinbak, int iscommand);
-int				isbuiltin(t_command *cmd, char *cmdpath); //TODO
-char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths);
+int				isbuiltin(char *cmdpath); //TODO
+char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths); //TODO
 int				hasinput(t_list *redirs);
 
 int				exec_builtin(t_data *core, char *cmdpath, char **args);

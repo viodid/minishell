@@ -43,7 +43,7 @@ int	exec_selector(t_data *core, t_command *command)
 	args = get_arg_array(command);
 	envp = get_env_array(core);
 	cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
-	if (isbuiltin(command, args[0]))
+	if (isbuiltin(args[0]))
 	{
 		free(cmdpath);
 		retcode = exec_builtin(core, args[0], args);

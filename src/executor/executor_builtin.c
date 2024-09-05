@@ -12,24 +12,16 @@
 
 #include "../../include/minishell.h"
 
-//TODO decide on a single method
-int	isbuiltin(t_command *cmd, char *cmdpath)
+int	isbuiltin(char *cmdpath)
 {
-	// char	*command = "";
-	(void)cmd;
-
-	// if (cmd->tokens)
-	// 	command = ((t_token *)cmd->tokens->content)->value;
-	// else
-	// 	return (FALSE);
 	return (
-		!ft_strncmp(cmdpath, "cd", 3)		//parent
+		!ft_strncmp(cmdpath, "cd", 3)			//parent
 		|| !ft_strncmp(cmdpath, "echo", 5)
-		|| !ft_strncmp(cmdpath, "env", 4)	//parent ????
-		|| !ft_strncmp(cmdpath, "exit", 5)	//parent
+		|| !ft_strncmp(cmdpath, "env", 4)		//parent ????
+		|| !ft_strncmp(cmdpath, "exit", 5)		//parent
 		|| !ft_strncmp(cmdpath, "export", 7)	//parent
 		|| !ft_strncmp(cmdpath, "pwd", 4)
-		|| !ft_strncmp(cmdpath, "unset", 6)	//parent
+		|| !ft_strncmp(cmdpath, "unset", 6)		//parent
 	);
 }
 
