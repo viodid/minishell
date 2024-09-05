@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   tmp_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -54,7 +54,7 @@ t_command	*parse_command(char *str)
 	return (ret);
 }
 
-int	temp_parser(t_data *core, char **cmds)
+int	tmp_parser(t_data *core, char **cmds)
 {
 	int			i;
 	t_command	*command;

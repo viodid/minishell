@@ -49,7 +49,7 @@ int	minishell(t_data *core)
 		return (fprintf(stderr, "!cmds"), EXIT_SUCCESS);
 	if (core->line.cmds)
 		ft_lstclear(&core->line.cmds, free_cmd);
-	temp_parser(core, cmds);
+	tmp_parser(core, cmds);
 
 	// retcode = tmp_exec(str, core);
 	retcode = executor(core);

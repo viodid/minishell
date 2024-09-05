@@ -150,7 +150,7 @@ void			free_struct(t_data *core);
 void			free_var(void *cont);
 void			free_cmd(void *cont);
 
-int				temp_parser(t_data *core, char **cmds);
+int				tmp_parser(t_data *core, char **cmds);
 
 /* errors */
 
