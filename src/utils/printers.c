@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:58:20 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/31 23:46:48 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/05 21:03:40 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,12 @@ void	hola(char *str)
 {
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
+}
+
+void	print_token_list(void	*content)
+{
+	t_token	*token;
+
+	token = (t_token *)content;
+	ft_printf("content: %s\ntype: %d\n\n", token->value, (int)token->type);
 }

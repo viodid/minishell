@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/05 20:42:57 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/06 19:46:13 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ t_token_type	enum_token_value(const char *value)
 		return (DOUBLE_QUOTE_STRING);
 	else if (*value == '$')
 		return (VARIABLE);
+	else if (*value == '~')
+		return (TILDE_EXPANSION);
 	else if (*value == '|')
 		return (PIPE);
 	else if (*value == '-')
@@ -73,10 +75,8 @@ t_token_type	enum_token_value(const char *value)
 	return (-1);
 }
 
-void	print_token_list(void	*content)
+void	*quit_lexer(t_list *token_list)
 {
-	t_token	*token;
 
-	token = (t_token *)content;
-	ft_printf("content: %s\ntype: %d\n\n", token->value, (int)token->type);
+	return (NULL);
 }
