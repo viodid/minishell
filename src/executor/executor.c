@@ -57,46 +57,49 @@ int	exec_selector(t_data *core, t_command *command)
 	return (ft_dfree((void **)envp), free(args), retcode);
 }
 
-int	run_single(t_data *core, t_command *command)
+int	run_single(t_data *core, t_command *command, t_fds fds)
 {
-	int	fdin;
-	int	retcode;
+	int		retcode;
 
 	retcode = EXIT_SUCCESS;
 	if (hasinput(command->redirs))
 	{
-		fdin = redirect_input((t_list *)command->redirs, &core->line.stdinbak,
-				(command->tokens && 1));
-		if (fdin == -1)
+		fds.fdin = redirect_input((t_list *)command->redirs, fds,
+				&core->line.stdinbak, (command->tokens && 1));
+		if (fds.fdin == -1)
 			return (perror("post redirect"), -1);
 	}
 	if (command->tokens)
 		retcode = exec_selector(core, command);
-	if (hasinput(command->redirs))
-	{
-		dup2(core->line.stdinbak, STDIN_FILENO);
-		unlink(HDOC_TMP);
-	}
+	if (hasinput(command->redirs) && fds.stdfdin == STDIN_FILENO)
+		dup2(core->line.stdinbak, fds.stdfdin);
+	if (hasoutput(command->redirs) && fds.stdfdout == STDOUT_FILENO)
+		dup2(core->line.stdoutbak, fds.stdfdin);
+	unlink(HDOC_TMP);
 	return (retcode);
 }
 
 int	process_single(t_data *core, t_command *command, int npid)
 {
-	int	pid;
-	int	retcode;
+	t_fds	fds;
+	int		pid;
+	int		retcode;
 
 	pid = core->line.pids[npid];
+	if (set_fds(&fds, core, npid))
+		return (errno);
 	if (command->tokens && (core->line.nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
+		printf("forking\n");
 		pid = fork(); //!start of child process
 		if (pid == 0) // child case
-			retcode = run_single(core, command);
+			retcode = run_single(core, command, fds);
 		else
 			return (EXIT_SUCCESS);
 	}
 	else
-		retcode = run_single(core, command);
+		retcode = run_single(core, command, fds);
 	return (retcode);
 }
 
@@ -112,6 +115,7 @@ int	executor(t_data *core)
 	if (ft_lstsize(commands) == 1)
 		retcode = process_single(core, (t_command *)commands->content, 0);
 	else
+	{	//TODO go handle pipes, start allocating pipes
 		while (commands)
 		{
 			retcode = process_single(core, (t_command *)commands->content, i);
@@ -119,9 +123,10 @@ int	executor(t_data *core)
 				return (retcode);
 			commands = commands->next;
 			i++;
+			while (1)
+				if (waitpid(-1, NULL, 0) < 0)
+					break ;
 		}
-	//TODO make run_multiple function, it should take all structure and create pipes and all
-	// else
-	// 	pipex(commands);
+	}
 	return (retcode);
 }

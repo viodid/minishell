@@ -29,7 +29,6 @@ int	main(int argc, char **argv, char **envp)
 		retcode = minishell(core);
 		while (1)
 		{
-			hola("hola");
 			i = waitpid(-1, NULL, 0);
 			if (i < 0)
 				break ;

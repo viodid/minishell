@@ -14,7 +14,7 @@
 # define MINISHELL_H
 # define TRUE 1
 # define FALSE 0
-# define NULL ((void *)0) //TODO parece que esto no funca bien
+# define NULL ((void *)0) //TODO parece que esta macro no funca bien
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -26,6 +26,13 @@
 # define HDOC_TMP	"_tmphdoc"
 
 /* ENUMS */
+typedef enum e_pipe_fds
+{
+	READ_FD,
+	WRITE_FD,
+	BOTH_FDS
+}	t_pipe_fds;
+
 typedef enum e_colors
 {
 	RESET,
@@ -65,6 +72,14 @@ typedef enum e_redir_type
 }	t_redir_type;
 
 /* STRUCTS */
+typedef struct s_fds
+{
+	int	stdfdin;
+	int	fdin;
+	int	stdfdout;
+	int	fdout;
+}	t_fds;
+
 typedef struct s_var
 {
 	char	*key;
@@ -97,6 +112,7 @@ typedef struct s_line
 	int		*pids;
 	int		nbcommands;
 	int		stdinbak;
+	int		stdoutbak;
 }	t_line;
 
 typedef struct s_data
@@ -125,10 +141,13 @@ void			print_token_list(void	*content);
 /* exec */
 
 int				executor(t_data *core); //TODO
-int				redirect_input(t_list *redirs, int *stdinbak, int iscommand);
+int				redirect_input(t_list *redirs, t_fds fds, int *stdinbak, int iscommand);
 int				isbuiltin(char *cmdpath); //TODO
 char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths); //TODO
 int				hasinput(t_list *redirs);
+int				hasoutput(t_list *redirs);
+int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
+int				close_fds(t_data *core, t_pipe_fds fds);
 
 int				exec_builtin(t_data *core, char *cmdpath, char **args);
 

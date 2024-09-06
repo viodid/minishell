@@ -54,4 +54,5 @@ void	free_struct(t_data *core)
 	ft_lstclear(&core->env, free_var);
 	ft_lstclear(&core->line.cmds, free_cmd);
 	free(core->line.pids);
+	free(core->line.fds);
 }

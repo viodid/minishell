@@ -88,16 +88,17 @@ int	get_input(t_list *redirs, int iscommand)
 	return (fd);
 }
 
-int	redirect_input(t_list *redirs, int *stdinbak, int iscommand)
+int	redirect_input(t_list *redirs, t_fds fds, int *stdinbak, int iscommand)
 {
 	int		fdin;
+	(void)fds;
 
 	fdin = get_input(redirs, iscommand);
 	if (fdin == -1 || !fdin)
 		return (fdin);
-	*stdinbak = dup(STDIN_FILENO); // this saves STDIN before redirection
+	*stdinbak = dup(fds.stdfdin); // this saves STDIN before redirection
 	printf("fdin:%i bak:%i\n", fdin, *stdinbak);
-	if (*stdinbak == -1 || dup2(fdin, STDIN_FILENO) == -1)
+	if (*stdinbak == -1 || dup2(fdin, fds.stdfdin) == -1)
 	{
 		perror("stdin backup");
 		return (-1);

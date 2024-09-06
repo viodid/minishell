@@ -71,5 +71,6 @@ int	tmp_parser(t_data *core, char **cmds)
 	else
 		core->line.pids = NULL;
 	core->line.nbcommands = i;
+	core->line.fds = ft_calloc(2, sizeof(int));
 	return (EXIT_SUCCESS);
 }
