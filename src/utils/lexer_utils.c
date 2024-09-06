@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/06 19:46:13 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/06 20:35:27 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_token_type	enum_token_value(const char *value)
 	else if (ft_isalnum(*value))
 		return (IDENTIFIER); // TODO: stronger IDENTIFIER checker
 	send_error("syntax error near token: ", (char *)value, 1);
+	errno = 42;
 	return (-1);
 }
 

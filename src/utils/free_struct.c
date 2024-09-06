@@ -6,19 +6,19 @@
 /*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:12:21 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/06/21 17:12:21 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/06 20:54:56 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+// Note: lstclear already frees the node, free token should only free the content
 void	free_token(void *cont)
 {
 	t_token	*token;
 
 	token = (t_token *)cont;
 	free(token->value);
-	free(token);
 }
 
 void	free_redir(void *cont)
@@ -52,5 +52,10 @@ void	free_var(void *cont)
 void	free_struct(t_data *core)
 {
 	ft_lstclear(&core->env, free_var);
-	ft_lstclear(&core->line.cmds, free_cmd);
+	ft_lstclear(&core->line.cmds, &free_cmd);
+}
+
+void	free_list(t_list **lst, void (*del)(void *))
+{
+	ft_lstclear(lst, del);
 }

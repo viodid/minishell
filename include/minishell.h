@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/06 20:01:42 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/06 21:07:03 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ typedef enum e_token_type
 	TILDE_EXPANSION,
 	REDIRECTION,
 	PIPE,
-	FLAG
+	FLAG,
+	COMMAND // NOTE: tmp enum for tmp parser
 }	t_token_type;
 
 typedef enum e_redir_type
@@ -143,6 +144,8 @@ int		ft_exit(t_data *core, char **args); //TODO
 void	free_struct(t_data *core);
 void	free_var(void *cont);
 void	free_cmd(void *cont);
+void	free_token(void *cont);
+void	free_list(t_list **lst, void (*del)(void *));
 
 int		temp_parser(t_data *core, char **cmds);
 
