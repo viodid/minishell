@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/06 19:45:56 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/06 20:01:42 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define TRUE 1
 # define FALSE 0
 # define NULL ((void *)0)
-# define METACHARACTERS " \"\'|&;()<>$\t\n"
+# define METACHARACTERS " \"\'|&;()<>\t\n"
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -43,8 +43,8 @@ typedef enum e_tmp_pos
 
 typedef enum e_token_type
 {
-	VARIABLE,
 	IDENTIFIER, // https://en.wikipedia.org/wiki/Identifier_(computer_languages)
+	VARIABLE,
 	SINGLE_QUOTE_STRING,
 	DOUBLE_QUOTE_STRING,
 	TILDE_EXPANSION,
