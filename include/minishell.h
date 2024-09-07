@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/07 17:16:03 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 19:08:56 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,32 +53,6 @@ typedef enum e_token_type
 	FLAG,
 	COMMAND // NOTE: tmp enum for tmp parser
 }	t_token_type;
-
-typedef enum e_non_terminals
-{
-	FULL_CMD,
-	CMD,
-	CMD_NAME,
-	OPTIONS,
-	REDIR,
-	WORD
-}	t_non_ter;
-
-/* UNIONS */
-
-typedef union u_production_rules
-{
-	t_list	*AST_nodes;
-	t_list	*terminals;
-}	t_pr_rule;
-
-/* STRUCTS */
-
-typedef struct s_AST
-{
-	t_non_ter	non_terminal;
-	t_pr_rule	*pr_rules;
-}	t_AST;
 
 typedef struct s_var
 {
@@ -134,20 +108,21 @@ t_list			*lexer(void);
 char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
 int32_t			get_end_quote_idx(const char *str, int32_t i);
 t_token_type	enum_token_value(const char *value);
-void			print_token_list(void	*content);
 int				get_size_metachar(const char *user_input, uint32_t i);
 int32_t			get_str_size(const char *user_input, int32_t i);
 
 /* parser */
 t_line	parser(void);
-void	create_AST_insert_list(t_list **token_list, t_token *look_ahead, t_list **AST_list, t_pr_rule* (*f)(t_list **, t_token *));
+t_list	*RDP(t_list *token_list);
+t_redir	*create_redir(t_token *token);
+t_token	*get_next_token(t_list *token_list, t_token *look_ahead);
+//void	create_AST_insert_list(t_list **token_list, t_token *look_ahead, t_list **AST_list, t_pr_rule* (*f)(t_list **, t_token *));
 
 /* exec */
 
 int		executor(t_data *core);
 int		redirect_input(t_list *redirs, int *stdinbak);
 int		isbuiltin(t_command *cmd, char *cmdpath); //TODO
-
 int		exec_builtin(t_data *core, char *cmdpath, char **args);
 
 
@@ -181,6 +156,7 @@ void	print_var_env(void *cont);
 void	print_var_exp(void *cont);
 void	print_str(void *cont);
 void	print_command(void *cont);
+void	print_tokens(void *cont);
 void	hola(char *str);
 void	print_execve(char *cmdpath, char **args, char **envp);
 

@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/07 16:52:27 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 19:02:42 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_list	*lexer(void)
 	if (!*user_input)
 		return (EXIT_SUCCESS);
 	token_list = tokenizer(user_input);
-	ft_lstiter(token_list, &print_token_list);
+	ft_lstiter(token_list, &print_tokens);
 	free(user_input);
 	if (errno)
 		ft_lstclear(&token_list, &free_token);
