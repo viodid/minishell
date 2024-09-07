@@ -30,3 +30,20 @@ int	hasoutput(t_list *redirs)
 	return (FALSE);
 }
 
+// int	redirect_output(t_list *redirs, t_fds fds, int *stdoutbak, int iscommand)
+// {
+// 	int		fdout;
+// 	(void)fds;
+
+// 	fdout = get_input(redirs, iscommand);
+// 	if (fdout == -1 || !fdout)
+// 		return (fdout);
+// 	*stdoutbak = dup(fds.stdfdin); // this saves STDIN before redirection
+// 	printf("fdout:%i bak:%i\n", fdout, *stdoutbak);
+// 	if (*stdoutbak == -1 || dup2(fdout, fds.stdfdin) == -1)
+// 	{
+// 		perror("stdout backup");
+// 		return (-1);
+// 	}
+// 	return (fdout);
+// }

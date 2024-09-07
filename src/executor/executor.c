@@ -69,6 +69,13 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 		if (fds.fdin == -1)
 			return (perror("post redirect"), -1);
 	}
+	// if (hasoutput(command->redirs))
+	// {
+	// 	fds.fdout = redirect_output((t_list *)command->redirs, fds,
+	// 			&core->line.stdoutbak, (command->tokens && 1));
+	// 	if (fds.fdout == -1)
+	// 		return (perror("post redirect"), -1);
+	// }
 	if (command->tokens)
 		retcode = exec_selector(core, command);
 	if (hasinput(command->redirs) && fds.stdfdin == STDIN_FILENO)
