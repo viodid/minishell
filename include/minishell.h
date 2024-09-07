@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/07 14:57:14 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 16:01:08 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef enum e_non_terminals
 	OPTIONS,
 	REDIR,
 	WORD
-}	t_non_terminals;
+}	t_non_ter;
 
 /* UNIONS */
 
@@ -70,14 +70,14 @@ typedef union u_production_rules
 {
 	t_list	*AST_nodes;
 	t_list	*terminals;
-}	t_production_rules;
+}	t_pr_rule;
 
 /* STRUCTS */
 
 typedef struct s_AST
 {
-	t_non_terminals		non_terminal;
-	t_production_rules	*production_rules;
+	t_non_ter	non_terminal;
+	t_pr_rule	*pr_rules;
 }	t_AST;
 
 typedef struct s_var
@@ -137,6 +137,9 @@ t_token_type	enum_token_value(const char *value);
 void			print_token_list(void	*content);
 int				get_size_metachar(const char *user_input, uint32_t i);
 int32_t			get_str_size(const char *user_input, int32_t i);
+
+/* parser */
+void	create_AST_insert_list(t_list **token_list, t_token *look_ahead, t_list **AST_list, t_pr_rule* (*f)(t_list **, t_token *));
 
 /* exec */
 
