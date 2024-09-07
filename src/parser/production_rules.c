@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/07 18:57:29 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 20:36:06 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,50 @@ static int	is_word(t_token *look_ahead)
 	return (FALSE);
 }
 
-static t_list	*redirection(t_list *token_list, t_token *look_ahead)
+static t_command	*redirection(t_list *token_list, t_token **look_ahead)
 {
-	t_list	*cmds;
-	t_redir	*redir;
+	t_command	*cmd;
+	t_redir		*redir;
+	t_list		*redir_list;
 
-	cmds = NULL;
-	if (look_ahead->type != REDIRECTION)
+	redir_list = NULL;
+	if (*look_ahead == NULL || (*look_ahead)->type != REDIRECTION)
 		return (NULL);
-	redir = create_redir(look_ahead);
-	look_ahead = get_next_token(token_list, look_ahead);
-	if (!is_word(look_ahead))
+	redir = initialize_redir(*look_ahead);
+	get_next_token(token_list, look_ahead);
+	if (*look_ahead == NULL || !is_word(*look_ahead))
 		return (NULL);
-	redir->file = look_ahead->value;
-	ft_lstadd_back(&cmds, ft_lstnew(redir));
-	return (cmds);
+	redir->file = ft_strdup((*look_ahead)->value);
+	cmd = initialize_cmd();
+	ft_lstadd_back(&redir_list, ft_lstnew(redir));
+	cmd->redirs = redir_list;
+	get_next_token(token_list, look_ahead);
+	return (cmd);
 }
 
-static t_list	*command(t_list *token_list, t_token *look_ahead)
+static t_command	*command(t_list *token_list, t_token **look_ahead)
 {
-	t_list	*cmds;
+	t_command	*cmd;
 
-	cmds = redirection(token_list, look_ahead);
+	cmd = redirection(token_list, look_ahead);
 	if (errno)
 		return (NULL);
-	return (cmds);
+	return (cmd);
 }
 
-
-static t_list	*full_command(t_list *token_list, t_token	*look_ahead)
+static t_list	*full_command(t_list *token_list, t_token	**look_ahead)
 {
-	t_list	*cmds;
+	t_list	*cmd_list;
+	t_command	*cmd;
 
-	cmds = command(token_list, look_ahead);
-	return (cmds);
+	cmd_list = NULL;
+	cmd = command(token_list, look_ahead);
+	while (cmd)
+	{
+		ft_lstadd_back(&cmd_list, ft_lstnew(cmd));
+		cmd = command(token_list, look_ahead);
+	}
+	return (cmd_list);
 }
 
 t_list	*RDP(t_list *token_list)
@@ -68,6 +78,6 @@ t_list	*RDP(t_list *token_list)
 	t_token	*look_ahead;
 
 	look_ahead = (t_token *)token_list->content;
-	cmds = full_command(token_list, look_ahead);
+	cmds = full_command(token_list, &look_ahead);
 	return (cmds);
 }

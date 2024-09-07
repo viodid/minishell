@@ -6,56 +6,56 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:12 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/07 19:08:22 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 20:36:25 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-//void	create_AST_insert_list(t_list **token_list, t_token *look_ahead, t_list **AST_list, t_pr_rule* (*f)(t_list **, t_token *))
-//{
-//	t_AST	*AST;
-//
-//	AST = (t_AST *)malloc(sizeof(t_AST));
-//	if (!AST)
-//		exit(EXIT_FAILURE);
-//	AST->non_terminal = CMD;
-//	AST->pr_rules = f(token_list, look_ahead);
-//	if (!(AST->pr_rules))
-//	{
-//		free(AST);
-//		return ;
-//	}
-//	ft_lstadd_back(AST_list, ft_lstnew(AST));
-//}
-
-t_token	*get_next_token(t_list *token_list, t_token *look_ahead)
+void get_next_token(t_list *token_list, t_token **look_ahead)
 {
 	while (token_list->next)
 	{
-		if (token_list->content == look_ahead)
-			return (token_list->content);
+		if (token_list->content == *look_ahead)
+		{
+			*look_ahead = token_list->next->content;
+			return ;
+		}
+		token_list = token_list->next;
 	}
-	return (NULL);
+	*look_ahead = NULL;
 }
 
-t_redir	*create_redir(t_token *token)
+t_redir	*initialize_redir(t_token *token)
 {
 	t_redir	*redir;
 
 	redir = (t_redir *) malloc(sizeof(t_redir));
 	if (!redir)
 		exit(EXIT_FAILURE);
-	if (ft_strncmp(token->value, "<", 2))
+	if (ft_strncmp(token->value, "<", 2) == 0)
 		redir->type = INPUT;
-	else if (ft_strncmp(token->value, ">", 2))
+	else if (ft_strncmp(token->value, ">", 2) == 0)
 		redir->type = OUTPUT;
-	else if (ft_strncmp(token->value, ">>", 3))
+	else if (ft_strncmp(token->value, ">>", 3) == 0)
 		redir->type = APPEND;
-	else if (ft_strncmp(token->value, "<<", 3))
+	else if (ft_strncmp(token->value, "<<", 3) == 0)
 		redir->type = HEREDOC;
 	else
 		exit(EXIT_FAILURE);
 	redir->file = NULL;
 	return (redir);
+}
+
+t_command	*initialize_cmd(void)
+{
+	t_command	*cmd;
+
+	cmd = (t_command *) malloc(sizeof(t_command));
+	if (!cmd)
+		exit(EXIT_FAILURE);
+	cmd->tokens = NULL;
+	cmd->builtin = -1;
+	cmd->redirs = NULL;
+	return (cmd);
 }

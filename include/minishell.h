@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/07 19:08:56 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 20:05:27 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,9 @@ int32_t			get_str_size(const char *user_input, int32_t i);
 /* parser */
 t_line	parser(void);
 t_list	*RDP(t_list *token_list);
-t_redir	*create_redir(t_token *token);
-t_token	*get_next_token(t_list *token_list, t_token *look_ahead);
-//void	create_AST_insert_list(t_list **token_list, t_token *look_ahead, t_list **AST_list, t_pr_rule* (*f)(t_list **, t_token *));
+t_redir	*initialize_redir(t_token *token);
+t_command	*initialize_cmd(void);
+void get_next_token(t_list *token_list, t_token **look_ahead);
 
 /* exec */
 
