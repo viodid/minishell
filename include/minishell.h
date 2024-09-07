@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/07 16:01:08 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 17:16:03 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int				get_size_metachar(const char *user_input, uint32_t i);
 int32_t			get_str_size(const char *user_input, int32_t i);
 
 /* parser */
+t_line	parser(void);
 void	create_AST_insert_list(t_list **token_list, t_token *look_ahead, t_list **AST_list, t_pr_rule* (*f)(t_list **, t_token *));
 
 /* exec */
