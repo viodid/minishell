@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/06 20:35:27 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 12:17:58 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,28 @@ t_token_type	enum_token_value(const char *value)
 	return (-1);
 }
 
-void	*quit_lexer(t_list *token_list)
+int32_t	get_str_size(const char *user_input, int32_t i)
 {
+	int32_t	idx;
 
-	return (NULL);
+	idx = i;
+	if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
+		idx = get_end_quote_idx(user_input, i);
+	if ((int)idx == -1)
+	{
+		send_error("syntax error: ", "unclosed quotes", -1);
+		errno = ENOMSG;
+		return (i);
+	}
+	return (idx);
+}
+
+int	get_size_metachar(const char *user_input, uint32_t i)
+{
+	if (ft_strchr("<>", user_input[i]) && user_input[i] != '\0')
+	{
+		if ((ft_strncmp(&user_input[i], ">>", 2) == 0) || (ft_strncmp(&user_input[i], "<<", 2) == 0))
+			return (2);
+	}
+	return (1);
 }

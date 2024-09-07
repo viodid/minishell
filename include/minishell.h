@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/06 21:07:03 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 12:18:22 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,11 @@ char	**get_env_array(t_data *core);
 
 t_list			*lexer(void);
 char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
-int32_t get_end_quote_idx(const char *str, int32_t i);
+int32_t			get_end_quote_idx(const char *str, int32_t i);
 t_token_type	enum_token_value(const char *value);
 void			print_token_list(void	*content);
+int				get_size_metachar(const char *user_input, uint32_t i);
+int32_t			get_str_size(const char *user_input, int32_t i);
 
 /* exec */
 
@@ -145,7 +147,6 @@ void	free_struct(t_data *core);
 void	free_var(void *cont);
 void	free_cmd(void *cont);
 void	free_token(void *cont);
-void	free_list(t_list **lst, void (*del)(void *));
 
 int		temp_parser(t_data *core, char **cmds);
 
