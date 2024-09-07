@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/07 23:32:29 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 00:11:20 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,33 +85,13 @@ static t_command	*command(t_list *token_list, t_token **look_ahead)
 
 	cmd = initialize_cmd();
 	redirection(token_list, look_ahead, cmd);
-	if (errno)
-	{
-		free(cmd);
-		return (NULL);
-	}
 	command_name(token_list, look_ahead, cmd);
-	if (errno || cmd->tokens == NULL)
-	{
-		free(cmd);
-		return (NULL);
-	}
 	redirection(token_list, look_ahead, cmd);
-	if (errno)
-	{
-		free(cmd);
-		return (NULL);
-	}
 	options(token_list, look_ahead, cmd);
-	if (errno)
-	{
-		free(cmd);
-		return (NULL);
-	}
 	redirection(token_list, look_ahead, cmd);
 	if (errno)
 	{
-		free(cmd);
+		free_cmd(cmd);
 		return (NULL);
 	}
 	return (cmd);

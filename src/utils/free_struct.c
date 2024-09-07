@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:12:21 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/07 11:35:33 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 00:16:01 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ void	free_cmd(void *cont)
 	t_command	*command;
 
 	command = (t_command *)cont;
-	ft_lstclear(&command->redirs, free_redir);
-	ft_lstclear(&command->tokens, free_token);
+	if (command->redirs)
+		ft_lstclear(&command->redirs, free_redir);
+	if (command->tokens)
+		ft_lstclear(&command->tokens, free_token);
 }
 
 void	free_var(void *cont)
@@ -46,11 +48,10 @@ void	free_var(void *cont)
 	var = (t_var *)cont;
 	free(var->key);
 	free(var->value);
-	free(var);
 }
 
 void	free_struct(t_data *core)
 {
 	ft_lstclear(&core->env, free_var);
-	ft_lstclear(&core->line.cmds, &free_cmd);
+	ft_lstclear(&core->line->cmds, &free_cmd);
 }
