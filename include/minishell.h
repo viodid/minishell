@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/07 12:18:22 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 14:57:14 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@
 # define HDOC_TMP	"_tmphdoc"
 
 /* ENUMS */
-typedef enum e_colors
-{
-	RESET,
-	RED,
-	GREEN,
-	YELLOW,
-	BLUE
-}	t_colors;
 
 typedef enum e_tmp_pos
 {
@@ -40,6 +32,14 @@ typedef enum e_tmp_pos
 	ICMD,
 	IOUTREDIR,
 }	t_tmp_pos;
+
+typedef enum e_redir_type
+{
+	HEREDOC,
+	INPUT,
+	OUTPUT,
+	APPEND,
+}	t_redir_type;
 
 typedef enum e_token_type
 {
@@ -54,13 +54,31 @@ typedef enum e_token_type
 	COMMAND // NOTE: tmp enum for tmp parser
 }	t_token_type;
 
-typedef enum e_redir_type
+typedef enum e_non_terminals
 {
-	HEREDOC,
-	INPUT,
-	OUTPUT,
-	APPEND,
-}	t_redir_type;
+	FULL_CMD,
+	CMD,
+	CMD_NAME,
+	OPTIONS,
+	REDIR,
+	WORD
+}	t_non_terminals;
+
+/* UNIONS */
+
+typedef union u_production_rules
+{
+	t_list	*AST_nodes;
+	t_list	*terminals;
+}	t_production_rules;
+
+/* STRUCTS */
+
+typedef struct s_AST
+{
+	t_non_terminals		non_terminal;
+	t_production_rules	*production_rules;
+}	t_AST;
 
 typedef struct s_var
 {
