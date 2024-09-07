@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/07 20:36:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 21:40:23 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,36 @@ static int	is_word(t_token *look_ahead)
 	return (FALSE);
 }
 
-static t_command	*redirection(t_list *token_list, t_token **look_ahead)
+static void	redirection(t_list *token_list, t_token **look_ahead, t_command *cmd)
 {
-	t_command	*cmd;
 	t_redir		*redir;
 	t_list		*redir_list;
 
 	redir_list = NULL;
-	if (*look_ahead == NULL || (*look_ahead)->type != REDIRECTION)
-		return (NULL);
-	redir = initialize_redir(*look_ahead);
-	get_next_token(token_list, look_ahead);
-	if (*look_ahead == NULL || !is_word(*look_ahead))
-		return (NULL);
-	redir->file = ft_strdup((*look_ahead)->value);
-	cmd = initialize_cmd();
-	ft_lstadd_back(&redir_list, ft_lstnew(redir));
-	cmd->redirs = redir_list;
-	get_next_token(token_list, look_ahead);
-	return (cmd);
+	while (*look_ahead && (*look_ahead)->type == REDIRECTION)
+	{
+		redir = initialize_redir(*look_ahead);
+		get_next_token(token_list, look_ahead);
+		if (*look_ahead == NULL || !is_word(*look_ahead))
+			return ;
+		redir->file = ft_strdup((*look_ahead)->value);
+		ft_lstadd_back(&redir_list, ft_lstnew(redir));
+		cmd->redirs = redir_list;
+		get_next_token(token_list, look_ahead);
+	}
 }
 
 static t_command	*command(t_list *token_list, t_token **look_ahead)
 {
 	t_command	*cmd;
 
-	cmd = redirection(token_list, look_ahead);
-	if (errno)
+	cmd = initialize_cmd();
+	redirection(token_list, look_ahead, cmd);
+	if (errno | (cmd->redirs == NULL && cmd->tokens == NULL))
+	{
+		free(cmd);
 		return (NULL);
+	}
 	return (cmd);
 }
 
