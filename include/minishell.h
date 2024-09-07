@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/07 20:05:27 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 23:42:54 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ typedef enum e_token_type
 	TILDE_EXPANSION,
 	REDIRECTION,
 	PIPE,
-	FLAG,
-	COMMAND // NOTE: tmp enum for tmp parser
+	FLAG
 }	t_token_type;
 
 typedef struct s_var
@@ -90,7 +89,7 @@ typedef struct s_line
 typedef struct s_data
 {
 	t_list	*env;
-	t_line	line;
+	t_line	*line; // Why static
 	int		errcode;
 }	t_data;
 
@@ -112,11 +111,12 @@ int				get_size_metachar(const char *user_input, uint32_t i);
 int32_t			get_str_size(const char *user_input, int32_t i);
 
 /* parser */
-t_line	parser(void);
-t_list	*RDP(t_list *token_list);
-t_redir	*initialize_redir(t_token *token);
+t_line		*parser(void);
+t_list		*RDP(t_list *token_list);
+t_redir		*initialize_redir(t_token *token);
 t_command	*initialize_cmd(void);
-void get_next_token(t_list *token_list, t_token **look_ahead);
+t_token		*initialize_identifier(void);
+void		get_next_token(t_list *token_list, t_token **look_ahead);
 
 /* exec */
 

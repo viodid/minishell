@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/07 21:40:23 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 23:32:29 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,41 @@ static int	is_word(t_token *look_ahead)
 	if (type == IDENTIFIER || type == VARIABLE || type == TILDE_EXPANSION
 		|| type == SINGLE_QUOTE_STRING || type == DOUBLE_QUOTE_STRING)
 		return (TRUE);
-	send_error("syntax error near token: ", look_ahead->value, 1);
-	errno = 42;
 	return (FALSE);
+}
+
+static void	options(t_list *token_list, t_token **look_ahead, t_command *cmd)
+{
+	t_token	*id;
+
+	while (*look_ahead && (is_word(*look_ahead) || (*look_ahead)->type == FLAG))
+	{
+		id = initialize_identifier();
+		id->type = (*look_ahead)->type;
+		id->value = ft_strdup((*look_ahead)->value);
+		get_next_token(token_list, look_ahead);
+		ft_lstadd_back(&cmd->tokens, ft_lstnew(id));
+	}
+}
+
+static void	command_name(t_list *token_list, t_token **look_ahead, t_command *cmd)
+{
+	t_token	*id;
+	t_list	*id_list;
+
+	id_list = NULL;
+	if (*look_ahead == NULL || !is_word(*look_ahead))
+	{
+		send_error("syntax error near token: ", (*look_ahead)->value, 1);
+		errno = 42;
+		return ;
+	}
+	id = initialize_identifier();
+	id->type = (*look_ahead)->type;
+	id->value = ft_strdup((*look_ahead)->value);
+	get_next_token(token_list, look_ahead);
+	ft_lstadd_back(&id_list, ft_lstnew(id));
+	cmd->tokens = id_list;
 }
 
 static void	redirection(t_list *token_list, t_token **look_ahead, t_command *cmd)
@@ -31,16 +63,18 @@ static void	redirection(t_list *token_list, t_token **look_ahead, t_command *cmd
 	t_redir		*redir;
 	t_list		*redir_list;
 
-	redir_list = NULL;
 	while (*look_ahead && (*look_ahead)->type == REDIRECTION)
 	{
 		redir = initialize_redir(*look_ahead);
 		get_next_token(token_list, look_ahead);
 		if (*look_ahead == NULL || !is_word(*look_ahead))
+		{
+			send_error("syntax error near token: ", (*look_ahead)->value, 1);
+			errno = 42;
 			return ;
+		}
 		redir->file = ft_strdup((*look_ahead)->value);
-		ft_lstadd_back(&redir_list, ft_lstnew(redir));
-		cmd->redirs = redir_list;
+		ft_lstadd_back(&cmd->redirs, ft_lstnew(redir));
 		get_next_token(token_list, look_ahead);
 	}
 }
@@ -51,7 +85,31 @@ static t_command	*command(t_list *token_list, t_token **look_ahead)
 
 	cmd = initialize_cmd();
 	redirection(token_list, look_ahead, cmd);
-	if (errno | (cmd->redirs == NULL && cmd->tokens == NULL))
+	if (errno)
+	{
+		free(cmd);
+		return (NULL);
+	}
+	command_name(token_list, look_ahead, cmd);
+	if (errno || cmd->tokens == NULL)
+	{
+		free(cmd);
+		return (NULL);
+	}
+	redirection(token_list, look_ahead, cmd);
+	if (errno)
+	{
+		free(cmd);
+		return (NULL);
+	}
+	options(token_list, look_ahead, cmd);
+	if (errno)
+	{
+		free(cmd);
+		return (NULL);
+	}
+	redirection(token_list, look_ahead, cmd);
+	if (errno)
 	{
 		free(cmd);
 		return (NULL);
@@ -69,7 +127,13 @@ static t_list	*full_command(t_list *token_list, t_token	**look_ahead)
 	while (cmd)
 	{
 		ft_lstadd_back(&cmd_list, ft_lstnew(cmd));
-		cmd = command(token_list, look_ahead);
+		if (*look_ahead && (*look_ahead)->type == PIPE)
+		{
+			get_next_token(token_list, look_ahead);
+			cmd = command(token_list, look_ahead);
+		}
+		else
+			cmd = NULL;
 	}
 	return (cmd_list);
 }

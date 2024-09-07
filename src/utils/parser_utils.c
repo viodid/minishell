@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:12 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/07 20:36:25 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/07 22:12:33 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,16 @@ t_redir	*initialize_redir(t_token *token)
 		exit(EXIT_FAILURE);
 	redir->file = NULL;
 	return (redir);
+}
+
+t_token	*initialize_identifier(void)
+{
+	t_token	*token;
+
+	token = (t_token *)malloc(sizeof(t_token));
+	token->value = NULL;
+	token->type = -1;
+	return (token);
 }
 
 t_command	*initialize_cmd(void)
