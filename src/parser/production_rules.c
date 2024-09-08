@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/08 18:52:09 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 20:34:24 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ static int	is_word(t_token *look_ahead)
 	t_token_type	type;
 
 	type = look_ahead->type;
-	if (type == IDENTIFIER || type == VARIABLE || type == TILDE_EXPANSION
-		|| type == SINGLE_QUOTE_STRING || type == DOUBLE_QUOTE_STRING)
+	if (type == IDENTIFIER || type == VARIABLE || type == SINGLE_QUOTE_STRING || type == DOUBLE_QUOTE_STRING)
 		return (TRUE);
 	return (FALSE);
 }
@@ -27,7 +26,7 @@ static void	options(t_list *token_list, t_token **look_ahead, t_command *cmd)
 {
 	t_token	*id;
 
-	while (*look_ahead && (is_word(*look_ahead) || (*look_ahead)->type == FLAG))
+	while (*look_ahead && (is_word(*look_ahead) || (*look_ahead)->type == FLAG || (*look_ahead)->type == TILDE_EXPANSION))
 	{
 		id = initialize_identifier();
 		id->type = (*look_ahead)->type;

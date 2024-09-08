@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/08 18:12:26 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 21:08:36 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_redir
 {
 	char			*file;
 	t_redir_type	type;
+	t_token_type	token_type;
 }	t_redir;
 
 typedef struct s_command
@@ -117,6 +118,7 @@ t_redir		*initialize_redir(t_token *token);
 t_command	*initialize_cmd(void);
 t_token		*initialize_identifier(void);
 void		get_next_token(t_list *token_list, t_token **look_ahead);
+void		execute_expansions(t_data *core);
 
 /* exec */
 

@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:12 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/07 22:12:33 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 20:36:12 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_redir	*initialize_redir(t_token *token)
 	else
 		exit(EXIT_FAILURE);
 	redir->file = NULL;
+	redir->token_type = token->type;
 	return (redir);
 }
 

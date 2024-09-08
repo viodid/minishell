@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:12:21 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/08 00:16:01 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 19:08:51 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ void	free_token(void *cont)
 	t_token	*token;
 
 	token = (t_token *)cont;
-	free(token->value);
+	if (token->value)
+	{
+		free(token->value);
+		token->value = NULL;
+	}
 	free(cont);
 }
 
@@ -26,7 +30,11 @@ void	free_redir(void *cont)
 	t_redir	*redir;
 
 	redir = (t_redir *)cont;
-	free(redir->file);
+	if (redir->file)
+	{
+		free(redir->file);
+		redir->file = NULL;
+	}
 	free(redir);
 }
 
