@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:03 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/07 23:45:36 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 18:12:14 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ static t_line	*initialize_line(void)
 	return (line);
 }
 
-t_line	*parser(void)
+void *parser(t_data *core)
 {
 	t_line	*line;
 	t_list	*token_list;
 
-	line = initialize_line();
 	token_list = lexer();
-	if (errno)
+	if (errno || !token_list)
 		return (NULL);
+	line = initialize_line();
 	line->cmds = descent_parser(token_list);
 	ft_lstiter(line->cmds, &print_command);
 	return (line);

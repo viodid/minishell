@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/07 21:10:13 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 18:45:01 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	minishell(t_data *core)
 //	str = readline("minishell $>");
 //	cmds = ft_split(str, '|');
 	errno = 0;
-	core->line = parser();
+	parser(core);
+//	ft_lstiter(core->env, &print_var_env);
 	if (errno)
 		return (EXIT_SUCCESS);
 //	if (core->line.cmds)

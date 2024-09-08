@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:29:17 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/07 11:22:43 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 18:08:21 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 
 	core = ft_calloc(1, sizeof(t_data));
 	core->env = set_env(envp);
-	core->line.cmds = NULL;
+	core->errcode = 0;
 	while (1)
 	{
 		i = minishell(core);

@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/08 00:23:51 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 18:52:09 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,16 @@ static void	options(t_list *token_list, t_token **look_ahead, t_command *cmd)
 static void	command_name(t_list *token_list, t_token **look_ahead, t_command *cmd)
 {
 	t_token	*id;
-	t_list	*id_list;
 
-	id_list = NULL;
 	if (*look_ahead == NULL || !is_word(*look_ahead))
 	{
 		if (!errno)
-			send_error("syntax error near unexpected token: ", (*look_ahead)->value, 1);
+		{
+			if (*look_ahead == NULL)
+				send_error("unexpected end of string", "", 1);
+			else
+				send_error("syntax error near unexpected token: ", (*look_ahead)->value, 1);
+		}
 		errno = 42;
 		return ;
 	}
@@ -54,14 +57,12 @@ static void	command_name(t_list *token_list, t_token **look_ahead, t_command *cm
 	id->type = (*look_ahead)->type;
 	id->value = ft_strdup((*look_ahead)->value);
 	get_next_token(token_list, look_ahead);
-	ft_lstadd_back(&id_list, ft_lstnew(id));
-	cmd->tokens = id_list;
+	ft_lstadd_back(&cmd->tokens, ft_lstnew(id));
 }
 
 static void	redirection(t_list *token_list, t_token **look_ahead, t_command *cmd)
 {
 	t_redir		*redir;
-	t_list		*redir_list;
 
 	while (*look_ahead && (*look_ahead)->type == REDIRECTION)
 	{
@@ -70,7 +71,12 @@ static void	redirection(t_list *token_list, t_token **look_ahead, t_command *cmd
 		if (*look_ahead == NULL || !is_word(*look_ahead))
 		{
 			if (!errno)
-				send_error("syntax error near unexpected token: ", (*look_ahead)->value, 1);
+			{
+				if (*look_ahead == NULL)
+					send_error("missing redirection identifier", "", 1);
+				else
+					send_error("syntax error near unexpected token: ", (*look_ahead)->value, 1);
+			}
 			errno = 42;
 			return ;
 		}
@@ -126,5 +132,11 @@ t_list	*descent_parser(t_list *token_list)
 
 	look_ahead = (t_token *)token_list->content;
 	cmds = full_command(token_list, &look_ahead);
+	if (errno)
+	{
+		ft_lstclear(&cmds, &free_cmd);
+		free(cmds);
+		cmds = NULL;
+	}
 	return (cmds);
 }
