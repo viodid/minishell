@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/31 18:35:35 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/07 21:10:13 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,24 @@
 
 int	minishell(t_data *core)
 {
-	int			retcode;
-	char		*str;
-	char		**cmds;
+//	int			retcode;
+//	t_list		*cmds;
 
-	str = readline("minicheh $>");
-	cmds = ft_split(str, '|');
-	if (!cmds)
+//	str = readline("minishell $>");
+//	cmds = ft_split(str, '|');
+	errno = 0;
+	core->line = parser();
+	if (errno)
 		return (EXIT_SUCCESS);
-	if (core->line.cmds)
-		ft_lstclear(&core->line.cmds, free_cmd);
-	temp_parser(core, cmds);
-
-	// retcode = tmp_exec(str, core);
-	retcode = executor(core);
-	add_history(str);
-	free(str);
-	ft_dfree((void **)cmds);
-	return (retcode);
+//	if (core->line.cmds)
+//		ft_lstclear(&core->line.cmds, free_cmd);
+//	temp_parser(core, cmds);
+//
+//	// retcode = tmp_exec(str, core);
+//	retcode = executor(core);
+//	add_history(str);
+//	free(str);
+//	ft_dfree((void **)cmds);
+//	return (retcode);
+	return (0);
 }

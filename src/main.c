@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:29:17 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/29 19:48:28 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/07 11:22:43 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		i = minishell(core);
 		if (i)
+		{
+			free_struct(core);
 			return (i);
+		}
 	}
 	free_struct(core);
 	return (EXIT_SUCCESS);

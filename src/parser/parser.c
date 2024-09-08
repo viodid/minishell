@@ -35,7 +35,7 @@ t_line	*parser(void)
 	token_list = lexer();
 	if (errno)
 		return (NULL);
-	line->cmds = RDP(token_list);
+	line->cmds = descent_parser(token_list);
 	ft_lstiter(line->cmds, &print_command);
 	return (line);
 }

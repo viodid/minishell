@@ -112,7 +112,7 @@ int32_t			get_str_size(const char *user_input, int32_t i);
 
 /* parser */
 t_line		*parser(void);
-t_list		*RDP(t_list *token_list);
+t_list		*descent_parser(t_list *token_list);
 t_redir		*initialize_redir(t_token *token);
 t_command	*initialize_cmd(void);
 t_token		*initialize_identifier(void);
