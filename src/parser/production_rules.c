@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/08 20:34:24 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/09 21:55:39 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static int	is_word(t_token *look_ahead)
 	t_token_type	type;
 
 	type = look_ahead->type;
-	if (type == IDENTIFIER || type == VARIABLE || type == SINGLE_QUOTE_STRING || type == DOUBLE_QUOTE_STRING)
+	if (type == IDENTIFIER || type == VARIABLE || type == SINGLE_QUOTE_STRING
+		|| type == DOUBLE_QUOTE_STRING)
 		return (TRUE);
 	return (FALSE);
 }
@@ -26,7 +27,8 @@ static void	options(t_list *token_list, t_token **look_ahead, t_command *cmd)
 {
 	t_token	*id;
 
-	while (*look_ahead && (is_word(*look_ahead) || (*look_ahead)->type == FLAG || (*look_ahead)->type == TILDE_EXPANSION))
+	while (*look_ahead && (is_word(*look_ahead) || (*look_ahead)->type == FLAG
+			|| (*look_ahead)->type == TILDE_EXPANSION))
 	{
 		id = initialize_identifier();
 		id->type = (*look_ahead)->type;
@@ -36,7 +38,8 @@ static void	options(t_list *token_list, t_token **look_ahead, t_command *cmd)
 	}
 }
 
-static void	command_name(t_list *token_list, t_token **look_ahead, t_command *cmd)
+static void	command_name(t_list *token_list, t_token **look_ahead,
+	t_command *cmd)
 {
 	t_token	*id;
 
@@ -45,9 +48,11 @@ static void	command_name(t_list *token_list, t_token **look_ahead, t_command *cm
 		if (!errno)
 		{
 			if (*look_ahead == NULL)
-				send_error("unexpected end of string", "", 1);
+				send_error("unexpected end of string",
+					"", 1);
 			else
-				send_error("syntax error near unexpected token: ", (*look_ahead)->value, 1);
+				send_error("syntax error near unexpected token: ",
+					(*look_ahead)->value, 1);
 		}
 		errno = 42;
 		return ;
@@ -59,7 +64,8 @@ static void	command_name(t_list *token_list, t_token **look_ahead, t_command *cm
 	ft_lstadd_back(&cmd->tokens, ft_lstnew(id));
 }
 
-static void	redirection(t_list *token_list, t_token **look_ahead, t_command *cmd)
+static void	redirection(t_list *token_list, t_token **look_ahead,
+	t_command *cmd)
 {
 	t_redir		*redir;
 
@@ -72,9 +78,11 @@ static void	redirection(t_list *token_list, t_token **look_ahead, t_command *cmd
 			if (!errno)
 			{
 				if (*look_ahead == NULL)
-					send_error("missing redirection identifier", "", 1);
+					send_error("missing redirection identifier",
+						"", 1);
 				else
-					send_error("syntax error near unexpected token: ", (*look_ahead)->value, 1);
+					send_error("syntax error near unexpected token: ",
+						(*look_ahead)->value, 1);
 			}
 			errno = 42;
 			return ;
@@ -85,7 +93,7 @@ static void	redirection(t_list *token_list, t_token **look_ahead, t_command *cmd
 	}
 }
 
-static t_command	*command(t_list *token_list, t_token **look_ahead)
+t_command	*command(t_list *token_list, t_token **look_ahead)
 {
 	t_command	*cmd;
 
@@ -101,41 +109,4 @@ static t_command	*command(t_list *token_list, t_token **look_ahead)
 		return (NULL);
 	}
 	return (cmd);
-}
-
-static t_list	*full_command(t_list *token_list, t_token	**look_ahead)
-{
-	t_list		*cmd_list;
-	t_command	*cmd;
-
-	cmd_list = NULL;
-	cmd = command(token_list, look_ahead);
-	while (cmd)
-	{
-		ft_lstadd_back(&cmd_list, ft_lstnew(cmd));
-		if (*look_ahead && (*look_ahead)->type == PIPE)
-		{
-			get_next_token(token_list, look_ahead);
-			cmd = command(token_list, look_ahead);
-		}
-		else
-			cmd = NULL;
-	}
-	return (cmd_list);
-}
-
-t_list	*descent_parser(t_list *token_list)
-{
-	t_list	*cmds;
-	t_token	*look_ahead;
-
-	look_ahead = (t_token *)token_list->content;
-	cmds = full_command(token_list, &look_ahead);
-	if (errno)
-	{
-		ft_lstclear(&cmds, &free_cmd);
-		free(cmds);
-		cmds = NULL;
-	}
-	return (cmds);
 }
