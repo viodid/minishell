@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	int		i;
+	int		retcode;
 	t_data	*core;
 	(void)argc;
 	(void)argv;
@@ -25,13 +26,16 @@ int	main(int argc, char **argv, char **envp)
 	core->errcode = 0;
 	while (1)
 	{
-		i = minishell(core);
-		if (i)
+		retcode = minishell(core);
+		while (1)
 		{
-			free_struct(core);
-			return (i);
+			i = waitpid(-1, NULL, 0);
+			if (i < 0)
+				break ;
 		}
+		if (retcode)
+			return (free_struct(core), retcode);
 	}
 	free_struct(core);
-	return (EXIT_SUCCESS);
+	return (retcode);
 }

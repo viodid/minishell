@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   tmp_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:19:02 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/05/27 18:19:05 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:47:04 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_command	*parse_command(char *str)
 	return (ret);
 }
 
-int	temp_parser(t_data *core, char **cmds)
+int	tmp_parser(t_data *core, char **cmds)
 {
 	int			i;
 	t_command	*command;
@@ -66,5 +66,11 @@ int	temp_parser(t_data *core, char **cmds)
 		ft_lstadd_back(&core->line.cmds, ft_lstnew(command));
 		i++;
 	}
+	if (i)
+		core->line.pids = ft_calloc(i, sizeof(int));
+	else
+		core->line.pids = NULL;
+	core->line.nbcommands = i;
+	core->line.fds = ft_calloc(2, sizeof(int));
 	return (EXIT_SUCCESS);
 }

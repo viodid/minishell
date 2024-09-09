@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 NAME			= minishell
+NAME_DBG		= dbg
 LIBNAME			= libft.a
 
 SRCDIR			= src/
@@ -29,9 +30,13 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)parser/parser.c				\
 				$(SRCDIR)parser/production_rules.c		\
 				$(SRCDIR)parser/expansions.c			\
+				$(SRCDIR)parser/tmp_parser.c			\
 				$(SRCDIR)executor/executor.c			\
 				$(SRCDIR)executor/executor_builtin.c	\
-				$(SRCDIR)executor/redirections.c		\
+				$(SRCDIR)executor/redirect_input.c		\
+				$(SRCDIR)executor/redirect_output.c		\
+				$(SRCDIR)executor/get_cmdpath.c			\
+				$(SRCDIR)executor/set_fds.c				\
 				$(SRCDIR)signals/signals.c				\
 				$(SRCDIR)builtins/echo.c				\
 				$(SRCDIR)builtins/cd.c					\
@@ -62,19 +67,25 @@ all:			$(NAME)
 
 # asan:			fclean
 asan:			cleanbin
-asan:			CFLAGS += -fsanitize=address -g3
+asan:			CFLAGS += -fsanitize=address
 asan:			LIBFLAG = asan
 asan:			LIBNAME = libft_asan.a
 asan:			all
 
 # lsan:			fclean
 lsan:			cleanbin
-lsan:			CFLAGS += -fsanitize=leak -g3
+lsan:			CFLAGS += -fsanitize=leak
 lsan:			LIBFLAG = lsan
 lsan:			LIBNAME = libft_lsan.a
 lsan:			all
 
 $(NAME):		$(OBJS) $(LIBNAME)
+				$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBNAME) $(LDFLAGS)
+				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
+
+debug:			$(NAME_DBG)
+
+$(NAME_DBG):	$(OBJS) $(LIBNAME)
 				$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBNAME) $(LDFLAGS)
 				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 

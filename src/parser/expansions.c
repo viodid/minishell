@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/08 21:22:51 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/09 20:35:35 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,3 @@ static	char	*find_var(t_list *env, char *key, int errcode)
 	}
 	return ("");
 }
-// TODO: $?
