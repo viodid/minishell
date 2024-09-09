@@ -12,7 +12,6 @@
 
 #include "../../include/minishell.h"
 
-static t_line	*initialize_line(void);
 static	t_list	*descent_parser(t_list *token_list);
 
 void	parser(t_data *core)

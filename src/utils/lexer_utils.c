@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/09 21:34:17 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/09 22:06:21 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ char	*handle_odd_quotes(char quote, uint16_t total_quotes, char *str)
 	return (output_str - (str_len - 1));
 }
 
-int32_t get_end_quote_idx(const char *str, int32_t i)
+int32_t	get_end_quote_idx(const char *str, int32_t i)
 {
 	char	quote_type;
 
 	quote_type = str[i];
-	while(str[++i])
+	while (str[++i])
 	{
 		if (str[i] == quote_type)
 			return (i + 1);
@@ -97,7 +97,8 @@ int	get_size_metachar(const char *user_input, uint32_t i)
 {
 	if (ft_strchr("<>", user_input[i]) && user_input[i] != '\0')
 	{
-		if ((ft_strncmp(&user_input[i], ">>", 2) == 0) || (ft_strncmp(&user_input[i], "<<", 2) == 0))
+		if ((ft_strncmp(&user_input[i], ">>", 2) == 0)
+			|| (ft_strncmp(&user_input[i], "<<", 2) == 0))
 			return (2);
 	}
 	return (1);
