@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/09 20:35:35 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/09 21:44:52 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static char	*expand_types(t_list *env, char *value, t_token_type type, int errcode);
 static	char	*find_var(t_list *env, char *key, int errcode);
+static char	*expand_var_quotes(t_list *env, char *value, int errcode);
 
 void	execute_expansions(t_data *core)
 {
@@ -52,10 +53,12 @@ static char	*expand_types(t_list *env, char *value, t_token_type type, int errco
 		return(find_var(env, "HOME", errcode));
 	if (type == VARIABLE)
 		return (find_var(env, (value + 1), errcode));
+	if (type == DOUBLE_QUOTE_STRING)
+		return (expand_var_quotes(env, value, errcode));
 	return (NULL);
 }
 
-static	char	*find_var(t_list *env, char *key, int errcode)
+static char	*find_var(t_list *env, char *key, int errcode)
 {
 	t_var	*var;
 
@@ -70,4 +73,23 @@ static	char	*find_var(t_list *env, char *key, int errcode)
 		env = env->next;
 	}
 	return ("");
+}
+
+static char	*expand_var_quotes(t_list *env, char *value, int errcode)
+{
+	uint16_t	i;
+	uint16_t	offset;
+
+	i = 0;
+	while (value[i])
+	{
+		if (value[i] == '$')
+		{
+			offset = i;
+			while (value[i] == ' ')
+			{
+
+			}
+		}
+	}
 }

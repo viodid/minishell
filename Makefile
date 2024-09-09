@@ -11,7 +11,6 @@
 # **************************************************************************** #
 
 NAME			= minishell
-NAME_DBG		= dbg
 LIBNAME			= libft.a
 
 SRCDIR			= src/
@@ -30,7 +29,6 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)parser/parser.c				\
 				$(SRCDIR)parser/production_rules.c		\
 				$(SRCDIR)parser/expansions.c			\
-				$(SRCDIR)parser/tmp_parser.c			\
 				$(SRCDIR)executor/executor.c			\
 				$(SRCDIR)executor/executor_builtin.c	\
 				$(SRCDIR)executor/redirect_input.c		\

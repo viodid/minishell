@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/08 19:36:50 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/09 21:10:47 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_list	*lexer(void)
 	}
 	token_list = tokenizer(user_input);
 	ft_lstiter(token_list, &print_tokens);
+	add_history(user_input);
 	free(user_input);
 	if (errno)
 		ft_lstclear(&token_list, &free_token);
