@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/03 17:54:25 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:51:10 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define TRUE 1
 # define FALSE 0
 # define NULL ((void *)0) //TODO parece que esta macro no funca bien
+# define METACHARACTERS " \"\'|&;()<>\t\n"
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -33,35 +34,12 @@ typedef enum e_pipe_fds
 	BOTH_FDS
 }	t_pipe_fds;
 
-typedef enum e_colors
-{
-	RESET,
-	RED,
-	GREEN,
-	YELLOW,
-	BLUE
-}	t_colors;
-
 typedef enum e_tmp_pos
 {
 	NBTOK,
 	ICMD,
 	IOUTREDIR,
 }	t_tmp_pos;
-
-typedef enum e_token_type
-{
-	COMMAND,
-	ARGUMENT,
-	FLAGS,
-	VARIABLE,
-	STRING,
-	DIGIT,
-	REDIRECTION,
-	FILE_NAME,
-	PIPE,
-	PARENTHESIS
-}	t_token_type;
 
 typedef enum e_redir_type
 {
@@ -70,6 +48,18 @@ typedef enum e_redir_type
 	OUTPUT,
 	APPEND,
 }	t_redir_type;
+
+typedef enum e_token_type
+{
+	IDENTIFIER, // https://en.wikipedia.org/wiki/Identifier_(computer_languages)
+	VARIABLE,
+	SINGLE_QUOTE_STRING,
+	DOUBLE_QUOTE_STRING,
+	TILDE_EXPANSION,
+	REDIRECTION,
+	PIPE,
+	FLAG
+}	t_token_type;
 
 /* STRUCTS */
 typedef struct s_fds
@@ -96,6 +86,7 @@ typedef struct s_redir
 {
 	char			*file;
 	t_redir_type	type;
+	t_token_type	token_type;
 }	t_redir;
 
 typedef struct s_command
@@ -118,7 +109,7 @@ typedef struct s_line
 typedef struct s_data
 {
 	t_list	*env;
-	t_line	line;
+	t_line	*line; // Why static
 	int		errcode; // use for $?
 }	t_data;
 
@@ -134,9 +125,19 @@ char			**get_env_array(t_data *core);
 
 t_list			*lexer(void);
 char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
-uint32_t		get_end_quote_idx(const char *str, uint32_t i);
+int32_t			get_end_quote_idx(const char *str, int32_t i);
 t_token_type	enum_token_value(const char *value);
-void			print_token_list(void	*content);
+int				get_size_metachar(const char *user_input, uint32_t i);
+int32_t			get_str_size(const char *user_input, int32_t i);
+
+/* parser */
+void		*parser(t_data *core);
+t_list		*descent_parser(t_list *token_list);
+t_redir		*initialize_redir(t_token *token);
+t_command	*initialize_cmd(void);
+t_token		*initialize_identifier(void);
+void		get_next_token(t_list *token_list, t_token **look_ahead);
+void		execute_expansions(t_data *core);
 
 /* exec */
 
@@ -150,6 +151,7 @@ int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
 int				close_fds(t_data *core, t_pipe_fds fds);
 
 int				exec_builtin(t_data *core, char *cmdpath, char **args);
+
 
 /* builtins */
 
@@ -172,16 +174,16 @@ void			free_cmd(void *cont);
 int				tmp_parser(t_data *core, char **cmds);
 
 /* errors */
-
-void			send_error(char *err_msg, char *detail_msg, int exit_status);
+int send_error(char *err_msg, char *detail_msg, int exit_status);
 
 /* printers */
 
-void			print_var_env(void *cont);
-void			print_var_exp(void *cont);
-void			print_str(void *cont);
-void			print_command(void *cont);
-void			hola(char *str);
-void			print_execve(char *cmdpath, char **args, char **envp);
+void	print_var_env(void *cont);
+void	print_var_exp(void *cont);
+void	print_str(void *cont);
+void	print_command(void *cont);
+void	print_tokens(void *cont);
+void	hola(char *str);
+void	print_execve(char *cmdpath, char **args, char **envp);
 
 #endif

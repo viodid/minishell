@@ -27,6 +27,9 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)core/set_env.c					\
 				$(SRCDIR)core/get_env_array.c			\
 				$(SRCDIR)lexer/lexer.c					\
+				$(SRCDIR)parser/parser.c				\
+				$(SRCDIR)parser/production_rules.c		\
+				$(SRCDIR)parser/expansions.c			\
 				$(SRCDIR)parser/tmp_parser.c			\
 				$(SRCDIR)executor/executor.c			\
 				$(SRCDIR)executor/executor_builtin.c	\
@@ -46,11 +49,13 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)utils/printers.c				\
 				$(SRCDIR)utils/lexer_utils.c			\
 				$(SRCDIR)utils/errors.c					\
+				$(SRCDIR)utils/parser_utils.c					\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -g3
+CFLAGS			= -Wextra -Werror -pedantic-errors -g3
+#CFLAGS			= -g3
 LIBFLAG			=
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)

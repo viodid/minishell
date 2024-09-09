@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/31 18:35:35 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:43:00 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,10 @@ int	minishell(t_data *core)
 	char		*str;
 	char		**cmds;
 
-	str = readline("minicheh $>");
-	cmds = ft_split(str, '|');
-	if (!cmds)
-		return (fprintf(stderr, "!cmds"), EXIT_SUCCESS);
-	if (core->line.cmds)
-		ft_lstclear(&core->line.cmds, free_cmd);
-	tmp_parser(core, cmds);
-
+	errno = 0;
+	parser(core);
+	if (errno)
+		return(EXIT_SUCCESS);
 	// retcode = tmp_exec(str, core);
 	retcode = executor(core);
 	add_history(str);
