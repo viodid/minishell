@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/03 17:54:25 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/09 21:31:16 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 # define TRUE 1
 # define FALSE 0
-# define NULL ((void *)0) //TODO parece que esta macro no funca bien
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -140,13 +139,15 @@ void			print_token_list(void	*content);
 
 /* exec */
 
-int				executor(t_data *core); //TODO
-int				redirect_input(t_list *redirs, t_fds fds, int *stdinbak, int iscommand);
+int				executor(t_data *core); //TODO //TODO
+int				redirect_input(t_list *redirs, t_fds fds, int *stdinbak, int iscommand); //TODO
+int				redirect_output(t_list *redirs, t_fds fds, int *stdoutbak);
 int				isbuiltin(char *cmdpath); //TODO
 char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths); //TODO
 int				hasinput(t_list *redirs);
 int				hasoutput(t_list *redirs);
 int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
+int				reset_stdfds(t_data *core, t_fds fds, t_list *redirs);
 int				close_fds(t_data *core, t_pipe_fds fds);
 
 int				exec_builtin(t_data *core, char *cmdpath, char **args);
@@ -157,7 +158,7 @@ int				ft_pwd(t_data *core);
 int				ft_echo(char **args);
 int				ft_cd(t_data *core, char **args); //TODO senderror
 int				ft_env(t_data *core);
-int				ft_export(t_data *core, char **args);
+int				ft_export(t_data *core, char **args); //TODO
 int				export_single(t_data *core, char *arg); // does it go here?
 int				ft_unset(t_data *core, char **args);
 int				unset_single(t_data *core, char *key); // does it go here?

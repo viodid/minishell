@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   set_fds.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid.c      +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 21:00:57 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/06 21:00:58 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/09 19:05:19 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	reset_stdfds(t_data *core, t_fds fds, t_list *redirs)
+{
+	(void)redirs;
+	fprintf(stderr, "outbak %i\n", core->line.stdoutbak);
+	if (core->line.stdinbak && fds.stdfdin == STDIN_FILENO)
+	{
+		if (dup2(core->line.stdinbak, fds.stdfdin))
+			return (perror("restore stdin"), -1);
+	}
+	if (core->line.stdoutbak && fds.stdfdout == STDOUT_FILENO)
+	{
+		if (dup2(core->line.stdoutbak, fds.stdfdin))
+			return (perror("restore stdout"), fprintf(stderr, ">>%i\n", errno), -1);
+	}
+	return (EXIT_SUCCESS);
+}
 
 int	close_fds(t_data *core, t_pipe_fds fds)
 {

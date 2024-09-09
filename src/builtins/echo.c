@@ -21,14 +21,11 @@ int	has_option(char **args)
 	while (args[++i])
 	{
 		j = 0;
-		if (args[i][j++] == '-')
-		{
-			while (args[i][j] == 'n')
-				j++;
-			if (args[i][j])
-				return (i);
-		}
-		else
+		if (!(args[i][j++] == '-'))
+			return (i);
+		while (args[i][j] == 'n')
+			j++;
+		if (args[i][j])
 			return (i);
 	}
 	return (i);

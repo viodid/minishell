@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 03:08:16 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/08/29 20:03:10 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/09 19:55:43 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	heredoc_loop(char *limiter, int fd, int iscommand)
 	close(fd);
 	if (!access(HDOC_TMP, R_OK))
 		unlink(HDOC_TMP);
-	fd = open(HDOC_TMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	fd = open(HDOC_TMP, O_RDWR | O_CREAT | O_TRUNC, 0644); //TODO cambiar flag O_CREAT por O_TMPFILE
+	// fd = open("/tmp/", O_RDWR | O_TMPFILE, 0644);
 	if (fd == -1)
 		return (fd);
 	line = readline(">");
@@ -96,12 +97,12 @@ int	redirect_input(t_list *redirs, t_fds fds, int *stdinbak, int iscommand)
 	fdin = get_input(redirs, iscommand);
 	if (fdin == -1 || !fdin)
 		return (fdin);
-	*stdinbak = dup(fds.stdfdin); // this saves STDIN before redirection
-	printf("fdin:%i bak:%i\n", fdin, *stdinbak);
-	if (*stdinbak == -1 || dup2(fdin, fds.stdfdin) == -1)
+	if (stdinbak)
 	{
-		perror("stdin backup");
-		return (-1);
+		*stdinbak = dup(fds.stdfdin); // this saves STDIN before redirection
+		printf("fdin:%i bak:%i\n", fdin, *stdinbak);
+		if (*stdinbak == -1 || dup2(fdin, fds.stdfdin) == -1)
+			return (-1);
 	}
 	return (fdin);
 }

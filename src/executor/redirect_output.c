@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_output.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid.c      +#+  +:+       +#+        */
+/*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:31:31 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/06 23:31:33 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/09 19:55:43 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,52 @@ int	hasoutput(t_list *redirs)
 	return (FALSE);
 }
 
-// int	redirect_output(t_list *redirs, t_fds fds, int *stdoutbak, int iscommand)
-// {
-// 	int		fdout;
-// 	(void)fds;
+int	create_outfile(char *filename, int fd, int type)
+{
+	int	flags;
 
-// 	fdout = get_input(redirs, iscommand);
-// 	if (fdout == -1 || !fdout)
-// 		return (fdout);
-// 	*stdoutbak = dup(fds.stdfdin); // this saves STDIN before redirection
-// 	printf("fdout:%i bak:%i\n", fdout, *stdoutbak);
-// 	if (*stdoutbak == -1 || dup2(fdout, fds.stdfdin) == -1)
-// 	{
-// 		perror("stdout backup");
-// 		return (-1);
-// 	}
-// 	return (fdout);
-// }
+	close(fd);
+	if (type == OUTPUT)
+		flags = O_RDWR | O_CREAT | O_TRUNC;
+	else
+		flags = O_RDWR | O_CREAT;
+	fd = open(filename, flags, 0644);
+	return (fd);
+}
+
+int	get_output(t_list *redirs)
+{
+	int		fd;
+	t_redir	*redir;
+	t_list	*tmp;
+
+	tmp = redirs;
+	while (tmp && fd != -1)
+	{
+		redir = (t_redir *)tmp->content;
+		if (redir->type == OUTPUT || redir->type == APPEND)
+		{
+			fd = create_outfile(redir->file, fd, redir->type);
+		}
+		tmp = tmp->next;
+	}
+	return (fd);
+}
+
+int	redirect_output(t_list *redirs, t_fds fds, int *stdoutbak)
+{
+	int		fdout;
+	(void)fds;
+
+	fdout = get_output(redirs);
+	if (fdout == -1 || !fdout)
+		return (fdout);
+	if (stdoutbak)
+	{
+		*stdoutbak = dup(fds.stdfdout); // this saves STDIN before redirection
+		printf("fdout:%i bak:%i\n", fdout, *stdoutbak);
+		if (*stdoutbak == -1 || dup2(fdout, fds.stdfdout) == -1)
+			return (-1);
+	}
+	return (fdout);
+}

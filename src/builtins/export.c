@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	is_valid(char *var)
+int	is_valid(char *var)	//TODO figure out which chars are ok '_', '-', '.', ...
 {
 	int	i;
 
