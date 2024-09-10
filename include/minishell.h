@@ -150,7 +150,7 @@ int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
 int				reset_stdfds(t_data *core, t_fds fds, t_list *redirs);
 int				close_fds(t_data *core, t_pipe_fds fds);
 
-int				exec_builtin(t_data *core, char *cmdpath, char **args);
+int				exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit);
 
 /* builtins */
 

@@ -42,19 +42,23 @@ int	exec_selector(t_data *core, t_command *command)
 
 	args = get_arg_array(command);
 	envp = get_env_array(core);
-	cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
+	cmdpath = args[0];
+	if (!isbuiltin(args[0]))
+		cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
 	if (isbuiltin(args[0]))
 	{
-		free(cmdpath);
-		retcode = exec_builtin(core, args[0], args);
+		retcode = exec_builtin(core, cmdpath, args, core->line.nbcommands > 1);
+		if (core->line.nbcommands == 1)
+			return (ft_dfree((void **)envp), free(args), retcode);
 	}
 	else
 	{
 		retcode = execve(cmdpath, args, envp);
 		free(cmdpath);
-		//TODO print error here?
 	}
-	return (ft_dfree((void **)envp), free(args), retcode);
+	ft_dfree((void **)envp);
+	free(args);
+	exit(retcode);
 }
 
 int	run_single(t_data *core, t_command *command, t_fds fds)
@@ -82,8 +86,6 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 		dup2(core->line.stdinbak, fds.stdfdin);
 	if (hasoutput(command->redirs) && fds.stdfdout == STDOUT_FILENO)
 		dup2(core->line.stdoutbak, fds.stdfdin);
-	// if (fds.stdfdin == STDIN_FILENO || fds.stdfdout == STDOUT_FILENO)
-	// 	reset_stdfds(core, fds, command->redirs);
 	unlink(HDOC_TMP);
 	return (retcode);
 }
@@ -128,8 +130,6 @@ int	executor(t_data *core)
 		while (commands)
 		{
 			retcode = process_single(core, (t_command *)commands->content, i);
-			if (retcode)
-				return (retcode);
 			commands = commands->next;
 			i++;
 			while (1)
