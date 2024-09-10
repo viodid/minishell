@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/09 21:44:52 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/10 20:56:45 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,38 +58,60 @@ static char	*expand_types(t_list *env, char *value, t_token_type type, int errco
 	return (NULL);
 }
 
+/*
+ * find_var finds the correct value in env list at key, allocates enough space for value and
+ * returns it.
+*/
 static char	*find_var(t_list *env, char *key, int errcode)
 {
 	t_var	*var;
+	char	*empty_str;
 
-	if (ft_strncmp(key, "?", ft_strlen(key)))
+	if (ft_strncmp(key, "?", ft_strlen(key)) == 0)
 		return (ft_itoa(errcode));
 
 	while (env)
 	{
 		var = ((t_var *)env->content);
 		if (ft_strncmp(key, var->key, ft_strlen(key)) == 0)
-			return (var->value);
+			return (ft_strdup(var->value));
 		env = env->next;
 	}
+
 	return ("");
 }
 
 static char	*expand_var_quotes(t_list *env, char *value, int errcode)
 {
 	uint16_t	i;
-	uint16_t	offset;
+	char		**split;
+	char		*tmp_str;
+	char		*expanded_str;
 
+	if (!*value)
+		return (value);
+	split = ft_split(value, ' ');
 	i = 0;
-	while (value[i])
+	while (split[i])
 	{
-		if (value[i] == '$')
+		tmp_str = split[i];
+		if (tmp_str[0] == '$')
 		{
-			offset = i;
-			while (value[i] == ' ')
-			{
-
-			}
+			split[i] = find_var(env, tmp_str + 1, errcode);
+			free(tmp_str);
 		}
+		i++;
 	}
+	i = 1;
+	expanded_str = ft_strdup(split[0]);
+	while(split[i])
+	{
+		char *space = ft_calloc(2, 1);
+		space[0] = ' ';
+		expanded_str = ft_strjoin_f12(expanded_str, space);
+		expanded_str = ft_strjoin_f12(expanded_str, split[i]);
+		i++;
+	}
+	// freed split
+	return (expanded_str);
 }
