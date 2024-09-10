@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/09 20:43:00 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/09 21:10:21 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@
 int	minishell(t_data *core)
 {
 	int			retcode;
-	char		*str;
-	char		**cmds;
+	// char		*str;
+	// char		**cmds;
 
 	errno = 0;
 	parser(core);
@@ -49,9 +49,6 @@ int	minishell(t_data *core)
 		return(EXIT_SUCCESS);
 	// retcode = tmp_exec(str, core);
 	retcode = executor(core);
-	if (ft_strlen(str))
-		add_history(str);
-	free(str);
-	ft_dfree((void **)cmds);
+	// ft_dfree((void **)cmds);
 	return (retcode);
 }

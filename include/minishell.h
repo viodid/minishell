@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/09 20:51:10 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/09 21:51:14 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,11 +130,12 @@ int				get_size_metachar(const char *user_input, uint32_t i);
 int32_t			get_str_size(const char *user_input, int32_t i);
 
 /* parser */
-void		*parser(t_data *core);
-t_list		*descent_parser(t_list *token_list);
+void		parser(t_data *core);
 t_redir		*initialize_redir(t_token *token);
 t_command	*initialize_cmd(void);
 t_token		*initialize_identifier(void);
+t_line		*initialize_line(void);
+t_command	*command(t_list *token_list, t_token **look_ahead);
 void		get_next_token(t_list *token_list, t_token **look_ahead);
 void		execute_expansions(t_data *core);
 
@@ -170,6 +171,7 @@ int				ft_exit(t_data *core, char **args); //TODO senderror
 void			free_struct(t_data *core);
 void			free_var(void *cont);
 void			free_cmd(void *cont);
+void			free_token(void *cont);
 
 int				tmp_parser(t_data *core, char **cmds);
 
