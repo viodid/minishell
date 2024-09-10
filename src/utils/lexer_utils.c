@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/08/27 21:26:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/08 17:26:08 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*handle_odd_quotes(char quote, uint16_t total_quotes, char *str)
 	return (output_str - (str_len - 1));
 }
 
-uint32_t	get_end_quote_idx(const char *str, uint32_t i)
+int32_t get_end_quote_idx(const char *str, int32_t i)
 {
 	char	quote_type;
 
@@ -50,72 +50,55 @@ uint32_t	get_end_quote_idx(const char *str, uint32_t i)
 		if (str[i] == quote_type)
 			return (i + 1);
 	}
-	return (0);
-}
-
-static t_token_type	handle_command_argument(uint8_t redirect, uint8_t new_cmd)
-{
-	static uint8_t	command = FALSE;
-
-	if (new_cmd)
-		command = FALSE;
-	if (redirect)
-		return (FILE_NAME);
-	if (!command)
-	{
-		command = TRUE;
-		return (COMMAND);
-	}
-	else
-	{
-		command = FALSE;
-		return (ARGUMENT);
-	}
+	return (-1);
 }
 
 t_token_type	enum_token_value(const char *value)
 {
-	static uint8_t	redirect = FALSE;
-	static uint8_t	new_cmd = FALSE;
-
 	if (ft_strchr("<>", *value))
-	{
-		redirect = TRUE;
 		return (REDIRECTION);
-	}
-	else if (ft_strchr("\'\"", *value))
-		return (STRING);
-	else if (*value == '-')
-		return (FLAGS);
+	else if (*value == '\'')
+		return (SINGLE_QUOTE_STRING);
+	else if (*value == '\"')
+		return (DOUBLE_QUOTE_STRING);
 	else if (*value == '$')
 		return (VARIABLE);
-	else if (*value >= '0' && *value <= '9')
-		return (DIGIT);
+	else if (*value == '~')
+		return (TILDE_EXPANSION);
 	else if (*value == '|')
-	{
-		new_cmd = TRUE;
 		return (PIPE);
-	}
-	else if (ft_strchr("()", *value))
-	{
-		new_cmd = TRUE;
-		return (PARENTHESIS);
-	}
-	else if (ft_isalpha(*value) || *value == '_')
-	{
-		// TODO: rearrange this code
-		t_token_type output = handle_command_argument(redirect, new_cmd);
-		redirect = FALSE;
-		return output;
-	}
-	send_error("syntax error near token: ", (char *)value, 1);
-	exit(1);
+	else if (*value == '-')
+		return (FLAG); // TODO: stronger FLAG checker
+	else if (ft_isalnum(*value))
+		return (IDENTIFIER); // TODO: stronger IDENTIFIER checker
+	if (!errno)
+		send_error("syntax error near unexpected token: ", (char *)value, 1);
+	errno = 42;
+	return (-1);
 }
 
-void	print_token_list(void	*content)
+int32_t	get_str_size(const char *user_input, int32_t i)
 {
-	t_token	*token;
+	int32_t	idx;
 
-	token = (t_token *)content;
-	ft_printf("content: %s\ntype: %d\n\n", token->value, (int)token->type);
+	idx = i;
+	if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
+		idx = get_end_quote_idx(user_input, i);
+	if ((int)idx == -1)
+	{
+		send_error("syntax error: ", "unclosed quotes", -1);
+		errno = ENOMSG;
+		return (i);
+	}
+	return (idx);
+}
+
+int	get_size_metachar(const char *user_input, uint32_t i)
+{
+	if (ft_strchr("<>", user_input[i]) && user_input[i] != '\0')
+	{
+		if ((ft_strncmp(&user_input[i], ">>", 2) == 0) || (ft_strncmp(&user_input[i], "<<", 2) == 0))
+			return (2);
+	}
+	return (1);
 }
