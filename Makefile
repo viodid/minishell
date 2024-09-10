@@ -47,7 +47,8 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)utils/printers.c				\
 				$(SRCDIR)utils/lexer_utils.c			\
 				$(SRCDIR)utils/errors.c					\
-				$(SRCDIR)utils/parser_utils.c					\
+				$(SRCDIR)utils/parser_utils.c			\
+				$(SRCDIR)utils/expansions_utils.c		\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
