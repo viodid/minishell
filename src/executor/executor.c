@@ -124,18 +124,15 @@ int	executor(t_data *core)
 	retcode = EXIT_SUCCESS;
 	commands = core->line.cmds;
 	if (ft_lstsize(commands) == 1)
-		retcode = process_single(core, (t_command *)commands->content, 0);
-	else
-	{	//TODO go handle pipes, start allocating pipes
-		while (commands)
-		{
-			retcode = process_single(core, (t_command *)commands->content, i);
-			commands = commands->next;
-			i++;
-			while (1)
-				if (waitpid(-1, NULL, 0) < 0)
-					break ;
-		}
+		return (process_single(core, (t_command *)commands->content, 0));
+	while (commands)
+	{
+		retcode = process_single(core, (t_command *)commands->content, i);
+		commands = commands->next;
+		i++;
+		while (1)
+			if (waitpid(-1, NULL, 0) < 0) //TODO handle Process &status, external func
+				break ;
 	}
 	return (retcode);
 }
