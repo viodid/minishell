@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/10 22:06:26 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/11 00:45:48 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,38 @@
 
 static void	free_split(char **tab);
 static char	*join_split(char **split);
+
+static int	countsubstr(char const *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (*s)
+	{
+		while (*s && *s == c)
+			s++;
+		if (*s)
+			i++;
+		while (*s && *s != c)
+			s++;
+	}
+	return (i);
+}
+
+static char	*expand_var_quotes_2(t_list *env, char *value, int errcode)
+{
+	uint16_t	i;
+	char		**split;
+	char		*tmp_str;
+
+	if (!*value)
+		return (value);
+	split = ft_split(value, ' ');
+	tmp_str = split[0];
+	split[0] = find_var(env, tmp_str, errcode);
+	free(tmp_str);
+	return (join_split(split));
+}
 
 char	*expand_var_quotes(t_list *env, char *value, int errcode)
 {
@@ -23,14 +55,14 @@ char	*expand_var_quotes(t_list *env, char *value, int errcode)
 
 	if (!*value)
 		return (value);
-	split = ft_split(value + 1, ' ');
+	split = ft_split(value, '$');
 	i = 0;
 	while (split[i])
 	{
 		tmp_str = split[i];
-		if (tmp_str[0] == '$')
+		if (ft_isalpha(tmp_str[0]))
 		{
-			split[i] = find_var(env, tmp_str + 1, errcode);
+			split[i] = expand_var_quotes_2(env, tmp_str, errcode);
 			free(tmp_str);
 		}
 		i++;
@@ -38,9 +70,10 @@ char	*expand_var_quotes(t_list *env, char *value, int errcode)
 	return (join_split(split));
 }
 
+
 static char	*join_split(char **split)
 {
-	size_t	i;
+	int		i;
 	char	*expanded_str;
 	char	*space;
 
@@ -60,7 +93,7 @@ static char	*join_split(char **split)
 
 static void	free_split(char **tab)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (tab[i])

@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/10 22:33:21 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/11 00:31:31 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	execute_expansions(t_data *core)
 static void	expansions_helper(t_list *redirs, t_list *tokens, t_list *env, int errcode)
 {
 	t_token_type	type;
-	char			*tmp_str;
 
 	while (tokens)
 	{
