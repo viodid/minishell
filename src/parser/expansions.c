@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/10 21:23:17 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/10 21:45:22 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ static char	*find_var(t_list *env, char *key, int errcode)
 			return (ft_strdup(var->value));
 		env = env->next;
 	}
-
-	return ("");
+	empty_str = ft_calloc(1, 1);
+	return (empty_str);
 }
 
 static char	*expand_var_quotes(t_list *env, char *value, int errcode)
@@ -91,7 +91,7 @@ static char	*expand_var_quotes(t_list *env, char *value, int errcode)
 
 	if (!*value)
 		return (value);
-	split = ft_split(value, ' ');
+	split = ft_split(value + 1, ' ');
 	i = 0;
 	while (split[i])
 	{
@@ -117,9 +117,9 @@ static char	*join_split(char **split)
 	while(split[i])
 	{
 		space = ft_calloc(2, 1);
-		ft_strlcpy(space, " ", 1);
+		ft_strlcpy(space, " ", 2);
 		expanded_str = ft_strjoin_f12(expanded_str, space);
-		expanded_str = ft_strjoin_f12(expanded_str, split[i]);
+		expanded_str = ft_strjoin_f1(expanded_str, split[i]);
 		i++;
 	}
 	free_split(split);
