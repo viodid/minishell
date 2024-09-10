@@ -6,13 +6,13 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:12 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/08 20:36:12 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/09 21:48:20 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void get_next_token(t_list *token_list, t_token **look_ahead)
+void	get_next_token(t_list *token_list, t_token **look_ahead)
 {
 	while (token_list->next)
 	{
@@ -69,4 +69,18 @@ t_command	*initialize_cmd(void)
 	cmd->builtin = -1;
 	cmd->redirs = NULL;
 	return (cmd);
+}
+
+t_line	*initialize_line(void)
+{
+	t_line	*line;
+
+	line = (t_line *) malloc(sizeof(t_line));
+	if (!line)
+		exit(EXIT_FAILURE);
+	line->cmds = NULL;
+	line->fds = NULL;
+	line->pids = NULL;
+	line->stdinbak = 0;
+	return (line);
 }
