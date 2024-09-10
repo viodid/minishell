@@ -54,7 +54,8 @@ int	minishell(t_data *core)
 
 	// retcode = tmp_exec(str, core);
 	retcode = executor(core);
-	add_history(str);
+	if (ft_strlen(str))
+		add_history(str);
 	free(str);
 	ft_dfree((void **)cmds);
 	return (retcode);

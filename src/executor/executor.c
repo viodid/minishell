@@ -114,25 +114,37 @@ int	process_single(t_data *core, t_command *command, int cmd_nb)
 	return (retcode);
 }
 
+int	process_multiple(t_data *core, t_list *commands)
+{
+	int			i;
+	t_command	*command;
+
+	i = 0;
+	while (commands)
+	{
+		command = (t_command *)commands->content;
+		process_single(core, command, i);
+		commands = commands->next;
+		i++;
+	}
+	while (1)
+		if (waitpid(-1, NULL, 0) < 0) //TODO handle Process &status, external func
+			break ;
+	return (EXIT_SUCCESS);
+}
+
 int	executor(t_data *core)
 {
-	int		i;
+	// int		i;
 	int		retcode;
 	t_list	*commands;
 
-	i = 0;
+	// i = 0;
 	retcode = EXIT_SUCCESS;
 	commands = core->line.cmds;
 	if (ft_lstsize(commands) == 1)
 		return (process_single(core, (t_command *)commands->content, 0));
-	while (commands)
-	{
-		retcode = process_single(core, (t_command *)commands->content, i);
-		commands = commands->next;
-		i++;
-		while (1)
-			if (waitpid(-1, NULL, 0) < 0) //TODO handle Process &status, external func
-				break ;
-	}
+	else
+		return (process_multiple(core, commands));
 	return (retcode);
 }
