@@ -24,9 +24,9 @@ void	parser(t_data *core)
 		return ;
 	core->line = initialize_line();
 	core->line->cmds = descent_parser(token_list);
-	ft_lstiter(core->line->cmds, &print_command);
+	// ft_lstiter(core->line->cmds, &print_command);
 	execute_expansions(core);
-	ft_lstiter(core->line->cmds, &print_command);
+	// ft_lstiter(core->line->cmds, &print_command);
 }
 
 static t_list	*full_command(t_list *token_list, t_token	**look_ahead)

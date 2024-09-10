@@ -48,7 +48,7 @@ int	minishell(t_data *core)
 	if (errno)
 		return(EXIT_SUCCESS);
 	// retcode = tmp_exec(str, core);
-	// retcode = executor(core);
+	retcode = executor(core);
 	retcode = 0;
 	// ft_dfree((void **)cmds);
 	return (retcode);
