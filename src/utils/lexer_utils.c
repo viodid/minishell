@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/09 22:06:21 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/10 23:06:36 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,19 @@ t_token_type	enum_token_value(const char *value)
 {
 	if (ft_strchr("<>", *value))
 		return (REDIRECTION);
-	else if (*value == '\'')
+	if (*value == '\'')
 		return (SINGLE_QUOTE_STRING);
-	else if (*value == '\"')
+	if (*value == '\"')
 		return (DOUBLE_QUOTE_STRING);
-	else if (*value == '$')
+	if (*value == '$')
 		return (VARIABLE);
-	else if (*value == '~')
+	if (*value == '~')
 		return (TILDE_EXPANSION);
-	else if (*value == '|')
+	if (*value == '|')
 		return (PIPE);
-	else if (*value == '-')
+	if (*value == '-')
 		return (FLAG); // TODO: stronger FLAG checker
-	else if (ft_isalnum(*value))
+	if (ft_isalnum(*value))
 		return (IDENTIFIER); // TODO: stronger IDENTIFIER checker
 	if (!errno)
 		send_error("syntax error near unexpected token: ", (char *)value, 1);
