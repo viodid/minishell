@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/10 20:56:45 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/10 21:23:17 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static char	*expand_types(t_list *env, char *value, t_token_type type, int errcode);
 static	char	*find_var(t_list *env, char *key, int errcode);
 static char	*expand_var_quotes(t_list *env, char *value, int errcode);
+static void	free_split(char **tab);
+static char	*join_split(char **split);
 
 void	execute_expansions(t_data *core)
 {
@@ -86,7 +88,6 @@ static char	*expand_var_quotes(t_list *env, char *value, int errcode)
 	uint16_t	i;
 	char		**split;
 	char		*tmp_str;
-	char		*expanded_str;
 
 	if (!*value)
 		return (value);
@@ -102,16 +103,38 @@ static char	*expand_var_quotes(t_list *env, char *value, int errcode)
 		}
 		i++;
 	}
+	return (join_split(split));
+}
+
+static char	*join_split(char **split)
+{
+	size_t	i;
+	char	*expanded_str;
+	char	*space;
+
 	i = 1;
 	expanded_str = ft_strdup(split[0]);
 	while(split[i])
 	{
-		char *space = ft_calloc(2, 1);
-		space[0] = ' ';
+		space = ft_calloc(2, 1);
+		ft_strlcpy(space, " ", 1);
 		expanded_str = ft_strjoin_f12(expanded_str, space);
 		expanded_str = ft_strjoin_f12(expanded_str, split[i]);
 		i++;
 	}
-	// freed split
+	free_split(split);
 	return (expanded_str);
+}
+
+static void	free_split(char **tab)
+{
+	size_t	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }
