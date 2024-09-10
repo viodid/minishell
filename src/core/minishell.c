@@ -43,6 +43,7 @@ int	minishell(t_data *core)
 	char		*str;
 	char		**cmds;
 
+	// printf("pid %i", getpid());
 	str = readline("minicheh $>");
 	cmds = ft_split(str, '|');
 	if (!cmds)

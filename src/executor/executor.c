@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:18:39 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/03 17:54:05 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/09 21:30:56 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,31 +69,33 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 		if (fds.fdin == -1)
 			return (perror("post redirect"), -1);
 	}
-	// if (hasoutput(command->redirs))
-	// {
-	// 	fds.fdout = redirect_output((t_list *)command->redirs, fds,
-	// 			&core->line.stdoutbak, (command->tokens && 1));
-	// 	if (fds.fdout == -1)
-	// 		return (perror("post redirect"), -1);
-	// }
+	if (hasoutput(command->redirs))
+	{
+		fds.fdout = redirect_output((t_list *)command->redirs, fds,
+				&core->line.stdoutbak);
+		if (fds.fdout == -1)
+			return (perror("post redirect"), -1);
+	}
 	if (command->tokens)
 		retcode = exec_selector(core, command);
 	if (hasinput(command->redirs) && fds.stdfdin == STDIN_FILENO)
 		dup2(core->line.stdinbak, fds.stdfdin);
 	if (hasoutput(command->redirs) && fds.stdfdout == STDOUT_FILENO)
 		dup2(core->line.stdoutbak, fds.stdfdin);
+	// if (fds.stdfdin == STDIN_FILENO || fds.stdfdout == STDOUT_FILENO)
+	// 	reset_stdfds(core, fds, command->redirs);
 	unlink(HDOC_TMP);
 	return (retcode);
 }
 
-int	process_single(t_data *core, t_command *command, int npid)
+int	process_single(t_data *core, t_command *command, int cmd_nb)
 {
 	t_fds	fds;
 	int		pid;
 	int		retcode;
 
-	pid = core->line.pids[npid];
-	if (set_fds(&fds, core, npid))
+	pid = core->line.pids[cmd_nb];
+	if (set_fds(&fds, core, cmd_nb))
 		return (errno);
 	if (command->tokens && (core->line.nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
