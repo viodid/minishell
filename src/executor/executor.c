@@ -47,8 +47,8 @@ int	exec_selector(t_data *core, t_command *command)
 		cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
 	if (isbuiltin(args[0]))
 	{
-		retcode = exec_builtin(core, cmdpath, args, core->line.nbcommands > 1);
-		if (core->line.nbcommands == 1)
+		retcode = exec_builtin(core, cmdpath, args, core->line->nbcommands > 1);
+		if (core->line->nbcommands == 1)
 			return (ft_dfree((void **)envp), free(args), retcode);
 	}
 	else
@@ -69,23 +69,23 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 	if (hasinput(command->redirs))
 	{
 		fds.fdin = redirect_input((t_list *)command->redirs, fds,
-				&core->line.stdinbak, (command->tokens && 1));
+				&core->line->stdinbak, (command->tokens && 1));
 		if (fds.fdin == -1)
 			return (perror("post redirect"), -1);
 	}
 	if (hasoutput(command->redirs))
 	{
 		fds.fdout = redirect_output((t_list *)command->redirs, fds,
-				&core->line.stdoutbak);
+				&core->line->stdoutbak);
 		if (fds.fdout == -1)
 			return (perror("post redirect"), -1);
 	}
 	if (command->tokens)
 		retcode = exec_selector(core, command);
 	if (hasinput(command->redirs) && fds.stdfdin == STDIN_FILENO)
-		dup2(core->line.stdinbak, fds.stdfdin);
+		dup2(core->line->stdinbak, fds.stdfdin);
 	if (hasoutput(command->redirs) && fds.stdfdout == STDOUT_FILENO)
-		dup2(core->line.stdoutbak, fds.stdfdin);
+		dup2(core->line->stdoutbak, fds.stdfdin);
 	unlink(HDOC_TMP);
 	return (retcode);
 }
@@ -96,10 +96,10 @@ int	process_single(t_data *core, t_command *command, int cmd_nb)
 	int		pid;
 	int		retcode;
 
-	pid = core->line.pids[cmd_nb];
+	pid = core->line->pids[cmd_nb];
 	if (set_fds(&fds, core, cmd_nb))
 		return (errno);
-	if (command->tokens && (core->line.nbcommands > 1
+	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
 		printf("forking\n");
@@ -141,7 +141,7 @@ int	executor(t_data *core)
 
 	// i = 0;
 	retcode = EXIT_SUCCESS;
-	commands = core->line.cmds;
+	commands = core->line->cmds;
 	if (ft_lstsize(commands) == 1)
 		return (process_single(core, (t_command *)commands->content, 0));
 	else

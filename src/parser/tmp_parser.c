@@ -63,14 +63,14 @@ int	tmp_parser(t_data *core, char **cmds)
 	while (cmds[i])
 	{
 		command = parse_command(cmds[i]);
-		ft_lstadd_back(&core->line.cmds, ft_lstnew(command));
+		ft_lstadd_back(&core->line->cmds, ft_lstnew(command));
 		i++;
 	}
 	if (i)
-		core->line.pids = ft_calloc(i, sizeof(int));
+		core->line->pids = ft_calloc(i, sizeof(int));
 	else
-		core->line.pids = NULL;
-	core->line.nbcommands = i;
-	core->line.fds = ft_calloc(2, sizeof(int));
+		core->line->pids = NULL;
+	core->line->nbcommands = i;
+	core->line->fds = ft_calloc(2, sizeof(int));
 	return (EXIT_SUCCESS);
 }
