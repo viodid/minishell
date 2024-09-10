@@ -38,7 +38,7 @@ int	create_outfile(char *filename, int fd, int type)
 	if (type == OUTPUT)
 		flags = O_RDWR | O_CREAT | O_TRUNC;
 	else
-		flags = O_RDWR | O_CREAT;
+		flags = O_RDWR | O_CREAT | O_APPEND;
 	fd = open(filename, flags, 0644);
 	return (fd);
 }
