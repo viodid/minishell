@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/10 21:45:22 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/10 21:58:00 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,50 @@ static	char	*find_var(t_list *env, char *key, int errcode);
 static char	*expand_var_quotes(t_list *env, char *value, int errcode);
 static void	free_split(char **tab);
 static char	*join_split(char **split);
+static void	expansions_helper(t_list *redirs, t_list *tokens);
+static void	expansions_helper(t_list *redirs, t_list *tokens, t_list *env, int errcode);
 
 void	execute_expansions(t_data *core)
 {
 	t_list			*cmds;
 	t_list			*tokens;
 	t_list			*redirs;
-	t_token_type	type;
 
 	cmds = core->line->cmds;
 	while (cmds)
 	{
 		tokens = ((t_command *)cmds->content)->tokens;
-		while (tokens)
-		{
-			type = ((t_token *)tokens->content)->type;
-			if (type == VARIABLE || type == TILDE_EXPANSION || type == DOUBLE_QUOTE_STRING)
-				//TODO: free previous str
-				((t_token *)tokens->content)->value = expand_types(core->env, ((t_token *)tokens->content)->value, type, core->errcode);
-			tokens = tokens->next;
-		}
 		redirs = ((t_command *)cmds->content)->redirs;
-		while (redirs) {
-			type = ((t_redir *) redirs->content)->token_type;
-			if (type == VARIABLE || type == TILDE_EXPANSION || type == DOUBLE_QUOTE_STRING)
-				//TODO: free previous str
-				((t_redir *)redirs->content)->file = expand_types(core->env, ((t_redir *)redirs->content)->file, type, core->errcode);
-			redirs = redirs->next;
-		}
+		expansions_helper(redirs, tokens, core->env, core->errcode);
 		cmds = cmds->next;
+	}
+}
+
+static void	expansions_helper(t_list *redirs, t_list *tokens, t_list *env, int errcode)
+{
+	t_token_type	type;
+	char			*tmp_str;
+
+	while (tokens)
+	{
+		type = ((t_token *)tokens->content)->type;
+		if (type == VARIABLE || type == TILDE_EXPANSION || type == DOUBLE_QUOTE_STRING)
+		{
+			tmp_str = ((t_token *)tokens->content)->value;
+			((t_token *)tokens->content)->value = expand_types(env, ((t_token *)tokens->content)->value, type, errcode);
+			free(tmp_str);
+		}
+		tokens = tokens->next;
+	}
+	while (redirs) {
+		type = ((t_redir *) redirs->content)->token_type;
+		if (type == VARIABLE || type == TILDE_EXPANSION || type == DOUBLE_QUOTE_STRING)
+		{
+			tmp_str = ((t_redir *)redirs->content)->file;
+			((t_redir *)redirs->content)->file = expand_types(env, ((t_redir *)redirs->content)->file, type, errcode);
+			free(tmp_str);
+		}
+		redirs = redirs->next;
 	}
 }
 
