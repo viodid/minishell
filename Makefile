@@ -27,6 +27,7 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)core/get_env_array.c			\
 				$(SRCDIR)lexer/lexer.c					\
 				$(SRCDIR)parser/parser.c				\
+				$(SRCDIR)parser/tmp_parser.c			\
 				$(SRCDIR)parser/production_rules.c		\
 				$(SRCDIR)parser/expansions.c			\
 				$(SRCDIR)executor/executor.c			\

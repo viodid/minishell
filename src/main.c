@@ -23,6 +23,7 @@ int	main(int argc, char **argv, char **envp)
 
 	core = ft_calloc(1, sizeof(t_data));
 	core->env = set_env(envp);
+	core->line = ft_calloc(1, sizeof(t_line));
 	core->errcode = 0;
 	while (1)
 	{

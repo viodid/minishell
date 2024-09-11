@@ -46,7 +46,7 @@ t_command	*parse_command(char *str)
 		{
 			token = ft_calloc(1, sizeof(t_token));
 			token->value = tokens[i];
-			token->type = COMMAND + (ret->tokens && 1);
+			token->type = IDENTIFIER + (ret->tokens && 1);
 			ft_lstadd_back(&ret->tokens, ft_lstnew(token));
 		}
 		i++;

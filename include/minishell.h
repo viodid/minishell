@@ -141,6 +141,8 @@ void		execute_expansions(t_data *core);
 char		*find_var(t_list *env, char *key, int errcode);
 char		*expand_var_quotes(t_list *env, char *value, int errcode);
 
+int			tmp_parser(t_data *core, char **cmds);
+
 /* exec */
 
 int				executor(t_data *core); //TODO //TODO
