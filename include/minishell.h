@@ -101,15 +101,15 @@ typedef struct s_line
 	int		*fds;
 	int		*pids;
 	int		nbcommands;
-	int		stdinbak;
-	int		stdoutbak;
 }	t_line;
 
 typedef struct s_data
 {
 	t_list	*env;
-	t_line	*line; // Why static
-	int		errcode; // use for $?
+	t_line	*line;
+	int		errcode;
+	int		sv_stdin;
+	int		sv_stdout;
 }	t_data;
 
 /* core */
@@ -146,15 +146,17 @@ int			tmp_parser(t_data *core, char **cmds);
 /* exec */
 
 int				executor(t_data *core); //TODO //TODO
-int				redirect_input(t_list *redirs, t_fds fds, int *stdinbak, int iscommand); //TODO
-int				redirect_output(t_list *redirs, t_fds fds, int *stdoutbak);
+int				redirect_input(t_list *redirs, t_fds fds, int iscommand); //TODO
+int				redirect_output(t_list *redirs, t_fds fds);
 int				isbuiltin(char *cmdpath); //TODO
 char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths); //TODO
+char			**get_arg_array(t_command *command);
 int				hasinput(t_list *redirs);
 int				hasoutput(t_list *redirs);
 int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
-int				reset_stdfds(t_data *core, t_fds fds, t_list *redirs);
+// int				reset_stdfds(t_data *core, t_fds fds, t_list *redirs);
 int				close_fds(t_data *core, t_pipe_fds fds);
+int				save_stdfds(t_data *core);
 
 int				exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit);
 

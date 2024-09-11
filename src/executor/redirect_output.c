@@ -62,7 +62,7 @@ int	get_output(t_list *redirs)
 	return (fd);
 }
 
-int	redirect_output(t_list *redirs, t_fds fds, int *stdoutbak)
+int	redirect_output(t_list *redirs, t_fds fds)
 {
 	int		fdout;
 	(void)fds;
@@ -70,12 +70,7 @@ int	redirect_output(t_list *redirs, t_fds fds, int *stdoutbak)
 	fdout = get_output(redirs);
 	if (fdout == -1 || !fdout)
 		return (fdout);
-	if (stdoutbak)
-	{
-		*stdoutbak = dup(fds.stdfdout); // this saves STDIN before redirection
-		printf("fdout:%i bak:%i\n", fdout, *stdoutbak);
-		if (*stdoutbak == -1 || dup2(fdout, fds.stdfdout) == -1)
-			return (-1);
-	}
+	if (dup2(fdout, fds.stdfdout) == -1)
+		return (-1);
 	return (fdout);
 }

@@ -12,27 +12,6 @@
 
 #include "../../include/minishell.h"
 
-char	**get_arg_array(t_command *command)
-{
-	int		i;
-	char	**ret;
-	t_list	*tmp;
-	t_token	*token;
-
-	i = 0;
-	ret = ft_calloc(ft_lstsize(command->tokens) + 1, sizeof(char *));
-	if (!ret)
-		return (NULL);
-	tmp = command->tokens;
-	while (tmp)
-	{
-		token = (t_token *)tmp->content;
-		ret[i++] = token->value;
-		tmp = tmp->next;
-	}
-	return (ret);
-}
-
 int	exec_selector(t_data *core, t_command *command)
 {
 	int		retcode;
@@ -69,23 +48,22 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 	if (hasinput(command->redirs))
 	{
 		fds.fdin = redirect_input((t_list *)command->redirs, fds,
-				&core->line->stdinbak, (command->tokens && 1));
+				(command->tokens && 1));
 		if (fds.fdin == -1)
 			return (perror("post redirect"), -1);
 	}
 	if (hasoutput(command->redirs))
 	{
-		fds.fdout = redirect_output((t_list *)command->redirs, fds,
-				&core->line->stdoutbak);
+		fds.fdout = redirect_output((t_list *)command->redirs, fds);
 		if (fds.fdout == -1)
 			return (perror("post redirect"), -1);
 	}
 	if (command->tokens)
 		retcode = exec_selector(core, command);
-	if (hasinput(command->redirs) && fds.stdfdin == STDIN_FILENO)
-		dup2(core->line->stdinbak, fds.stdfdin);
-	if (hasoutput(command->redirs) && fds.stdfdout == STDOUT_FILENO)
-		dup2(core->line->stdoutbak, fds.stdfdin);
+	// if (hasinput(command->redirs) && fds.stdfdin == STDIN_FILENO)
+	// 	dup2(core->line->stdinbak, fds.stdfdin);
+	// if (hasoutput(command->redirs) && fds.stdfdout == STDOUT_FILENO)
+	// 	dup2(core->line->stdoutbak, fds.stdfdin);
 	unlink(HDOC_TMP);
 	return (retcode);
 }
@@ -135,16 +113,14 @@ int	process_multiple(t_data *core, t_list *commands)
 
 int	executor(t_data *core)
 {
-	// int		i;
-	int		retcode;
 	t_list	*commands;
 
-	// i = 0;
-	retcode = EXIT_SUCCESS;
 	commands = core->line->cmds;
-	if (ft_lstsize(commands) == 1)
+	if (save_stdfds(core))
+		return (EXIT_FAILURE);
+	if (ft_lstsize(commands) == 0)
+		return (EXIT_SUCCESS);
+	else if (ft_lstsize(commands) == 1)
 		return (process_single(core, (t_command *)commands->content, 0));
-	else
-		return (process_multiple(core, commands));
-	return (retcode);
+	return (process_multiple(core, commands));
 }

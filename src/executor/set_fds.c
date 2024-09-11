@@ -12,22 +12,33 @@
 
 #include "../../include/minishell.h"
 
-int	reset_stdfds(t_data *core, t_fds fds, t_list *redirs)
+int	save_stdfds(t_data *core)
 {
-	(void)redirs;
-	fprintf(stderr, "outbak %i\n", core->line->stdoutbak);
-	if (core->line->stdinbak && fds.stdfdin == STDIN_FILENO)
-	{
-		if (dup2(core->line->stdinbak, fds.stdfdin))
-			return (perror("restore stdin"), -1);
-	}
-	if (core->line->stdoutbak && fds.stdfdout == STDOUT_FILENO)
-	{
-		if (dup2(core->line->stdoutbak, fds.stdfdin))
-			return (perror("restore stdout"), fprintf(stderr, ">>%i\n", errno), -1);
-	}
+	core->sv_stdin = dup(STDIN_FILENO);
+	if (core->sv_stdin == -1)
+		return (perror("save stdin"), EXIT_FAILURE);
+	core->sv_stdout = dup(STDOUT_FILENO);
+	if (core->sv_stdout == -1)
+		return (perror("save stdout"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
+
+// int	reset_stdfds(t_data *core, t_fds fds, t_list *redirs)
+// {
+// 	(void)redirs;
+// 	fprintf(stderr, "outbak %i\n", core->line->stdoutbak);
+// 	if (core->line->stdinbak && fds.stdfdin == STDIN_FILENO)
+// 	{
+// 		if (dup2(core->line->stdinbak, fds.stdfdin))
+// 			return (perror("restore stdin"), -1);
+// 	}
+// 	if (core->line->stdoutbak && fds.stdfdout == STDOUT_FILENO)
+// 	{
+// 		if (dup2(core->line->stdoutbak, fds.stdfdin))
+// 			return (perror("restore stdout"), fprintf(stderr, ">>%i\n", errno), -1);
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
 
 int	close_fds(t_data *core, t_pipe_fds fds)
 {
