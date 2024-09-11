@@ -58,8 +58,6 @@ int	close_fds(t_data *core, t_pipe_fds fds)
 
 int	set_fds(t_fds *fds, t_data *core, int cmd_nb)
 {
-	if (pipe(core->line->fds))
-		return (perror("piping"), errno);
 	if (core->line->nbcommands == 1)
 	{
 		fds->stdfdin = STDIN_FILENO;
