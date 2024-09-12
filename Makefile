@@ -68,7 +68,8 @@ all:			$(NAME)
 asan:			cleanbin
 asan:			CFLAGS += -fsanitize=address
 asan:			LIBFLAG = asan
-asan:			LIBNAME = libft_asan.a
+#asan:			LIBNAME = libft_asan.a
+asan:			LIBNAME = libft.a
 asan:			all
 
 # lsan:			fclean

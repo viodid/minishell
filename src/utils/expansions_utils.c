@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/11 00:45:48 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/12 21:36:56 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,25 @@ static char	*expand_var_quotes_2(t_list *env, char *value, int errcode)
 	if (!*value)
 		return (value);
 	split = ft_split(value, ' ');
+	// TODO: remove not alphanumeric characters from variable name
 	tmp_str = split[0];
 	split[0] = find_var(env, tmp_str, errcode);
 	free(tmp_str);
 	return (join_split(split));
+}
+
+static char	*remove_quotes(char *str)
+{
+	char	*tmp_str;
+	char	*str_quote;
+
+	tmp_str = str;
+	str_quote = (char *)ft_calloc(2, 1);
+	ft_strlcpy(str_quote, str, 2);
+	str = ft_strtrim(str, str_quote);
+	free(tmp_str);
+	free(str_quote);
+	return (str);
 }
 
 char	*expand_var_quotes(t_list *env, char *value, int errcode)
@@ -55,6 +70,8 @@ char	*expand_var_quotes(t_list *env, char *value, int errcode)
 
 	if (!*value)
 		return (value);
+
+	value = remove_quotes(value);
 	split = ft_split(value, '$');
 	i = 0;
 	while (split[i])
@@ -69,7 +86,6 @@ char	*expand_var_quotes(t_list *env, char *value, int errcode)
 	}
 	return (join_split(split));
 }
-
 
 static char	*join_split(char **split)
 {
