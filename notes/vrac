@@ -19,3 +19,11 @@ arguments would be :
 - char **envp
 
 this function would return an errcode which would correspond to exit status ?
+
+
+>> PIPES
+alternate pipes with pipe[0] = pipe[1]
+
+ls | sleep 1 | pwd | echo hola
+
+ls > pipe[0][1]
