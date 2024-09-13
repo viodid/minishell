@@ -139,7 +139,7 @@ t_command	*command(t_list *token_list, t_token **look_ahead);
 void		get_next_token(t_list *token_list, t_token **look_ahead);
 void		execute_expansions(t_data *core);
 char		*find_var(t_list *env, char *key, int errcode);
-char		*expand_var_quotes(t_list *env, char *value, int errcode);
+char		*expand_var_concat(t_list *env, char *value, int errcode);
 
 /* exec */
 

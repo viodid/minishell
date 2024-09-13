@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/13 19:05:31 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/13 20:42:38 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,9 @@
 
 static void	free_split(char **tab);
 static char	*join_split(char **split);
+static char	*expand_var_in_str(t_list *env, char *value, int errcode);
 
-static char	*expand_var_quotes_2(t_list *env, char *value, int errcode)
-{
-	uint16_t	i;
-	char		**split;
-	char		*tmp_str;
-
-	if (!*value)
-		return (value);
-	split = ft_split(value, ' ');
-	// TODO: remove not alphanumeric characters from variable name
-	tmp_str = split[0];
-	split[0] = find_var(env, tmp_str, errcode);
-	free(tmp_str);
-	return (join_split(split));
-}
-
-char	*expand_var_quotes(t_list *env, char *value, int errcode)
+char	*expand_var_concat(t_list *env, char *value, int errcode)
 {
 	uint16_t	i;
 	char		**split;
@@ -40,7 +25,6 @@ char	*expand_var_quotes(t_list *env, char *value, int errcode)
 	if (!*value)
 		return (value);
 
-	value = remove_quotes(value);
 	split = ft_split(value, '$');
 	i = 0;
 	while (split[i])
@@ -48,7 +32,7 @@ char	*expand_var_quotes(t_list *env, char *value, int errcode)
 		tmp_str = split[i];
 		if (ft_isalpha(tmp_str[0]))
 		{
-			split[i] = expand_var_quotes_2(env, tmp_str, errcode);
+			split[i] = expand_var_in_str(env, tmp_str, errcode);
 			free(tmp_str);
 		}
 		i++;
@@ -56,19 +40,36 @@ char	*expand_var_quotes(t_list *env, char *value, int errcode)
 	return (join_split(split));
 }
 
+static char	*expand_var_in_str(t_list *env, char *value, int errcode)
+{
+	uint16_t	i;
+	char		*tmp_str;
+	char		*var;
+
+	if (!*value)
+		return (value);
+	tmp_str = value;
+	i = 0;
+	while (value[i] && ft_isalnum(value[i]))
+		i++;
+	var = (char *) ft_calloc(i + 1, 1);
+	ft_strlcpy(var, value, i + 1);
+	value = find_var(env, var, errcode);
+	if (i < ft_strlen(tmp_str))
+		value = ft_strjoin_f1(value, tmp_str + i);
+	free(var);
+	return (value);
+}
+
 static char	*join_split(char **split)
 {
 	int		i;
 	char	*expanded_str;
-	char	*space;
 
 	i = 1;
 	expanded_str = ft_strdup(split[0]);
 	while (split[i])
 	{
-		space = ft_calloc(2, 1);
-		ft_strlcpy(space, " ", 2);
-		expanded_str = ft_strjoin_f12(expanded_str, space);
 		expanded_str = ft_strjoin_f1(expanded_str, split[i]);
 		i++;
 	}

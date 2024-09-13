@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/12 20:55:09 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/13 20:47:28 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,12 @@ static char	*expand_types(t_list *env, char *value,
 	t_token_type type, int errcode)
 {
 	if (type == TILDE_EXPANSION)
-		return (find_var(env, "HOME", errcode));
-	if (type == VARIABLE)
-		return (find_var(env, (value + 1), errcode));
-	if (type == DOUBLE_QUOTE_STRING)
-		return (expand_var_quotes(env, value, errcode));
+		return (expand_var_concat(env,
+				  ft_strjoin_f1(
+						  find_var(env, "HOME", errcode), value + 1),
+					  errcode));
+	if (type == VARIABLE || type == DOUBLE_QUOTE_STRING)
+		return (expand_var_concat(env, value, errcode));
 	return (NULL);
 }
 
@@ -96,7 +97,8 @@ char	*find_var(t_list *env, char *key, int errcode)
 	while (env)
 	{
 		var = ((t_var *)env->content);
-		if (ft_strncmp(key, var->key, ft_strlen(key)) == 0)
+		if (ft_strlen(key) == ft_strlen(var->key)
+		&& ft_strncmp(key, var->key, ft_strlen(key)) == 0)
 			return (ft_strdup(var->value));
 		env = env->next;
 	}
