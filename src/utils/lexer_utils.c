@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/12 21:08:21 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/13 19:04:43 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,20 @@ int32_t	get_end_quote_idx(const char *str, int32_t i)
 	return (-1);
 }
 
-t_token_type	enum_token_value(const char *value)
+char	*remove_quotes(char *str)
 {
-	if (ft_strchr("<>", *value))
-		return (REDIRECTION);
-	if (*value == '\'')
-		return (SINGLE_QUOTE_STRING);
-	if (*value == '\"')
-		return (DOUBLE_QUOTE_STRING);
-	if (*value == '$')
-		return (VARIABLE);
-	if (*value == '~')
-		return (TILDE_EXPANSION);
-	if (*value == '|')
-		return (PIPE);
-	if (*value == '-')
-		return (FLAG); // TODO: stronger FLAG checker
-	if (ft_isalnum(*value))
-		return (IDENTIFIER); // TODO: stronger IDENTIFIER checker
-	if (!errno)
-		send_error("syntax error near unexpected token: ", (char *)value, 1);
-	errno = 42;
-	return (-1);
+	char	*tmp_str;
+	char	*str_quote;
+
+	tmp_str = str;
+	str_quote = (char *)ft_calloc(2, 1);
+	ft_strlcpy(str_quote, str, 2);
+	str = ft_strtrim(str, str_quote);
+	free(tmp_str);
+	free(str_quote);
+	return (str);
 }
+
 
 int32_t	get_str_size(const char *user_input, int32_t i)
 {
