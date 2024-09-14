@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/09 21:55:39 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/14 13:43:23 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,14 @@ static void	command_name(t_list *token_list, t_token **look_ahead,
 {
 	t_token	*id;
 
-	if (*look_ahead == NULL || !is_word(*look_ahead))
+	if (*look_ahead && is_word(*look_ahead))
 	{
-		if (!errno)
-		{
-			if (*look_ahead == NULL)
-				send_error("unexpected end of string",
-					"", 1);
-			else
-				send_error("syntax error near unexpected token: ",
-					(*look_ahead)->value, 1);
-		}
-		errno = 42;
-		return ;
+		id = initialize_identifier();
+		id->type = (*look_ahead)->type;
+		id->value = ft_strdup((*look_ahead)->value);
+		get_next_token(token_list, look_ahead);
+		ft_lstadd_back(&cmd->tokens, ft_lstnew(id));
 	}
-	id = initialize_identifier();
-	id->type = (*look_ahead)->type;
-	id->value = ft_strdup((*look_ahead)->value);
-	get_next_token(token_list, look_ahead);
-	ft_lstadd_back(&cmd->tokens, ft_lstnew(id));
 }
 
 static void	redirection(t_list *token_list, t_token **look_ahead,
