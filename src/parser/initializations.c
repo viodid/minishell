@@ -66,8 +66,8 @@ t_command	*initialize_cmd(void)
 	if (!cmd)
 		exit(EXIT_FAILURE);
 	cmd->tokens = NULL;
-	cmd->builtin = -1;
 	cmd->redirs = NULL;
+	cmd->builtin = -1;
 	return (cmd);
 }
 
