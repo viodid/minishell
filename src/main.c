@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:29:17 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/14 14:39:54 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/14 17:42:12 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 				break ;
 		}
 		// TODO: handle frees better
-		free_line(core->line);
+//		free_line(core->line);
 		if (retcode)
 			return (free_struct(core), retcode);
 	}

@@ -6,16 +6,16 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/13 20:58:57 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/14 18:08:39 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static t_list	*tokenizer(const char *user_input);
-static char		*loop_readline(void);
-static void		insert_token(char *value, t_list **token_list);
-static char		*remove_odd_quotes(char *user_input);
+static t_list		*tokenizer(const char *user_input);
+static char			*loop_readline(void);
+static void			insert_token(char *value, t_list **token_list);
+static char			*remove_odd_quotes(char *user_input);
 static t_token_type	enum_token_value(const char *value);
 
 t_list	*lexer(void)
@@ -69,7 +69,8 @@ static void	insert_token(char *value, t_list **token_list)
 {
 	t_token		*token;
 
-	if (ft_strchr(" \t\n", *value))
+	if (!*value || ((ft_strlen(value) == 1)
+			&& (ft_strchr(" \t\n\"\'", *value))))
 	{
 		free(value);
 		return ;
@@ -78,7 +79,8 @@ static void	insert_token(char *value, t_list **token_list)
 	if (!token)
 		exit(EXIT_FAILURE);
 	token->type = enum_token_value(value);
-	if (token->type == DOUBLE_QUOTE_STRING || token->type == SINGLE_QUOTE_STRING)
+	if (token->type == DOUBLE_QUOTE_STRING
+		|| token->type == SINGLE_QUOTE_STRING)
 		token->value = remove_quotes(value);
 	else
 		token->value = value;
