@@ -30,7 +30,6 @@ t_list	*lexer(void)
 		return (EXIT_SUCCESS);
 	}
 	token_list = tokenizer(user_input);
-	ft_lstiter(token_list, &print_tokens);
 	add_history(user_input);
 	free(user_input);
 	if (errno)

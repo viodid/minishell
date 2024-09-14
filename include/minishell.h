@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/13 19:03:53 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/14 14:08:25 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,9 @@ int				ft_exit(t_data *core, char **args); //TODO senderror
 /* utils */
 
 void			free_struct(t_data *core);
-void			free_var(void *cont);
+void			free_line(t_line *line);
 void			free_cmd(void *cont);
+void			free_var(void *cont);
 void			free_token(void *cont);
 
 int				tmp_parser(t_data *core, char **cmds);

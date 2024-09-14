@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/13 20:42:38 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/14 15:13:59 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ char	*expand_var_concat(t_list *env, char *value, int errcode)
 	char		**split;
 	char		*tmp_str;
 
-	if (!*value)
-		return (value);
+//	if (!*value)
+//		return (value);
 
 	split = ft_split(value, '$');
 	i = 0;
@@ -46,8 +46,8 @@ static char	*expand_var_in_str(t_list *env, char *value, int errcode)
 	char		*tmp_str;
 	char		*var;
 
-	if (!*value)
-		return (value);
+//	if (!*value)
+//		return (value);
 	tmp_str = value;
 	i = 0;
 	while (value[i] && ft_isalnum(value[i]))

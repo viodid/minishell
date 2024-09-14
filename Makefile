@@ -27,6 +27,7 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)core/get_env_array.c			\
 				$(SRCDIR)lexer/lexer.c					\
 				$(SRCDIR)parser/parser.c				\
+				$(SRCDIR)parser/initializations.c		\
 				$(SRCDIR)parser/production_rules.c		\
 				$(SRCDIR)parser/expansions.c			\
 				$(SRCDIR)executor/executor.c			\
@@ -47,7 +48,6 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)utils/printers.c				\
 				$(SRCDIR)utils/lexer_utils.c			\
 				$(SRCDIR)utils/errors.c					\
-				$(SRCDIR)utils/parser_utils.c			\
 				$(SRCDIR)utils/expansions_utils.c		\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))

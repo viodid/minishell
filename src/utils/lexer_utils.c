@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/13 19:04:43 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/14 14:46:28 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int32_t	get_end_quote_idx(const char *str, int32_t i)
 	while (str[++i])
 	{
 		if (str[i] == quote_type)
-			return (i + 1);
+			return (i);
 	}
 	return (-1);
 }
