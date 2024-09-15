@@ -98,7 +98,7 @@ typedef struct s_command
 typedef struct s_line
 {
 	t_list	*cmds;
-	int		*fds;
+	int		**fds;
 	int		*pids;
 	int		nbcommands;
 }	t_line;
@@ -178,6 +178,7 @@ void			free_struct(t_data *core);
 void			free_var(void *cont);
 void			free_cmd(void *cont);
 void			free_token(void *cont);
+void			free_line(t_line *line);
 
 int				tmp_parser(t_data *core, char **cmds);
 

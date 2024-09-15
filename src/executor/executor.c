@@ -33,6 +33,8 @@ int	exec_selector(t_data *core, t_command *command)
 	else
 	{
 		retcode = execve(cmdpath, args, envp);
+		if (retcode)
+			perror(args[0]);
 		free(cmdpath);
 	}
 	ft_dfree((void **)envp);

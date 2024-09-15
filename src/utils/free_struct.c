@@ -59,8 +59,15 @@ void	free_var(void *cont)
 	free(var);
 }
 
+void	free_line(t_line *line)
+{
+	ft_lstclear(&line->cmds, &free_cmd);
+	ft_dfree((void **)line->fds);
+	free(line->pids);
+}
+
 void	free_struct(t_data *core)
 {
 	ft_lstclear(&core->env, free_var);
-	ft_lstclear(&core->line->cmds, &free_cmd);
+	free_line(core->line);
 }

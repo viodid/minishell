@@ -57,20 +57,25 @@ t_command	*parse_command(char *str)
 int	tmp_parser(t_data *core, char **cmds)
 {
 	int			i;
+	int			j;
 	t_command	*command;
 
 	i = 0;
+	j = 0;
 	while (cmds[i])
 	{
 		command = parse_command(cmds[i]);
 		ft_lstadd_back(&core->line->cmds, ft_lstnew(command));
 		i++;
 	}
+	printf("-->%i\n", i);
 	if (i)
 		core->line->pids = ft_calloc(i, sizeof(int));
 	else
 		core->line->pids = NULL;
 	core->line->nbcommands = i;
-	core->line->fds = ft_calloc(2, sizeof(int));
+	core->line->fds = ft_calloc(i, sizeof(int *));
+	while (j < i)
+		core->line->fds[j++] = ft_calloc(2, sizeof(int));
 	return (EXIT_SUCCESS);
 }
