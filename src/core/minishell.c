@@ -36,7 +36,7 @@ int	minishell(t_data *core)
 	str = readline("ˢʰᵉˡˡ$>");
 	cmds = ft_split(str, '|');
 	if (!cmds)
-		return (fprintf(stderr, "!cmds"), EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
 	if (core->line && core->line->cmds)
 		ft_lstclear(&core->line->cmds, free_cmd);
 	tmp_parser(core, cmds);

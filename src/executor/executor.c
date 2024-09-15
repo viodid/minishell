@@ -62,10 +62,6 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 	}
 	if (command->tokens)
 		retcode = exec_selector(core, command);
-	// if (hasinput(command->redirs) && fds.stdfdin == STDIN_FILENO)
-	// 	dup2(core->line->stdinbak, fds.stdfdin);
-	// if (hasoutput(command->redirs) && fds.stdfdout == STDOUT_FILENO)
-	// 	dup2(core->line->stdoutbak, fds.stdfdin);
 	unlink(HDOC_TMP);
 	return (retcode);
 }

@@ -75,6 +75,6 @@ int	tmp_parser(t_data *core, char **cmds)
 	core->line->nbcommands = i;
 	core->line->fds = ft_calloc(i, sizeof(int *));
 	while (j < i)
-		core->line->fds[j] = ft_calloc(2, sizeof(int));
+		core->line->fds[j++] = ft_calloc(2, sizeof(int));
 	return (EXIT_SUCCESS);
 }

@@ -76,9 +76,6 @@ void	print_execve(char *cmdpath, char **args, char **envp)
 	printf("args :\n");
 	while (printf("->%i\n", i) && args[i])
 		printf("%s\n", args[i++]);
-	// i = -1;
-	// while (envp[++i])
-	// 	hola(envp[i]);
 }
 
 void	hola(char *str)

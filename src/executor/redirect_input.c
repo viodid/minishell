@@ -37,8 +37,7 @@ int	heredoc_loop(char *limiter, int fd, int iscommand)
 	close(fd);
 	if (!access(HDOC_TMP, R_OK))
 		unlink(HDOC_TMP);
-	fd = open(HDOC_TMP, O_RDWR | O_CREAT | O_TRUNC, 0644); //TODO cambiar flag O_CREAT por O_TMPFILE
-	// fd = open("/tmp/", O_RDWR | O_TMPFILE, 0644);
+	fd = open(HDOC_TMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (fd);
 	line = readline(">");
