@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/15 22:58:45 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/16 00:17:11 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 # define TRUE 1
 # define FALSE 0
-# define METACHARACTERS " |&;()<>\t\n\"\'"
+# define METACHARACTERS " |&;()<>\t\n"
 
 # include "../libft/libft.h"
 # include <readline/history.h>

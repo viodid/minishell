@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/15 23:51:41 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/16 00:17:06 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int32_t	get_str_size(const char *user_input, int32_t i)
 	int32_t	idx;
 
 	idx = i;
-	if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
-		idx = get_end_quote_idx(user_input, i) + 1;
+//	if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
+//		idx = get_end_quote_idx(user_input, i) + 1;
 	if (idx == -1)
 	{
 		send_error("syntax error: ", "unclosed quotes", -1);

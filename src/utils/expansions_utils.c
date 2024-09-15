@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/16 00:07:40 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/16 01:42:45 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ char	*expand_var_concat(t_list *env, char *value, int errcode)
 		return (ft_strdup(value));
 	split = ft_split(value, '$');
 	i = 0;
+	if (value[0] != '$') // because first split str may not be a var
+		i++;
 	while (split[i])
 	{
 		tmp_str = split[i];
-		if (ft_isalpha(tmp_str[0]))
+		if (ft_isalpha(tmp_str[0])) // TODO: change condition, check token correctness in tokenizer
 		{
 			split[i] = expand_var_in_str(env, tmp_str, errcode);
 			free(tmp_str);
