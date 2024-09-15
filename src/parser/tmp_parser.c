@@ -68,7 +68,6 @@ int	tmp_parser(t_data *core, char **cmds)
 		ft_lstadd_back(&core->line->cmds, ft_lstnew(command));
 		i++;
 	}
-	printf("-->%i\n", i);
 	if (i)
 		core->line->pids = ft_calloc(i, sizeof(int));
 	else
@@ -76,6 +75,6 @@ int	tmp_parser(t_data *core, char **cmds)
 	core->line->nbcommands = i;
 	core->line->fds = ft_calloc(i, sizeof(int *));
 	while (j < i)
-		core->line->fds[j++] = ft_calloc(2, sizeof(int));
+		core->line->fds[j] = ft_calloc(2, sizeof(int));
 	return (EXIT_SUCCESS);
 }

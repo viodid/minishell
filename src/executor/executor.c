@@ -118,7 +118,7 @@ int	executor(t_data *core)
 	t_list	*commands;
 
 	commands = core->line->cmds;
-	if (save_stdfds(core))
+	if (save_stdfds(core) || init_pipes(core))
 		return (EXIT_FAILURE);
 	if (ft_lstsize(commands) == 0)
 		return (EXIT_SUCCESS);
