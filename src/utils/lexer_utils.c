@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/14 14:46:28 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/15 23:20:45 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,6 @@ char	*handle_odd_quotes(char quote, uint16_t total_quotes, char *str)
 	return (output_str - (str_len - 1));
 }
 
-int32_t	get_end_quote_idx(const char *str, int32_t i)
-{
-	char	quote_type;
-
-	quote_type = str[i];
-	while (str[++i])
-	{
-		if (str[i] == quote_type)
-			return (i);
-	}
-	return (-1);
-}
-
 char	*remove_quotes(char *str)
 {
 	char	*tmp_str;
@@ -67,7 +54,6 @@ char	*remove_quotes(char *str)
 	return (str);
 }
 
-
 int32_t	get_str_size(const char *user_input, int32_t i)
 {
 	int32_t	idx;
@@ -81,7 +67,20 @@ int32_t	get_str_size(const char *user_input, int32_t i)
 		errno = 42;
 		return (i);
 	}
-	return (idx);
+	return (idx + 1);
+}
+
+int32_t	get_end_quote_idx(const char *str, int32_t i)
+{
+	char	quote_type;
+
+	quote_type = str[i];
+	while (str[++i])
+	{
+		if (str[i] == quote_type)
+			return (i);
+	}
+	return (-1);
 }
 
 int	get_size_metachar(const char *user_input, uint32_t i)
@@ -92,5 +91,7 @@ int	get_size_metachar(const char *user_input, uint32_t i)
 			|| (ft_strncmp(&user_input[i], "<<", 2) == 0))
 			return (2);
 	}
-	return (1);
+	else if (!ft_strchr( " |&;()\t\n\"\'", user_input[i]))
+		return (1);
+	return (0);
 }
