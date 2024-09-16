@@ -31,9 +31,10 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)parser/production_rules.c		\
 				$(SRCDIR)parser/expansions.c			\
 				$(SRCDIR)executor/executor.c			\
+				$(SRCDIR)executor/redirections.c		\
 				$(SRCDIR)executor/executor_builtin.c	\
 				$(SRCDIR)executor/redirect_infile.c		\
-				$(SRCDIR)executor/redirect_outfile.c		\
+				$(SRCDIR)executor/redirect_outfile.c	\
 				$(SRCDIR)executor/get_cmdpath.c			\
 				$(SRCDIR)executor/set_fds.c				\
 				$(SRCDIR)signals/signals.c				\
@@ -55,7 +56,6 @@ OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= gcc
 CFLAGS			= -Wextra -Werror -pedantic-errors -g3
-#CFLAGS			= -g3
 LIBFLAG			=
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)

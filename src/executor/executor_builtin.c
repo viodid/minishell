@@ -15,13 +15,13 @@
 int	isbuiltin(char *cmdpath)
 {
 	return (
-		!ft_strncmp(cmdpath, "cd", 3)			//parent
+		!ft_strncmp(cmdpath, "cd", 3)
 		|| !ft_strncmp(cmdpath, "echo", 5)
 		|| !ft_strncmp(cmdpath, "env", 4)
-		|| !ft_strncmp(cmdpath, "exit", 5)		//parent
-		|| !ft_strncmp(cmdpath, "export", 7)	//parent
+		|| !ft_strncmp(cmdpath, "exit", 5)
+		|| !ft_strncmp(cmdpath, "export", 7)
 		|| !ft_strncmp(cmdpath, "pwd", 4)
-		|| !ft_strncmp(cmdpath, "unset", 6)		//parent
+		|| !ft_strncmp(cmdpath, "unset", 6)
 	);
 }
 

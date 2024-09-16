@@ -146,9 +146,10 @@ int			tmp_parser(t_data *core, char **cmds);
 /* exec */
 
 int				executor(t_data *core); //TODO //TODO
-int				redirect_infile(t_list *redirs, t_fds fds, int iscommand); //TODO
+int				redirect_files(t_command *command, t_fds *fds);
+int				redirect_infile(t_list *redirs, t_fds fds, int iscommand);
 int				redirect_outfile(t_list *redirs, t_fds fds);
-int				isbuiltin(char *cmdpath); //TODO
+int				isbuiltin(char *cmdpath);
 char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths); //TODO
 char			**get_arg_array(t_command *command);
 int				hasinput(t_list *redirs);

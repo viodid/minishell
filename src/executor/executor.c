@@ -47,19 +47,7 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 	int		retcode;
 
 	retcode = EXIT_SUCCESS;
-	if (hasinput(command->redirs))
-	{
-		fds.fdin = redirect_infile((t_list *)command->redirs, fds,
-				(command->tokens && 1));
-		if (fds.fdin == -1)
-			return (perror("post redirect"), -1);
-	}
-	if (hasoutput(command->redirs))
-	{
-		fds.fdout = redirect_outfile((t_list *)command->redirs, fds);
-		if (fds.fdout == -1)
-			return (perror("post redirect"), -1);
-	}
+	redirect_files(command, &fds);
 	if (command->tokens)
 		retcode = exec_selector(core, command);
 	unlink(HDOC_TMP);
