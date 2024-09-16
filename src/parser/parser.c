@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:03 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/14 17:56:46 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/16 19:21:20 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	parser(t_data *core)
 {
 	t_list	*token_list;
 
-	// TODO: check case 'cmd "str"whatever'
 	token_list = lexer();
 	ft_lstiter(token_list, &print_tokens);
 	if (errno || !token_list)

@@ -33,3 +33,7 @@ $ export var1=hey var1=hola
 
 $ unset var1 var2
 *deletes both variables from export list*
+
+Parser :
+$ echo $PWD/.local/bin
+$ cd /home/"$USER/.local"/bin

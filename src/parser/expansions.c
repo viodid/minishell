@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/13 20:47:28 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/16 19:15:04 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	expansions_helper(t_list *redirs, t_list *tokens, t_list *env, int e
 	{
 		type = ((t_token *)tokens->content)->type;
 		if (type == VARIABLE || type == TILDE_EXPANSION
-			|| type == DOUBLE_QUOTE_STRING)
+			|| type == DOUBLE_QUOTE_STRING || type == IDENTIFIER)
 			((t_token *)tokens->content)->value = expansions_helper_2(
 					((t_token *)tokens->content)->value, env, type, errcode);
 		tokens = tokens->next;
@@ -52,7 +52,7 @@ static void	expansions_helper(t_list *redirs, t_list *tokens, t_list *env, int e
 	{
 		type = ((t_redir *) redirs->content)->token_type;
 		if (type == VARIABLE || type == TILDE_EXPANSION
-			|| type == DOUBLE_QUOTE_STRING)
+			|| type == DOUBLE_QUOTE_STRING || type == IDENTIFIER)
 			((t_redir *)redirs->content)->file = expansions_helper_2(
 					((t_redir *)redirs->content)->file, env, type, errcode);
 		redirs = redirs->next;
@@ -78,7 +78,7 @@ static char	*expand_types(t_list *env, char *value,
 				  ft_strjoin_f1(
 						  find_var(env, "HOME", errcode), value + 1),
 					  errcode));
-	if (type == VARIABLE || type == DOUBLE_QUOTE_STRING)
+	if (type == VARIABLE || type == DOUBLE_QUOTE_STRING || type == IDENTIFIER)
 		return (expand_var_concat(env, value, errcode));
 	return (NULL);
 }

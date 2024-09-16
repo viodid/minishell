@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/16 01:41:32 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/16 19:10:33 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ static void	insert_token(char *value, t_list **token_list)
 	if (!token)
 		exit(EXIT_FAILURE);
 	token->type = enum_token_value(value);
-	if (token->type == DOUBLE_QUOTE_STRING
-		|| token->type == SINGLE_QUOTE_STRING)
-		token->value = remove_quotes(value);
-	else
-		token->value = value;
+	// if (token->type == DOUBLE_QUOTE_STRING
+		// || token->type == SINGLE_QUOTE_STRING)
+		// token->value = remove_quotes(value);
+	// else
+	token->value = value;
 	ft_lstadd_back(token_list, ft_lstnew(token));
 }
 
