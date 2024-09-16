@@ -37,6 +37,7 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)executor/redirect_outfile.c	\
 				$(SRCDIR)executor/get_cmdpath.c			\
 				$(SRCDIR)executor/set_fds.c				\
+				$(SRCDIR)executor/pipes.c				\
 				$(SRCDIR)signals/signals.c				\
 				$(SRCDIR)builtins/echo.c				\
 				$(SRCDIR)builtins/cd.c					\

@@ -48,19 +48,6 @@ int	reset_stdfds(t_data *core)
 // 	return (EXIT_SUCCESS);
 // }
 
-int	init_pipes(t_data *core)
-{
-	int	i;
-
-	i = 0;
-	while (i < core->line->nbcommands)
-	{
-		if (pipe(core->line->fds[i++]))
-			return (perror("pipes"), EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
-
 int	set_fds(t_fds *fds, t_data *core, int cmd_nb)
 {
 	if (core->line->nbcommands == 1)
