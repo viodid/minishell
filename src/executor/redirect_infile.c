@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect_input.c                                   :+:      :+:    :+:   */
+/*   redirect_infile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -88,7 +88,7 @@ int	get_input(t_list *redirs, int iscommand)
 	return (fd);
 }
 
-int	redirect_input(t_list *redirs, t_fds fds, int iscommand)
+int	redirect_infile(t_list *redirs, t_fds fds, int iscommand)
 {
 	int		fdin;
 	(void)fds;

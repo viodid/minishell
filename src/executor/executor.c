@@ -49,14 +49,14 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 	retcode = EXIT_SUCCESS;
 	if (hasinput(command->redirs))
 	{
-		fds.fdin = redirect_input((t_list *)command->redirs, fds,
+		fds.fdin = redirect_infile((t_list *)command->redirs, fds,
 				(command->tokens && 1));
 		if (fds.fdin == -1)
 			return (perror("post redirect"), -1);
 	}
 	if (hasoutput(command->redirs))
 	{
-		fds.fdout = redirect_output((t_list *)command->redirs, fds);
+		fds.fdout = redirect_outfile((t_list *)command->redirs, fds);
 		if (fds.fdout == -1)
 			return (perror("post redirect"), -1);
 	}

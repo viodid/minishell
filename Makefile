@@ -32,8 +32,8 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)parser/expansions.c			\
 				$(SRCDIR)executor/executor.c			\
 				$(SRCDIR)executor/executor_builtin.c	\
-				$(SRCDIR)executor/redirect_input.c		\
-				$(SRCDIR)executor/redirect_output.c		\
+				$(SRCDIR)executor/redirect_infile.c		\
+				$(SRCDIR)executor/redirect_outfile.c		\
 				$(SRCDIR)executor/get_cmdpath.c			\
 				$(SRCDIR)executor/set_fds.c				\
 				$(SRCDIR)signals/signals.c				\

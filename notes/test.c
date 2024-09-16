@@ -5,17 +5,17 @@
 # define MAIN_PIPE 0
 # define AUX_PIPE 1
 
-int	dup_pipe(int *pipe2, int *pipe1)
-{
-	close(pipe1[READ_FD]);
-	close(pipe1[WRITE_FD]);
-	pipe1[READ_FD] = pipe2[READ_FD];
-	pipe1[WRITE_FD] = pipe2[WRITE_FD];
-	fprintf(stderr, ">>read %i write %i\n", pipe1[READ_FD], pipe1[WRITE_FD]);
-	ft_bzero(pipe2, sizeof(int) * 2);
-	// pipe(pipe2);
-	return EXIT_SUCCESS;
-}
+// int	dup_pipe(int *pipe2, int *pipe1)
+// {
+// 	close(pipe1[READ_FD]);
+// 	close(pipe1[WRITE_FD]);
+// 	pipe1[READ_FD] = pipe2[READ_FD];
+// 	pipe1[WRITE_FD] = pipe2[WRITE_FD];
+// 	fprintf(stderr, ">>read %i write %i\n", pipe1[READ_FD], pipe1[WRITE_FD]);
+// 	ft_bzero(pipe2, sizeof(int) * 2);
+// 	// pipe(pipe2);
+// 	return EXIT_SUCCESS;
+// }
 
 int main(int argc, char **argv, char **envp)
 {
@@ -29,15 +29,12 @@ int main(int argc, char **argv, char **envp)
 	char	**cmd4 = ft_split("wc -c", ' ');
 	(void)i;(void)argc;(void)argv;(void)envp;(void)fd3;
 
-	// fprintf(stderr, "parent :%i\n", getpid());
-	// fds = ft_calloc(2, sizeof(int *));
-	// fds[MAIN_PIPE] = ft_calloc(2, sizeof(int));
-	// fds[AUX_PIPE] = ft_calloc(2, sizeof(int));
 	fd1 = ft_calloc(2, sizeof(int));
 	fd2 = ft_calloc(2, sizeof(int));
 	fd3 = ft_calloc(2, sizeof(int));
-
 	pipe(fd1);
+	pipe(fd2);
+	pipe(fd3);
 
 	pid[0] = fork();
 	if (!pid[0])
@@ -46,12 +43,10 @@ int main(int argc, char **argv, char **envp)
 		dup2(fd1[WRITE_FD], STDOUT_FILENO);
 		close(fd1[WRITE_FD]);
 		execve("/bin/ls", cmd1, NULL);
-		// execlp("/bin/ls", "ls", "-l", NULL);
 		exit(EXIT_FAILURE);
 	}
 
 	close(fd1[WRITE_FD]);
-	pipe(fd2);
 	pid[1] = fork();
 	if (!pid[1])
 	{
@@ -61,37 +56,34 @@ int main(int argc, char **argv, char **envp)
 		dup2(fd2[WRITE_FD], STDOUT_FILENO);
 		close(fd2[WRITE_FD]);
 		execve("/bin/grep", cmd2, NULL);
-		// execlp("/bin/grep","grep", "u",NULL);
 		exit(EXIT_FAILURE);
 	}
 	close(fd1[READ_FD]);
-	// close(fd2[WRITE_FD]);
-	fprintf(stderr, "fd1 %i %i, fd2 %i %i\n", fd1[READ_FD], fd1[WRITE_FD], fd2[READ_FD], fd2[WRITE_FD]);
-	dup_pipe(fd2, fd1);
-	fprintf(stderr, "fd1 %i %i, fd2 %i %i\n", fd1[READ_FD], fd1[WRITE_FD], fd2[READ_FD], fd2[WRITE_FD]);
-	pipe(fd2);
+
+	close(fd2[WRITE_FD]);
 	pid[2] = fork();
 	if (!pid[2])
 	{
+		close(fd3[READ_FD]);
+		dup2(fd2[READ_FD], STDIN_FILENO);
 		close(fd2[READ_FD]);
-		dup2(fd1[READ_FD], STDIN_FILENO);
-		close(fd1[READ_FD]);
-		dup2(fd2[WRITE_FD], STDOUT_FILENO);
-		close(fd2[WRITE_FD]);
+		dup2(fd3[WRITE_FD], STDOUT_FILENO);
+		close(fd3[WRITE_FD]);
 		execve("/bin/wc", cmd3, NULL);
-		// execlp("/usr/bin/wc","wc", "-l",NULL);
 		exit(EXIT_FAILURE);
 	}
-	close(fd1[READ_FD]);
-	close(fd2[WRITE_FD]);
+	close(fd2[READ_FD]);
+
+	close(fd3[WRITE_FD]);
 	pid[3] = fork();
 	if (!pid[3])
 	{
-		dup2(fd2[READ_FD], STDIN_FILENO);
-		close(fd2[READ_FD]);
+		dup2(fd3[READ_FD], STDIN_FILENO);
+		close(fd3[READ_FD]);
 		execve("/bin/wc", cmd4, NULL);
 		exit(EXIT_FAILURE);
 	}
+	close(fd3[READ_FD]);
 
 
 	// wait(&status);

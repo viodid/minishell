@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect_output.c                                  :+:      :+:    :+:   */
+/*   redirect_outfile.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -62,7 +62,7 @@ int	get_output(t_list *redirs)
 	return (fd);
 }
 
-int	redirect_output(t_list *redirs, t_fds fds)
+int	redirect_outfile(t_list *redirs, t_fds fds)
 {
 	int		fdout;
 	(void)fds;
