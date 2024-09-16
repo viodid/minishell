@@ -154,7 +154,7 @@ char			**get_arg_array(t_command *command);
 int				hasinput(t_list *redirs);
 int				hasoutput(t_list *redirs);
 int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
-// int				reset_stdfds(t_data *core, t_fds fds, t_list *redirs);
+int				reset_stdfds(t_data *core);
 // int				close_fds(t_data *core, t_pipe_fds fds);
 int				save_stdfds(t_data *core);
 int				init_pipes(t_data *core);

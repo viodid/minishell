@@ -87,6 +87,7 @@ int	process_single(t_data *core, t_command *command, int cmd_nb)
 	}
 	else
 		retcode = run_single(core, command, fds);
+	// fprintf(stderr, "unlinking %i\n", unlink(HDOC_TMP));
 	return (retcode);
 }
 
@@ -111,6 +112,7 @@ int	process_multiple(t_data *core, t_list *commands)
 
 int	executor(t_data *core)
 {
+	int		retcode;
 	t_list	*commands;
 
 	commands = core->line->cmds;
@@ -119,6 +121,11 @@ int	executor(t_data *core)
 	if (ft_lstsize(commands) == 0)
 		return (EXIT_SUCCESS);
 	else if (ft_lstsize(commands) == 1)
-		return (process_single(core, (t_command *)commands->content, 0));
+	{
+		retcode = process_single(core, (t_command *)commands->content, 0);
+		if (reset_stdfds(core))
+			return (EXIT_FAILURE);
+		return (retcode);
+	}
 	return (process_multiple(core, commands));
 }

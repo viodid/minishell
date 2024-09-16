@@ -23,22 +23,14 @@ int	save_stdfds(t_data *core)
 	return (EXIT_SUCCESS);
 }
 
-// int	reset_stdfds(t_data *core, t_fds fds, t_list *redirs)
-// {
-// 	(void)redirs;
-// 	fprintf(stderr, "outbak %i\n", core->line->stdoutbak);
-// 	if (core->line->stdinbak && fds.stdfdin == STDIN_FILENO)
-// 	{
-// 		if (dup2(core->line->stdinbak, fds.stdfdin))
-// 			return (perror("restore stdin"), -1);
-// 	}
-// 	if (core->line->stdoutbak && fds.stdfdout == STDOUT_FILENO)
-// 	{
-// 		if (dup2(core->line->stdoutbak, fds.stdfdin))
-// 			return (perror("restore stdout"), fprintf(stderr, ">>%i\n", errno), -1);
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
+int	reset_stdfds(t_data *core)
+{
+	if (dup2(core->sv_stdin, STDIN_FILENO) == -1)
+		return(perror("restore input"), EXIT_FAILURE);
+	if (dup2(core->sv_stdout, STDOUT_FILENO) == -1)
+		return(perror("restore output"), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
 
 // int	close_fds(t_data *core, t_pipe_fds fds)
 // {
@@ -74,7 +66,7 @@ int	set_fds(t_fds *fds, t_data *core, int cmd_nb)
 	if (core->line->nbcommands == 1)
 	{
 		fds->stdfdin = STDIN_FILENO;
-		fds->stdfdout = STDOUT_FILENO;		
+		fds->stdfdout = STDOUT_FILENO;
 	}
 	else if (cmd_nb == 0 && core->line->nbcommands > 1)
 	{
