@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/16 00:17:11 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/16 01:52:04 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 # define HDOC_TMP	"_tmphdoc"
 
@@ -61,6 +62,8 @@ typedef enum e_token_type
 }	t_token_type;
 
 /* STRUCTS */
+
+
 typedef struct s_fds
 {
 	int	stdfdin;
