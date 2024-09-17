@@ -41,11 +41,12 @@ int	exec_selector(t_data *core, t_command *command)
 	exit(retcode);
 }
 
-int	run_single(t_data *core, t_command *command, t_fds fds)
+int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 {
 	int		retcode;
 
 	retcode = EXIT_SUCCESS;
+	set_fds(&fds, core, cmd_nb);
 	redirect_files(command, &fds);
 	if (command->tokens)
 		retcode = exec_selector(core, command);
@@ -53,32 +54,28 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 	return (retcode);
 }
 
-int	process_single(t_data *core, t_command *command, int cmd_nb)
+int	process_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 {
-	t_fds	fds;
 	int		pid;
 	int		retcode;
 
 	pid = core->line->pids[cmd_nb];
-	if (set_fds(&fds, core, cmd_nb))
-		return (errno);
 	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
 		printf("forking\n");
 		pid = fork(); //!start of child process
 		if (pid == 0) // child case
-			retcode = run_single(core, command, fds);
+			retcode = run_single(core, command, fds, cmd_nb);
 		else
 			return (EXIT_SUCCESS);
 	}
 	else
-		retcode = run_single(core, command, fds);
-	// fprintf(stderr, "unlinking %i\n", unlink(HDOC_TMP));
+		retcode = run_single(core, command, fds, cmd_nb);
 	return (retcode);
 }
 
-int	process_multiple(t_data *core, t_list *commands)
+int	process_multiple(t_data *core, t_list *commands, t_fds fds)
 {
 	int			i;
 	t_command	*command;
@@ -87,7 +84,7 @@ int	process_multiple(t_data *core, t_list *commands)
 	while (commands)
 	{
 		command = (t_command *)commands->content;
-		process_single(core, command, i);
+		process_single(core, command, fds, i);
 		commands = commands->next;
 		i++;
 	}
@@ -100,16 +97,18 @@ int	process_multiple(t_data *core, t_list *commands)
 int	executor(t_data *core)
 {
 	int		retcode;
+	t_fds	fds;
 	t_list	*commands;
 
 	commands = core->line->cmds;
+	ft_bzero((void *)&fds, sizeof(t_fds));
 	if (save_stdfds(core) || init_pipes(core))
 		return (EXIT_FAILURE);
 	if (ft_lstsize(commands) == 0)
 		return (EXIT_SUCCESS);
 	else if (ft_lstsize(commands) > 1)
-		return (process_multiple(core, commands));
-	retcode = process_single(core, (t_command *)commands->content, 0);
+		return (process_multiple(core, commands, fds));
+	retcode = process_single(core, (t_command *)commands->content, fds, 0);
 	if (!core->line->pids[0] && reset_stdfds(core))
 	{
 		free_struct(core);

@@ -80,7 +80,7 @@ lsan:			LIBFLAG = lsan
 lsan:			LIBNAME = libft_lsan.a
 lsan:			all
 
-$(NAME):		$(OBJS) $(LIBNAME)
+$(NAME):		$(OBJS) $(LIBNAME) $(INCLUDE)
 				$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBNAME) $(LDFLAGS)
 				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 

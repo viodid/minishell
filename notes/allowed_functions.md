@@ -21,6 +21,7 @@ access
 open
 read
 close
+unlink
 
 <!-- process handling -->
 fork
@@ -45,9 +46,6 @@ chdir
 stat
 lstat
 fstat
-
-<!-- TODO -->
-unlink
 
 <!-- executing bash command -->
 execve

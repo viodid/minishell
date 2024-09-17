@@ -96,20 +96,18 @@ int	get_input(t_list *redirs, int iscommand, int *ishdoc)
 
 int	redirect_infile(t_list *redirs, t_fds fds, int iscommand)
 {
-	int		fdin;
 	int		ishdoc;
-	(void)fds;
 
 	ishdoc = 0;
-	fdin = get_input(redirs, iscommand, &ishdoc);
-	if (fdin == -1 || !fdin)
-		return (fdin);
+	fds.fdin = get_input(redirs, iscommand, &ishdoc);
+	if (fds.fdin == -1 || !fds.fdin)
+		return (fds.fdin);
 	if (ishdoc)
 	{
-		close(fdin);
-		fdin = open(HDOC_TMP, O_RDWR, 0644);
+		close(fds.fdin);
+		fds.fdin = open(HDOC_TMP, O_RDWR, 0644);
 	}
-	if (dup2(fdin, fds.stdfdin) == -1)
+	if (dup2(fds.fdin, fds.stdfdin) == -1)
 		return (perror("redirect input"), -1);
-	return (fdin);
+	return (fds.fdin);
 }
