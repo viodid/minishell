@@ -4,6 +4,7 @@ dbg
 .idea
 ret
 _tmphdoc
+notes/test.c
 
 # Prerequisites
 *.d
