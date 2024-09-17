@@ -2,6 +2,8 @@ minishell
 dbg
 .vscode
 .idea
+ret
+_tmphdoc
 
 # Prerequisites
 *.d

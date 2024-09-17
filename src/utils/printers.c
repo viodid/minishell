@@ -78,8 +78,11 @@ void	print_execve(char *cmdpath, char **args, char **envp)
 		printf("%s\n", args[i++]);
 }
 
-void	hola(char *str)
+int	hola(char *str)
 {
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
+	int	ret;
+
+	ret = write(2, str, ft_strlen(str));
+	ret += write(2, "\n", 1);
+	return(ret);
 }

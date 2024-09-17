@@ -194,7 +194,7 @@ void	print_var_exp(void *cont);
 void	print_str(void *cont);
 void	print_command(void *cont);
 void	print_tokens(void *cont);
-void	hola(char *str);
+int		hola(char *str);
 void	print_execve(char *cmdpath, char **args, char **envp);
 
 #endif

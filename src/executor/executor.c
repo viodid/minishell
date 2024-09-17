@@ -107,12 +107,13 @@ int	executor(t_data *core)
 		return (EXIT_FAILURE);
 	if (ft_lstsize(commands) == 0)
 		return (EXIT_SUCCESS);
-	else if (ft_lstsize(commands) == 1)
+	else if (ft_lstsize(commands) > 1)
+		return (process_multiple(core, commands));
+	retcode = process_single(core, (t_command *)commands->content, 0);
+	if (!core->line->pids[0] && reset_stdfds(core))
 	{
-		retcode = process_single(core, (t_command *)commands->content, 0);
-		if (reset_stdfds(core))
-			return (EXIT_FAILURE);
-		return (retcode);
+		free_struct(core);
+		exit(EXIT_FAILURE);
 	}
-	return (process_multiple(core, commands));
+	return (retcode);
 }
