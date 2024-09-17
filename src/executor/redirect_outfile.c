@@ -54,9 +54,7 @@ int	get_output(t_list *redirs)
 	{
 		redir = (t_redir *)tmp->content;
 		if (redir->type == OUTPUT || redir->type == APPEND)
-		{
 			fd = create_outfile(redir->file, fd, redir->type);
-		}
 		tmp = tmp->next;
 	}
 	return (fd);
@@ -65,12 +63,11 @@ int	get_output(t_list *redirs)
 int	redirect_outfile(t_list *redirs, t_fds fds)
 {
 	int		fdout;
-	(void)fds;
 
 	fdout = get_output(redirs);
 	if (fdout == -1 || !fdout)
 		return (fdout);
 	if (dup2(fdout, fds.stdfdout) == -1)
-		return (-1);
+		return (perror("output redirection"), -1);
 	return (fdout);
 }

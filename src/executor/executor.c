@@ -50,7 +50,7 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	redirect_files(command, &fds);
 	if (command->tokens)
 		retcode = exec_selector(core, command);
-	unlink(HDOC_TMP);
+	// unlink(HDOC_TMP);
 	return (retcode);
 }
 

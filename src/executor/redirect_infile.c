@@ -30,31 +30,6 @@ int	hasinput(t_list *redirs)
 	return (FALSE);
 }
 
-int	heredoc_loop(char *limiter, int fd, int iscommand)
-{
-	char	*line;
-
-	close(fd);
-	if (!access(HDOC_TMP, R_OK))
-		unlink(HDOC_TMP);
-	fd = open(HDOC_TMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return (fd);
-	line = readline(">");
-	while (ft_strncmp(line, limiter, ft_strlen(limiter) + 1))
-	{
-		ft_putendl_fd(line, fd);
-		free(line);
-		line = readline(">");
-	}
-	if (!iscommand)
-	{
-		fd = 0;
-		unlink(HDOC_TMP);
-	}
-	return (fd);
-}
-
 int	check_infile(char *infile, int fd, int iscommand)
 {
 	close(fd);
@@ -108,6 +83,6 @@ int	redirect_infile(t_list *redirs, t_fds fds, int iscommand)
 		fds.fdin = open(HDOC_TMP, O_RDWR, 0644);
 	}
 	if (dup2(fds.fdin, fds.stdfdin) == -1)
-		return (perror("redirect input"), -1);
+		return (perror("input redirection"), -1);
 	return (fds.fdin);
 }
