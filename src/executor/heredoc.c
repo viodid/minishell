@@ -35,20 +35,21 @@ char	*get_tmpname()
 	return (NULL);
 }
 
-int	heredoc_loop(char *limiter, int fd, int iscommand)
+char	*heredoc_loop(char *limiter, int aaa, int iscommand)
 {
+	(void)aaa;
+	int		fd;
 	char	*line;
 	char	*tmpname;
 
-	close(fd);
-	// if (!access(HDOC_TMP, R_OK))
-	// 	unlink(HDOC_TMP);
+	// close(fd);
 	tmpname = get_tmpname();
 	if (!tmpname)
-		return (-1);
-	fd = open(tmpname, O_WRONLY | O_CREAT | O_EXCL, 0644);
+		return (NULL);
+	fd = open(tmpname, O_RDWR | O_CREAT | O_EXCL, 0644);
 	if (fd == -1 || access(tmpname, F_OK) == -1)
-		return (fd);
+		return (NULL);
+	printf("--%i\n", fcntl(STDIN_FILENO, F_GETFD));
 	line = readline(">");
 	while (ft_strncmp(line, limiter, ft_strlen(limiter) + 1))
 	{
@@ -56,10 +57,44 @@ int	heredoc_loop(char *limiter, int fd, int iscommand)
 		free(line);
 		line = readline(">");
 	}
-	if (!iscommand)
+	close(fd);
+	return (tmpname);
+}
+
+int	do_heredocs(t_list *commands)
+{
+	t_command	*command;
+	t_list		*redirs;
+	t_redir		*redir;
+	t_redir		*lasthdoc;
+	char		*tmpfile;
+	int			fd;
+
+	fd = -1;
+	while (commands && commands->content)
 	{
-		fd = 0;
-		unlink(tmpname);
+		tmpfile = NULL;
+		command = (t_command *)commands->content;
+		redirs = command->redirs;
+		while (redirs && redirs->content)
+		{
+			redir = (t_redir *)redirs->content;
+			if (redir->type == HEREDOC)
+			{
+				tmpfile = heredoc_loop(redir->file, fd, 0);
+				if (!tmpfile)
+					return (perror("heredoc"), EXIT_FAILURE);
+				lasthdoc = redir;
+			}
+			redirs = redirs->next;
+		}
+		if (tmpfile)
+		{
+			free(lasthdoc->file);
+			lasthdoc->file = tmpfile;
+			lasthdoc->type = INPUT;
+		}
+		commands = commands->next;
 	}
-	return (fd);
+	return (EXIT_SUCCESS);
 }

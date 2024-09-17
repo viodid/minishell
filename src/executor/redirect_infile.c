@@ -23,7 +23,7 @@ int	hasinput(t_list *redirs)
 	while (tmp)
 	{
 		redir = (t_redir *)tmp->content;
-		if (redir->type == HEREDOC || redir->type == INPUT)
+		if (redir->type == INPUT)
 			return (TRUE);
 		tmp = tmp->next;
 	}
@@ -33,8 +33,6 @@ int	hasinput(t_list *redirs)
 int	check_infile(char *infile, int fd, int iscommand)
 {
 	close(fd);
-	if (!access(HDOC_TMP, R_OK))
-		unlink(HDOC_TMP);
 	if (iscommand)
 		fd = open(infile, O_RDONLY);
 	else
@@ -44,7 +42,7 @@ int	check_infile(char *infile, int fd, int iscommand)
 	return (fd);
 }
 
-int	get_input(t_list *redirs, int iscommand, int *ishdoc)
+int	get_input(t_list *redirs, int iscommand)
 {
 	int		fd;
 	t_redir	*redir;
@@ -55,15 +53,7 @@ int	get_input(t_list *redirs, int iscommand, int *ishdoc)
 	{
 		redir = (t_redir *)tmp->content;
 		if (redir->type == INPUT)
-		{
 			fd = check_infile(redir->file, fd, iscommand);
-			*ishdoc = 0;
-		}
-		else if (redir->type == HEREDOC)
-		{
-			fd = heredoc_loop(redir->file, fd, iscommand);
-			*ishdoc = 1;
-		}
 		tmp = tmp->next;
 	}
 	return (fd);
@@ -71,17 +61,9 @@ int	get_input(t_list *redirs, int iscommand, int *ishdoc)
 
 int	redirect_infile(t_list *redirs, t_fds fds, int iscommand)
 {
-	int		ishdoc;
-
-	ishdoc = 0;
-	fds.fdin = get_input(redirs, iscommand, &ishdoc);
+	fds.fdin = get_input(redirs, iscommand);
 	if (fds.fdin == -1 || !fds.fdin)
 		return (fds.fdin);
-	if (ishdoc)
-	{
-		close(fds.fdin);
-		fds.fdin = open(HDOC_TMP, O_RDWR, 0644);
-	}
 	if (dup2(fds.fdin, fds.stdfdin) == -1)
 		return (perror("input redirection"), -1);
 	return (fds.fdin);

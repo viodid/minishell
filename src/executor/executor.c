@@ -50,7 +50,6 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	redirect_files(command, &fds);
 	if (command->tokens)
 		retcode = exec_selector(core, command);
-	// unlink(HDOC_TMP);
 	return (retcode);
 }
 
@@ -102,8 +101,9 @@ int	executor(t_data *core)
 
 	commands = core->line->cmds;
 	ft_bzero((void *)&fds, sizeof(t_fds));
-	if (save_stdfds(core) || init_pipes(core))
+	if (do_heredocs(commands) || init_pipes(core) || save_stdfds(core))
 		return (EXIT_FAILURE);
+	commands = core->line->cmds;
 	if (ft_lstsize(commands) == 0)
 		return (EXIT_SUCCESS);
 	else if (ft_lstsize(commands) > 1)

@@ -23,8 +23,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-# define HDOC_TMP	"_tmphdoc"
-
 /* ENUMS */
 typedef enum e_pipe_fds
 {
@@ -159,7 +157,7 @@ int				reset_stdfds(t_data *core);
 // int				close_fds(t_data *core, t_pipe_fds fds);
 int				save_stdfds(t_data *core);
 int				init_pipes(t_data *core);
-int				heredoc_loop(char *limiter, int fd, int iscommand);
+int				do_heredocs(t_list *commands);
 
 int				exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit);
 
