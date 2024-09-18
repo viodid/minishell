@@ -70,7 +70,10 @@ int	process_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 			return (EXIT_SUCCESS);
 	}
 	else
+	{
 		retcode = run_single(core, command, fds, cmd_nb);
+		reset_stdfds(core);
+	}
 	return (retcode);
 }
 

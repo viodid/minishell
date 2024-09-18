@@ -32,7 +32,8 @@ int	hasinput(t_list *redirs)
 
 int	check_infile(char *infile, int fd, int iscommand)
 {
-	close(fd);
+	if (fd > 2)
+		close(fd);
 	if (iscommand)
 		fd = open(infile, O_RDONLY);
 	else

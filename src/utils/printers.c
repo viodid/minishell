@@ -82,7 +82,9 @@ int	hola(char *str)
 {
 	int	ret;
 
-	ret = write(2, str, ft_strlen(str));
+	ret = 0;
+	if (str)
+		ret = write(2, str, ft_strlen(str));
 	ret += write(2, "\n", 1);
 	return(ret);
 }

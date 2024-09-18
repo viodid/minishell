@@ -24,7 +24,7 @@ char	*get_tmpname()
 		id = ft_itoa(i);
 		if (!id)
 			return (NULL);
-		ret = ft_strjoin_f2("minishell-", id);
+		ret = ft_strjoin_f2("tmp/minishell-", id);
 		if (!ret)
 			return (NULL);
 		if (access(ret, F_OK) == -1)
@@ -35,9 +35,8 @@ char	*get_tmpname()
 	return (NULL);
 }
 
-char	*heredoc_loop(char *limiter, int aaa, int iscommand)
+char	*heredoc_loop(char *limiter)
 {
-	(void)aaa;
 	int		fd;
 	char	*line;
 	char	*tmpname;
@@ -68,9 +67,7 @@ int	do_heredocs(t_list *commands)
 	t_redir		*redir;
 	t_redir		*lasthdoc;
 	char		*tmpfile;
-	int			fd;
 
-	fd = -1;
 	while (commands && commands->content)
 	{
 		tmpfile = NULL;
@@ -81,7 +78,7 @@ int	do_heredocs(t_list *commands)
 			redir = (t_redir *)redirs->content;
 			if (redir->type == HEREDOC)
 			{
-				tmpfile = heredoc_loop(redir->file, fd, 0);
+				tmpfile = heredoc_loop(redir->file);
 				if (!tmpfile)
 					return (perror("heredoc"), EXIT_FAILURE);
 				lasthdoc = redir;

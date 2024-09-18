@@ -5,6 +5,7 @@ dbg
 ret
 _tmphdoc
 notes/test.c
+tmp
 
 # Prerequisites
 *.d

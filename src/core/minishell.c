@@ -32,7 +32,6 @@ int	minishell(t_data *core)
 	char		*str;
 	char		**cmds;
 
-	// printf("pid %i", getpid());
 	str = readline("ˢʰᵉˡˡ$>");
 	cmds = ft_split(str, '|');
 	if (!cmds)
@@ -41,7 +40,6 @@ int	minishell(t_data *core)
 		ft_lstclear(&core->line->cmds, free_cmd);
 	tmp_parser(core, cmds);
 
-	// retcode = tmp_exec(str, core);
 	retcode = executor(core);
 	if (ft_strlen(str))
 		add_history(str);
