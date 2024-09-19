@@ -12,6 +12,54 @@
 
 #include "../../include/minishell.h"
 
+int	do_piperedir(t_data *core, t_fds fds, int cmd_nb)
+{
+	int	**pipes;
+
+	if (core->line->nbcommands < 2)
+		return (EXIT_SUCCESS);
+	pipes = core->line->fds;
+	if (cmd_nb == 0)
+	{
+		close(pipes[0][READ_FD]);
+		dup2(pipes[0][WRITE_FD], STDOUT_FILENO);
+		close(pipes[0][WRITE_FD]);
+	}
+	else if (cmd_nb < core->line->nbcommands - 1)
+	{
+		close(pipes[cmd_nb][READ_FD]);
+		dup2(pipes[cmd_nb - 1][READ_FD], STDIN_FILENO);
+		close(pipes[cmd_nb - 1][READ_FD]);
+		dup2(pipes[cmd_nb][WRITE_FD], STDOUT_FILENO);
+		close(pipes[cmd_nb][WRITE_FD]);
+	}
+	else if (cmd_nb == core->line->nbcommands - 1)
+	{
+		dup2(pipes[cmd_nb - 1][READ_FD], STDIN_FILENO);
+		close(pipes[cmd_nb - 1][READ_FD]);
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	close_parent_pipes(t_data *core, int cmd_nb)
+{
+	int	**pipes;
+
+	if (core->line->nbcommands < 2)
+		return (EXIT_SUCCESS);
+	pipes = core->line->fds;
+	if (cmd_nb == 0)
+		close(pipes[0][WRITE_FD]);
+	else if (cmd_nb < core->line->nbcommands - 1)
+	{
+		close(pipes[cmd_nb - 1][READ_FD]);
+		close(pipes[cmd_nb][WRITE_FD]);
+	}
+	else if (cmd_nb == core->line->nbcommands - 1)
+		close(pipes[cmd_nb - 1][READ_FD]);
+	return (EXIT_SUCCESS);
+}
+
 int	init_pipes(t_data *core)
 {
 	int	i;

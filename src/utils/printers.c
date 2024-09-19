@@ -88,3 +88,14 @@ int	hola(char *str)
 	ret += write(2, "\n", 1);
 	return(ret);
 }
+
+void	print_fds(t_fds fds)
+{
+	dprintf(2, "-----\n");
+	dprintf(2, "%i\n", getpid());
+	dprintf(2, "stdin %i\n", fds.stdfdin);
+	dprintf(2, "fdin %i\n", fds.fdin);
+	dprintf(2, "stdout %i\n", fds.stdfdout);
+	dprintf(2, "fdout %i\n", fds.fdout);
+	dprintf(2, "-----\n");
+}

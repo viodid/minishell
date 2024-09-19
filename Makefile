@@ -33,8 +33,8 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)executor/executor.c			\
 				$(SRCDIR)executor/redirections.c		\
 				$(SRCDIR)executor/executor_builtin.c	\
-				$(SRCDIR)executor/redirect_infile.c		\
-				$(SRCDIR)executor/redirect_outfile.c	\
+				$(SRCDIR)executor/get_infiles.c		\
+				$(SRCDIR)executor/get_outfiles.c	\
 				$(SRCDIR)executor/get_cmdpath.c			\
 				$(SRCDIR)executor/set_fds.c				\
 				$(SRCDIR)executor/pipes.c				\

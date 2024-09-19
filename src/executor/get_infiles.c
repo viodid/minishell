@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect_outfile.c                                 :+:      :+:    :+:   */
+/*   get_infiles.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 23:31:31 by kde-la-c          #+#    #+#             */
+/*   Created: 2024/07/17 03:08:16 by kde-la-c          #+#    #+#             */
 /*   Updated: 2024/09/09 19:55:43 by kde-la-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	hasoutput(t_list *redirs)
+int	hasinput(t_list *redirs)
 {
 	t_redir	*redir;
 	t_list	*tmp;
@@ -23,51 +23,48 @@ int	hasoutput(t_list *redirs)
 	while (tmp)
 	{
 		redir = (t_redir *)tmp->content;
-		if (redir->type == APPEND || redir->type == OUTPUT)
+		if (redir->type == INPUT)
 			return (TRUE);
 		tmp = tmp->next;
 	}
 	return (FALSE);
 }
 
-int	create_outfile(char *filename, int fd, int type)
+int	check_infile(char *infile, int fd, int iscommand)
 {
-	int	flags;
-
-	close(fd);
-	if (type == OUTPUT)
-		flags = O_RDWR | O_CREAT | O_TRUNC;
+	if (fd > 2)
+		close(fd);
+	if (iscommand)
+		fd = open(infile, O_RDONLY);
 	else
-		flags = O_RDWR | O_CREAT | O_APPEND;
-	fd = open(filename, flags, 0644);
+		fd = access(infile, R_OK);
+	if (fd == -1)
+		perror(infile);
 	return (fd);
 }
 
-int	get_output(t_list *redirs)
+int	get_input(t_list *redirs, int iscommand)
 {
 	int		fd;
 	t_redir	*redir;
 	t_list	*tmp;
 
+	fd = 0;
 	tmp = redirs;
 	while (tmp && fd != -1)
 	{
 		redir = (t_redir *)tmp->content;
-		if (redir->type == OUTPUT || redir->type == APPEND)
-			fd = create_outfile(redir->file, fd, redir->type);
+		if (redir->type == INPUT)
+			fd = check_infile(redir->file, fd, iscommand);
 		tmp = tmp->next;
 	}
 	return (fd);
 }
 
-int	redirect_outfile(t_list *redirs, t_fds fds)
+int	get_infiles(t_list *redirs, t_fds *fds, int iscommand)
 {
-	int		fdout;
-
-	fdout = get_output(redirs);
-	if (fdout == -1 || !fdout)
-		return (fdout);
-	if (dup2(fdout, fds.stdfdout) == -1)
-		return (perror("output redirection"), -1);
-	return (fdout);
+	fds->fdin = get_input(redirs, iscommand);
+	if (fds->fdin == -1 || !fds->fdin)
+		return (fds->fdin);
+	return (fds->fdin);
 }

@@ -145,8 +145,8 @@ int			tmp_parser(t_data *core, char **cmds);
 
 int				executor(t_data *core); //TODO //TODO
 int				redirect_files(t_command *command, t_fds *fds);
-int				redirect_infile(t_list *redirs, t_fds fds, int iscommand);
-int				redirect_outfile(t_list *redirs, t_fds fds);
+int				get_infiles(t_list *redirs, t_fds *fds, int iscommand);
+int				get_outfiles(t_list *redirs, t_fds *fds);
 int				isbuiltin(char *cmdpath);
 char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths); //TODO
 char			**get_arg_array(t_command *command);
@@ -158,8 +158,10 @@ int				reset_stdfds(t_data *core);
 int				save_stdfds(t_data *core);
 int				init_pipes(t_data *core);
 int				do_heredocs(t_list *commands);
-
+int				do_fileredir(t_fds fds);
 int				exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit);
+int				do_piperedir(t_data *core, t_fds fds, int cmd_nb);
+int				close_parent_pipes(t_data *core, int cmd_nb);
 
 /* builtins */
 
@@ -195,5 +197,7 @@ void	print_command(void *cont);
 void	print_tokens(void *cont);
 int		hola(char *str);
 void	print_execve(char *cmdpath, char **args, char **envp);
+void	print_fds(t_fds fds);
 
 #endif
+

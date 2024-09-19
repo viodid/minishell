@@ -70,5 +70,7 @@ int	set_fds(t_fds *fds, t_data *core, int cmd_nb)
 		fds->stdfdin = core->line->fds[cmd_nb - 1][READ_FD];
 		fds->stdfdout = core->line->fds[cmd_nb][WRITE_FD];
 	}
+	fds->fdin = fds->stdfdin;
+	fds->fdout = fds->stdfdout;
 	return (EXIT_SUCCESS);
 }
