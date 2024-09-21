@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/21 17:18:05 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/21 18:51:58 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ typedef enum e_token_type
 	REDIRECTION,
 	PIPE,
 	FLAG,
-	WORD
+	WORD,
+	SEPARATOR
 }	t_token_type;
 
 /* STRUCTS */

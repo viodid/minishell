@@ -31,7 +31,7 @@ char	*expand_var_concat(t_list *env, char *value, int errcode)
 	while (split[i])
 	{
 		tmp_str = split[i];
-		if (ft_isalpha(tmp_str[0])) // TODO: change condition, check token correctness in tokenizer
+		if (ft_isalpha(tmp_str[0]) || tmp_str[0] == '_') // TODO: change condition, check token correctness in tokenizer
 		{
 			split[i] = expand_var_in_str(env, tmp_str, errcode);
 			free(tmp_str);

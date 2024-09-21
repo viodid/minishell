@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/21 17:05:30 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/21 18:53:57 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ static void	insert_token(char *value, t_list **token_list)
 {
 	t_token		*token;
 
-	if (!*value || ft_strchr(" \t\n", *value))
-	{
-		free(value);
-		return ;
-	}
+//	if (!*value || ft_strchr(" \t\n", *value))
+//	{
+//		free(value);
+//		return ;
+//	}
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		exit(EXIT_FAILURE);
@@ -87,6 +87,8 @@ static void	insert_token(char *value, t_list **token_list)
 
 static t_token_type	enum_token_value(const char *value)
 {
+	if (ft_strchr(" \t\n", *value))
+		return (SEPARATOR);
 	if (ft_strchr("<>", *value))
 		return (REDIRECTION);
 	if (*value == '\'')
