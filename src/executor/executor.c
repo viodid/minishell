@@ -46,8 +46,9 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	int		retcode;
 
 	retcode = EXIT_SUCCESS;
-	do_piperedir(core, fds, cmd_nb);
+	do_piperedir(core, command, fds, cmd_nb);
 	do_fileredir(command, fds);
+	// print_fds(fds);
 	if (command->tokens)
 		retcode = exec_selector(core, command);
 	return (retcode);
