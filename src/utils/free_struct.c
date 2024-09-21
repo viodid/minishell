@@ -69,5 +69,6 @@ void	free_line(t_line *line)
 void	free_struct(t_data *core)
 {
 	ft_lstclear(&core->env, free_var);
-	free_line(core->line);
+	if (core->line)
+		free_line(core->line);
 }

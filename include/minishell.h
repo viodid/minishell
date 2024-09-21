@@ -114,8 +114,8 @@ typedef struct s_data
 int				minishell(t_data *core);
 t_var			*get_env(t_data *core, char *key);
 t_var			*split_var(char *var_brut);
-t_list			*set_env(char **envp);
 char			**get_env_array(t_data *core);
+int				init_core(t_data *core, char **argv, char **envp);
 
 /* lexer */
 

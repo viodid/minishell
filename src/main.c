@@ -16,18 +16,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	int		i;
 	int		retcode;
-	t_data	*core;
-	(void)argc;
-	(void)argv;
-	(void)i;
+	t_data	core;
 
-	core = ft_calloc(1, sizeof(t_data));
-	core->env = set_env(envp);
-	core->line = ft_calloc(1, sizeof(t_line));
-	core->errcode = 0;
+	if (init_core(&core, argv, envp))
+		return (dprintf(2, "minishell: allcoation error\n"), EXIT_FAILURE);
 	while (1)
 	{
-		retcode = minishell(core);
+		retcode = minishell(&core);
 		while (1)
 		{
 			i = waitpid(-1, NULL, 0);
@@ -35,8 +30,8 @@ int	main(int argc, char **argv, char **envp)
 				break ;
 		}
 		if (retcode)
-			return (free_struct(core), retcode);
+			return (free_struct(&core), retcode);
 	}
-	free_struct(core);
+	free_struct(&core);
 	return (retcode);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_env.c                                          :+:      :+:    :+:   */
+/*   init_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -41,18 +41,63 @@ t_var	*split_var(char *var_brut)
 	return (free(tmpenv), var);
 }
 
-t_list	*set_env(char **envp)
+char	**set_basic_env(char *argv0)
+{
+	char	**ret;
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (NULL);
+	ret = ft_calloc(4, sizeof(char *));
+	if (!ret)
+		return (free(cwd), NULL);
+	ret[0] = ft_strjoin_f2("PWD=", cwd);
+	if (!ret[0])
+		return (free(ret), free(cwd), NULL);
+	ret[1] = ft_strdup("SHLVL=1");
+	if (!ret[1])
+		return (ft_dfree((void **)ret), NULL);
+	ret[2] = ft_strjoin("_=", argv0);
+	if (!ret[2])
+		return (ft_dfree((void **)ret), NULL);
+	return (ret);
+}
+
+t_list	*set_env(char **argv, char **envp)
 {
 	int		i;
+	char	**env;
 	t_list	*ret;
 	t_var	*var;
 
+	env = envp;
+	if (!envp || !envp[0])
+		env = set_basic_env(argv[0]);
+	if (!env)
+		return (NULL);
 	i = -1;
 	ret = NULL;
 	while (envp[++i])
 	{
 		var = split_var(envp[i]);
+		if (!var)
+			return (ft_lstclear(&ret, free_var), NULL);
 		ft_lstadd_back(&ret, ft_lstnew(var));
 	}
 	return (ret);
+}
+
+int	init_core(t_data *core, char **argv, char **envp)
+{	
+	core->env = set_env(argv, envp);
+	if (!core->env)
+		return (EXIT_FAILURE);
+	core->line = ft_calloc(1, sizeof(t_line));
+	if (!core->line)
+		return (free_struct(core), EXIT_FAILURE);
+	core->errcode = 0;
+	core->sv_stdin = -1;
+	core->sv_stdout = -1;
+	return (EXIT_SUCCESS);
 }

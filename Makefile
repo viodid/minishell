@@ -23,7 +23,7 @@ INCLUDE			= $(INCDIR)minishell.h
 SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)core/minishell.c				\
 				$(SRCDIR)core/get_env.c					\
-				$(SRCDIR)core/set_env.c					\
+				$(SRCDIR)core/init_core.c				\
 				$(SRCDIR)core/get_env_array.c			\
 				$(SRCDIR)lexer/lexer.c					\
 				$(SRCDIR)parser/parser.c				\
@@ -33,8 +33,8 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)executor/executor.c			\
 				$(SRCDIR)executor/redirections.c		\
 				$(SRCDIR)executor/executor_builtin.c	\
-				$(SRCDIR)executor/get_infiles.c		\
-				$(SRCDIR)executor/get_outfiles.c	\
+				$(SRCDIR)executor/get_infiles.c			\
+				$(SRCDIR)executor/get_outfiles.c		\
 				$(SRCDIR)executor/get_cmdpath.c			\
 				$(SRCDIR)executor/set_fds.c				\
 				$(SRCDIR)executor/pipes.c				\
