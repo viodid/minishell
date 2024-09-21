@@ -30,9 +30,7 @@ int	exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit)
 	int		retcode;
 
 	//TODO get rid of first if when expansion is complete
-	if (!ft_strncmp(cmdpath, "echo", 5) && args[1] && !ft_strncmp(args[1], "$?", 3))
-		printf(">%i\n", core->errcode);
-	else if (!ft_strncmp(cmdpath, "pwd", 4))
+	if (!ft_strncmp(cmdpath, "pwd", 4))
 		retcode = ft_pwd(core);
 	else if (!ft_strncmp(cmdpath, "cd", 3))
 		retcode = ft_cd(core, args);
@@ -41,7 +39,11 @@ int	exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit)
 	else if (!ft_strncmp(cmdpath, "env", 4))
 		retcode = ft_env(core);
 	else if (!ft_strncmp(cmdpath, "exit", 5))
-		retcode = ft_exit(core, args);
+	{
+		retcode = ft_exit(core, args, !is_exit);
+		free_struct(core);
+		exit(retcode);
+	}
 	else if (!ft_strncmp(cmdpath, "export", 7))
 		retcode = ft_export(core, args);
 	else if (!ft_strncmp(cmdpath, "unset", 6))

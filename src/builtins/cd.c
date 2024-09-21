@@ -39,8 +39,8 @@ int	ft_cd(t_data *core, char **args)
 	char	*oldpwd;
 	t_var	*home;
 
-	if (args[2])
-		return (perror("cd: too many arguments"), errno);
+	if (args[2] && errno)
+		return (perror("cd: "), errno);
 	oldpwd = getcwd(NULL, 0);
 	if (!args[1])
 	{
@@ -48,7 +48,7 @@ int	ft_cd(t_data *core, char **args)
 		if (!home)
 		{
 			//TODO replace printf with send_error when ready
-			printf("cd: %s: %s\n", strerror(errno), args[1]);
+			printf("cd: HOME not set\n");
 			return(errno);
 		}
 		retcode = chdir(home->value);

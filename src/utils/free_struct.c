@@ -61,8 +61,14 @@ void	free_var(void *cont)
 
 void	free_line(t_line *line)
 {
+	int	i;
+
+	i = 0;
 	ft_lstclear(&line->cmds, &free_cmd);
-	ft_dfree((void **)line->fds);
+	while (i < line->nbcommands)
+		free(line->fds[i]);
+	free(line->fds);
+	// ft_dfree((void **)line->fds);
 	free(line->pids);
 }
 

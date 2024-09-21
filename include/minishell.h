@@ -12,8 +12,6 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define TRUE 1
-# define FALSE 0
 # define METACHARACTERS " \"\'|&;()<>\t\n"
 
 # include "../libft/libft.h"
@@ -171,7 +169,7 @@ int				ft_export(t_data *core, char **args); //TODO
 int				export_single(t_data *core, char *arg);
 int				ft_unset(t_data *core, char **args);
 int				unset_single(t_data *core, char *key);
-int				ft_exit(t_data *core, char **args); //TODO senderror
+int				ft_exit(t_data *core, char **args, int is_parent); //TODO senderror
 
 /* utils */
 

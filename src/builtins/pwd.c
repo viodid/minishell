@@ -25,7 +25,7 @@ int	ft_pwd(t_data *core) //TODO cuidado con imprimir un PWD que no exista con lo
 			perror("pwd");
 			return (EXIT_FAILURE);
 		}
-		printf("%s i\n", path);
+		printf("%s\n", path);
 		return (EXIT_SUCCESS);
 	}
 	printf("%s\n", path);
