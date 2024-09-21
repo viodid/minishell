@@ -12,12 +12,11 @@
 
 #include "../../include/minishell.h"
 
-int	do_fileredir(t_fds fds)
+int	do_fileredir(t_command *command, t_fds fds)
 {
-	// print_fds(fds);
-	if (dup2(fds.fdin, fds.stdfdin) == -1)
+	if (hasinput(command->redirs) && dup2(fds.fdin, fds.stdfdin) == -1)
 		return (print_fds(fds), perror("input redirection"), -1);
-	if (dup2(fds.fdout, fds.stdfdout) == -1)
+	if (hasoutput(command->redirs) && dup2(fds.fdout, fds.stdfdout) == -1)
 		return (print_fds(fds), perror("output redirection"), -1);
 	return (EXIT_SUCCESS);
 }

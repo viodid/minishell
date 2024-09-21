@@ -158,7 +158,7 @@ int				reset_stdfds(t_data *core);
 int				save_stdfds(t_data *core);
 int				init_pipes(t_data *core);
 int				do_heredocs(t_list *commands);
-int				do_fileredir(t_fds fds);
+int				do_fileredir(t_command *command, t_fds fds);
 int				exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit);
 int				do_piperedir(t_data *core, t_fds fds, int cmd_nb);
 int				close_parent_pipes(t_data *core, int cmd_nb);

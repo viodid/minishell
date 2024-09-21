@@ -47,9 +47,7 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 
 	retcode = EXIT_SUCCESS;
 	do_piperedir(core, fds, cmd_nb);
-	do_fileredir(fds);
-	// dprintf(2, ">%i\n", getpid());
-	// print_fds(fds);
+	do_fileredir(command, fds);
 	if (command->tokens)
 		retcode = exec_selector(core, command);
 	return (retcode);
@@ -63,11 +61,10 @@ int	process_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	set_fds(&fds, core, cmd_nb);
 	redirect_files(command, &fds);
 	pid = core->line->pids[cmd_nb];
-	// print_fds(fds);
 	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
-		printf("forking\n");
+		// printf("forking\n");
 		pid = fork(); //!start of child process
 		if (pid == 0) // child case
 			retcode = run_single(core, command, fds, cmd_nb);

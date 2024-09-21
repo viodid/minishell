@@ -97,5 +97,6 @@ void	print_fds(t_fds fds)
 	dprintf(2, "fdin %i\n", fds.fdin);
 	dprintf(2, "stdout %i\n", fds.stdfdout);
 	dprintf(2, "fdout %i\n", fds.fdout);
+	dprintf(2, "%i\n", errno);
 	dprintf(2, "-----\n");
 }
