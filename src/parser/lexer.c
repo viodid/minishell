@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/21 18:53:57 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/21 21:02:06 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,21 @@ static t_list	*tokenizer(const char *user_input)
 	{
 		if (ft_strchr(METACHARACTERS, user_input[i]))
 		{
-			i = get_str_size(user_input, i);
 			tmp_str = ft_substr(user_input, offset, i - offset);
 			insert_token(tmp_str, &token_list);
+			if (ft_strchr("\"\'", user_input[i]))
+			{
+				offset = i;
+				i = get_str_size(user_input, i);
+				tmp_str = ft_substr(user_input, offset, i - offset);
+				insert_token(tmp_str, &token_list);
+			}
 			size_metachar = get_size_metachar(user_input, i);
-			tmp_str = ft_substr(user_input, i, size_metachar);
-			insert_token(tmp_str, &token_list);
+			if (size_metachar)
+			{
+				tmp_str = ft_substr(user_input, i, size_metachar);
+				insert_token(tmp_str, &token_list);
+			}
 			i += size_metachar - 1;
 			offset = i + 1;
 		}
