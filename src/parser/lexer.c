@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/16 19:10:33 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/21 17:05:30 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,7 @@ static void	insert_token(char *value, t_list **token_list)
 	if (!token)
 		exit(EXIT_FAILURE);
 	token->type = enum_token_value(value);
-	// if (token->type == DOUBLE_QUOTE_STRING
-		// || token->type == SINGLE_QUOTE_STRING)
-		// token->value = remove_quotes(value);
-	// else
-	token->value = value;
+	token->value = remove_quotes(value, token->type);
 	ft_lstadd_back(token_list, ft_lstnew(token));
 }
 
@@ -103,10 +99,10 @@ static t_token_type	enum_token_value(const char *value)
 		return (TILDE_EXPANSION);
 	if (*value == '|')
 		return (PIPE);
-	if (*value == '-')
-		return (FLAG); // TODO: stronger FLAG checker
-	if (ft_isalnum(*value))
-		return (IDENTIFIER); // TODO: stronger IDENTIFIER checker
+	if (is_flag(value))
+		return (FLAG);
+	if (is_identifier(value))
+		return (IDENTIFIER);
 	if (!errno)
 		send_error("syntax error near unexpected token: ", (char *)value, 1);
 	errno = 42;

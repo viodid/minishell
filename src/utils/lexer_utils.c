@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/16 00:17:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/21 17:04:22 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,45 @@ char	*handle_odd_quotes(char quote, uint16_t total_quotes, char *str)
 	return (output_str - (str_len - 1));
 }
 
-char	*remove_quotes(char *str)
+uint8_t	is_identifier(const char *value)
+{
+	uint32_t	i;
+
+	if (!ft_isalpha(*value) && *value != '_')
+		return (FALSE);
+	i = 1;
+	while (value[i])
+	{
+		if (!ft_isalnum(value[i]) && value[i] != '_')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+uint8_t	is_flag(const char *value)
+{
+	uint32_t	i;
+
+	if (*value != '-')
+		return (FALSE);
+	i = 1;
+	while (value[i])
+	{
+		if (!ft_isalpha(value[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+char	*remove_quotes(char *str, t_token_type type)
 {
 	char	*tmp_str;
 	char	*str_quote;
 
+	if (type != DOUBLE_QUOTE_STRING && type != SINGLE_QUOTE_STRING)
+		return (str);
 	tmp_str = str;
 	str_quote = (char *)ft_calloc(2, 1);
 	ft_strlcpy(str_quote, str, 2);
