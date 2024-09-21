@@ -48,7 +48,6 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	retcode = EXIT_SUCCESS;
 	do_piperedir(core, command, fds, cmd_nb);
 	do_fileredir(command, fds);
-	// print_fds(fds);
 	if (command->tokens)
 		retcode = exec_selector(core, command);
 	return (retcode);
@@ -65,9 +64,8 @@ int	process_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
-		// printf("forking\n");
 		pid = fork(); //!start of child process
-		if (pid == 0) // child case
+		if (pid == 0)
 			retcode = run_single(core, command, fds, cmd_nb);
 		else
 		{

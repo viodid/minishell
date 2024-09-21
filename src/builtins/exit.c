@@ -25,7 +25,8 @@ int	ft_aredigits(char *str)
 	return (TRUE);
 }
 
-//TODO refractor code correctly when send_error is ready
+//TODO refactor code correctly when send_error is ready
+//TODO exit from a child shouldn't print error
 int	ft_exit(t_data *core, char **args)
 {
 	int				i;

@@ -32,22 +32,6 @@ int	reset_stdfds(t_data *core)
 	return (EXIT_SUCCESS);
 }
 
-// int	close_fds(t_data *core, t_pipe_fds fds)
-// {
-// 	if (fds == READ_FD)
-// 		return (close(core->line->fds[READ_FD]));
-// 	else if (fds == WRITE_FD)
-// 		return (close(core->line->fds[WRITE_FD]));
-// 	else if (fds == BOTH_FDS)
-// 	{
-// 		if (close(core->line->fds[READ_FD]))
-// 			return (errno);
-// 		if (close(core->line->fds[WRITE_FD]))
-// 			return (errno);
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
 int	set_fds(t_fds *fds, t_data *core, int cmd_nb)
 {
 	if (core->line->nbcommands == 1)

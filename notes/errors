@@ -1,0 +1,16 @@
+ˢʰᵉˡˡ$>unset HOME
+ˢʰᵉˡˡ$>ls
+a    include  libft.a       LICENSE   minishell  obj   outfile  src
+dbg  libft    libft_asan.a  Makefile  notes      out3  ret      tmp
+ˢʰᵉˡˡ$>cd
+cd: Success: (null)
+ˢʰᵉˡˡ$>pwd
+/home/kde-la-c/Cursus/Minishell/minishell_github
+ˢʰᵉˡˡ$>cd
+cd: too many arguments: Success
+ˢʰᵉˡˡ$>cd
+cd: too many arguments: Success
+
+
+
+

@@ -27,8 +27,7 @@
 typedef enum e_pipe_fds
 {
 	READ_FD,
-	WRITE_FD,
-	BOTH_FDS
+	WRITE_FD
 }	t_pipe_fds;
 
 typedef enum e_tmp_pos
@@ -148,13 +147,12 @@ int				redirect_files(t_command *command, t_fds *fds);
 int				get_infiles(t_list *redirs, t_fds *fds, int iscommand);
 int				get_outfiles(t_list *redirs, t_fds *fds);
 int				isbuiltin(char *cmdpath);
-char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths); //TODO
+char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths);
 char			**get_arg_array(t_command *command);
 int				hasinput(t_list *redirs);
 int				hasoutput(t_list *redirs);
 int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
 int				reset_stdfds(t_data *core);
-// int				close_fds(t_data *core, t_pipe_fds fds);
 int				save_stdfds(t_data *core);
 int				init_pipes(t_data *core);
 int				do_heredocs(t_list *commands);
@@ -170,9 +168,9 @@ int				ft_echo(char **args);
 int				ft_cd(t_data *core, char **args); //TODO senderror
 int				ft_env(t_data *core);
 int				ft_export(t_data *core, char **args); //TODO
-int				export_single(t_data *core, char *arg); // does it go here?
+int				export_single(t_data *core, char *arg);
 int				ft_unset(t_data *core, char **args);
-int				unset_single(t_data *core, char *key); // does it go here?
+int				unset_single(t_data *core, char *key);
 int				ft_exit(t_data *core, char **args); //TODO senderror
 
 /* utils */

@@ -13,7 +13,7 @@
 #include "../../include/minishell.h"
 
 // int	update_pwd(t_list **env, char *oldpwd)
-int	update_pwd(t_data *core, char *oldpwd)
+int	update_pwd(t_data *core, char *oldpwd) //TODO no setear OLDPWD si cd invalido
 {
 	char	*newcwd;
 	char	*var;
@@ -32,6 +32,7 @@ int	update_pwd(t_data *core, char *oldpwd)
 	return (EXIT_SUCCESS);
 }
 
+//TODO cd with wrong args throws weird errors
 int	ft_cd(t_data *core, char **args)
 {
 	int		retcode;

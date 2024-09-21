@@ -41,14 +41,13 @@ char	*heredoc_loop(char *limiter)
 	char	*line;
 	char	*tmpname;
 
-	// close(fd);
 	tmpname = get_tmpname();
 	if (!tmpname)
 		return (NULL);
 	fd = open(tmpname, O_RDWR | O_CREAT | O_EXCL, 0644);
 	if (fd == -1 || access(tmpname, F_OK) == -1)
 		return (NULL);
-	printf("--%i\n", fcntl(STDIN_FILENO, F_GETFD));
+	// printf("--%i\n", fcntl(STDIN_FILENO, F_GETFD));
 	line = readline(">");
 	while (ft_strncmp(line, limiter, ft_strlen(limiter) + 1))
 	{

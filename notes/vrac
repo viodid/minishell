@@ -1,3 +1,11 @@
+- Add basic envp in case of (!envp)
+- Add SHLVL handling
+
+
+
+----------------------
+
+
 is it possible to make a single function for exec a command?
 
 regardless of different contexts :
@@ -21,9 +29,11 @@ arguments would be :
 this function would return an errcode which would correspond to exit status ?
 
 
->> PIPES
+>> PIPES (scratched)
 alternate pipes with pipe[0] = pipe[1]
 
 ls | sleep 1 | pwd | echo hola
 
 ls > pipe[0][1]
+
+
