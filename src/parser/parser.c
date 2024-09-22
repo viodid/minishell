@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:03 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 11:46:31 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 13:04:00 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 static	t_list	*descent_parser(t_list *token_list);
 
+// TODO: change parser order, lexer, expansions and AST
+// TODO: rm quotes expansion
+// TODO: skip single quotes expansions
+// TODO: check IDENTIFIER syntax, redirections and export variable names
 void	parser(t_data *core)
 {
 	t_list	*token_list;

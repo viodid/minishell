@@ -17,7 +17,6 @@ static char			*loop_readline(void);
 static void			insert_token(char *value, t_list **token_list);
 static t_token_type	enum_token_value(const char *value);
 
-// TODO: support key=value pair syntax
 t_list	*lexer(void)
 {
 	char	*user_input;

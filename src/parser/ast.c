@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 12:21:11 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 12:41:29 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static void	redirection(t_list *token_list, t_token **look_ahead,
 	{
 		redir = initialize_redir(*look_ahead);
 		get_next_token(token_list, look_ahead);
-		if (*look_ahead == NULL || !is_word(*look_ahead))
+		if (*look_ahead == NULL || !is_word(*look_ahead)
+			|| !is_identifier((*look_ahead)->value))
 		{
 			if (!errno)
 			{
