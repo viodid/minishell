@@ -6,13 +6,12 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 14:11:27 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 18:48:44 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char	*expand_types(char *value, const t_list *env, int errcode);
 
 t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
 {
@@ -29,22 +28,14 @@ t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
 		if (type == WORD)
 		{
 			tmp_str = value;
-			((t_token *)token_list->content)->value = expand_types(value, env, errcode);
+			if (*value == '~')
+				value = ft_strjoin_f1(find_var(env, "HOME", errcode), value + 1);
+			((t_token *)token_list->content)->value = expand_var_concat(env, value, errcode);
 			free(tmp_str);
 		}
 		token_list = token_list->next;
 	}
 	return (head);
-}
-
-static char	*expand_types(char *value, const t_list *env, int errcode)
-{
-	if (*value == '~')
-		return (expand_var_concat(env,
-				  ft_strjoin_f1(
-						  find_var(env, "HOME", errcode), value + 1),
-					  errcode));
-	return (expand_var_concat(env, value, errcode));
 }
 
 /*
