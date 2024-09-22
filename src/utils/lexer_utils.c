@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/21 19:06:26 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 11:15:33 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,22 @@ uint8_t	is_flag(const char *value)
 	return (TRUE);
 }
 
+uint8_t	is_word_token(const char *value)
+{
+	int32_t	i;
+
+	i = 0;
+	while (value[i])
+	{
+		if (ft_strchr("\"\'", value[i]))
+			i = get_str_size(value, i);
+		if (ft_strchr(METACHARACTERS, value[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
 char	*remove_quotes(char *str, t_token_type type)
 {
 	char	*tmp_str;
@@ -119,13 +135,8 @@ int32_t	get_end_quote_idx(const char *str, int32_t i)
 
 int	get_size_metachar(const char *user_input, uint32_t i)
 {
-	if (ft_strchr("<>", user_input[i]) && user_input[i] != '\0')
-	{
-		if ((ft_strncmp(&user_input[i], ">>", 2) == 0)
-			|| (ft_strncmp(&user_input[i], "<<", 2) == 0))
-			return (2);
-	}
-	else if (ft_strchr( METACHARACTERS, user_input[i]))
-		return (1);
-	return (0);
+	if ((ft_strncmp(&user_input[i], ">>", 2) == 0)
+		|| (ft_strncmp(&user_input[i], "<<", 2) == 0))
+		return (2);
+	return (1);
 }

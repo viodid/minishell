@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/21 18:51:58 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 10:44:34 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 # define TRUE 1
 # define FALSE 0
-# define METACHARACTERS " |&;()<>\t\n\"\'"
+# define METACHARACTERS " |&;()<>\t\n"
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -59,8 +59,7 @@ typedef enum e_token_type
 	REDIRECTION,
 	PIPE,
 	FLAG,
-	WORD,
-	SEPARATOR
+	WORD
 }	t_token_type;
 
 /* STRUCTS */
@@ -130,6 +129,7 @@ char			**get_env_array(t_data *core);
 t_list			*lexer(void);
 uint8_t			is_identifier(const char *value);
 uint8_t			is_flag(const char *value);
+uint8_t			is_word_token(const char *value);
 char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
 int32_t			get_end_quote_idx(const char *str, int32_t i);
 int				get_size_metachar(const char *user_input, uint32_t i);
