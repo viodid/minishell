@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:03 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 13:52:50 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 18:18:03 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 static	t_list	*descent_parser(t_list *token_list);
 
 // TODO: change parser order, lexer, expansions and AST
+// TODO: check IDENTIFIER syntax, redirections and export variable names
 // TODO: rm quotes expansion
 // TODO: skip single quotes expansions
-// TODO: check IDENTIFIER syntax, redirections and export variable names
 void	parser(t_data *core)
 {
 	t_list	*token_list;
 
 	token_list = lexer();
-	ft_lstiter(token_list, &print_tokens);
+//	ft_lstiter(token_list, &print_tokens);
 	if (errno || !token_list)
 		return ;
 	execute_expansions(token_list, core->env, core->errcode);
@@ -33,7 +33,7 @@ void	parser(t_data *core)
 	core->line->cmds = descent_parser(token_list);
 	core->line->pids = ft_calloc(ft_lstsize(core->line->cmds), sizeof(int));
 	ft_lstclear(&token_list, &free_token);
-	ft_lstiter(core->line->cmds, &print_command);
+//	ft_lstiter(core->line->cmds, &print_command);
 }
 
 static t_list	*full_command(t_list *token_list, t_token	**look_ahead)
