@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 11:19:48 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 11:35:07 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_token_type	enum_token_value(const char *value);
 // TODO: support key=value pair syntax
 // TODO: support '/' character identifier
 // TODO: run; cd /home/"$USER"/.local/bin
+// TODO: run; cd /home/'$USER'/.local/bin
 // TODO: run; cd "/home/$USER"/.local/bin
 t_list	*lexer(void)
 {

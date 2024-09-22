@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 11:15:33 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 11:31:28 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ uint8_t	is_word_token(const char *value)
 	{
 		if (ft_strchr("\"\'", value[i]))
 			i = get_str_size(value, i);
-		if (ft_strchr(METACHARACTERS, value[i]))
+		if (value[i] && ft_strchr(" |&;()<>\t\n", value[i]))
 			return (FALSE);
 		i++;
 	}
@@ -93,8 +93,8 @@ char	*remove_quotes(char *str, t_token_type type)
 	char	*tmp_str;
 	char	*str_quote;
 
-	if (type != DOUBLE_QUOTE_STRING && type != SINGLE_QUOTE_STRING)
-		return (str);
+//	if (type != DOUBLE_QUOTE_STRING && type != SINGLE_QUOTE_STRING)
+//		return (str);
 	tmp_str = str;
 	str_quote = (char *)ft_calloc(2, 1);
 	ft_strlcpy(str_quote, str, 2);
