@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 12:09:44 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 14:10:29 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	free_split(char **tab);
 static char	*join_split(char **split);
-static char	*expand_var_in_str(t_list *env, char *value, int errcode);
+static char	*expand_var_in_str(const t_list *env, char *value, int errcode);
 
-char	*expand_var_concat(t_list *env, char *value, int errcode)
+char	*expand_var_concat(const t_list *env, char *value, int errcode)
 {
 	uint16_t	i;
 	char		**split;
@@ -41,7 +41,7 @@ char	*expand_var_concat(t_list *env, char *value, int errcode)
 	return (join_split(split));
 }
 
-static char	*expand_var_in_str(t_list *env, char *value, int errcode)
+static char	*expand_var_in_str(const t_list *env, char *value, int errcode)
 {
 	uint16_t	i;
 	char		*tmp_str;

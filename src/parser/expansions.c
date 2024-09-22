@@ -6,70 +6,38 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 12:05:58 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 14:11:27 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char	*expand_types(t_list *env, char *value,
-				t_token_type type, int errcode);
-static void	expansions_helper(t_list *redirs, t_list *tokens,
-				t_list *env, int errcode);
-static char	*expansions_helper_2(char *value, t_list *env,
-				t_token_type type, int errcode);
+static char	*expand_types(char *value, const t_list *env, int errcode);
 
-void	execute_expansions(t_data *core)
-{
-	t_list			*cmds;
-	t_list			*tokens;
-	t_list			*redirs;
-
-	cmds = core->line->cmds;
-	while (cmds)
-	{
-		tokens = ((t_command *)cmds->content)->tokens;
-		redirs = ((t_command *)cmds->content)->redirs;
-		expansions_helper(redirs, tokens, core->env, core->errcode);
-		cmds = cmds->next;
-	}
-}
-
-static void	expansions_helper(t_list *redirs, t_list *tokens, t_list *env, int errcode)
+t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
 {
 	t_token_type	type;
+	t_list			*head;
+	char			*value;
+	char			*tmp_str;
 
-	while (tokens)
+	head = token_list;
+	while (token_list)
 	{
-		type = ((t_token *)tokens->content)->type;
+		type = ((t_token *)token_list->content)->type;
+		value = ((t_token *)token_list->content)->value;
 		if (type == WORD)
-			((t_token *)tokens->content)->value = expansions_helper_2(
-					((t_token *)tokens->content)->value, env, type, errcode);
-		tokens = tokens->next;
+		{
+			tmp_str = value;
+			((t_token *)token_list->content)->value = expand_types(value, env, errcode);
+			free(tmp_str);
+		}
+		token_list = token_list->next;
 	}
-	while (redirs)
-	{
-		type = ((t_redir *) redirs->content)->token_type;
-		if (type == REDIRECTION)
-			((t_redir *)redirs->content)->file = expansions_helper_2(
-					((t_redir *)redirs->content)->file, env, type, errcode);
-		redirs = redirs->next;
-	}
+	return (head);
 }
 
-static char	*expansions_helper_2(char *value, t_list *env, t_token_type type, int errcode)
-{
-	char	*tmp_str;
-	char	*output;
-
-	tmp_str = value;
-	output = expand_types(env, value, type, errcode);
-	free(tmp_str);
-	return (output);
-}
-
-static char	*expand_types(t_list *env, char *value,
-	t_token_type type, int errcode)
+static char	*expand_types(char *value, const t_list *env, int errcode)
 {
 	if (*value == '~')
 		return (expand_var_concat(env,
@@ -83,7 +51,7 @@ static char	*expand_types(t_list *env, char *value,
  * find_var finds the correct value in t_list *env at key, allocates enough
  * space for value and returns it.
 */
-char	*find_var(t_list *env, char *key, int errcode)
+char	*find_var(const t_list *env, char *key, int errcode)
 {
 	t_var	*var;
 	char	*empty_str;
