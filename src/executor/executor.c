@@ -20,10 +20,18 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 	char	**envp;
 
 	args = get_arg_array(command);
+	if (!args)
+		return (EXIT_FAILURE);
 	envp = get_env_array(core);
+	if (!envp)
+		return (free(args), EXIT_FAILURE);
 	cmdpath = args[0];
 	if (!isbuiltin(args[0]))
+	{
 		cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
+		if (!cmdpath)
+			return (ft_dfree((void **)envp), free(args), EXIT_FAILURE);
+	}
 	if (isbuiltin(args[0]))
 	{
 		retcode = exec_builtin(core, cmdpath, args, core->line->nbcommands > 1);
@@ -56,7 +64,6 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 int	process_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 {
 	int		pid;
-	int		retcode;
 
 	set_fds(&fds, core, cmd_nb);
 	get_redirs(command, &fds);
@@ -66,7 +73,7 @@ int	process_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	{
 		pid = fork(); //!start of child process
 		if (pid == 0)
-			retcode = run_single(core, command, fds, cmd_nb);
+			run_single(core, command, fds, cmd_nb);
 		else
 		{
 			close_parent_pipes(core, cmd_nb);
@@ -75,10 +82,10 @@ int	process_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	}
 	else
 	{
-		retcode = run_single(core, command, fds, cmd_nb);
+		run_single(core, command, fds, cmd_nb);
 		reset_stdfds(core);
 	}
-	return (retcode);
+	return (EXIT_SUCCESS);
 }
 
 int	process_multiple(t_data *core, t_list *commands, t_fds *fds)
@@ -102,7 +109,6 @@ int	process_multiple(t_data *core, t_list *commands, t_fds *fds)
 
 int	executor(t_data *core)
 {
-	int		retcode;
 	t_fds	*fds;
 	t_list	*commands;
 
@@ -116,11 +122,11 @@ int	executor(t_data *core)
 		return (EXIT_SUCCESS);
 	else if (ft_lstsize(commands) > 1)
 		return (process_multiple(core, commands, fds));
-	retcode = process_single(core, (t_command *)commands->content, fds[0], 0);
+	process_single(core, (t_command *)commands->content, fds[0], 0);
 	if (!core->line->pids[0] && reset_stdfds(core))
 	{
 		free_struct(core);
 		exit(EXIT_FAILURE);
 	}
-	return (retcode);
+	return (EXIT_SUCCESS);
 }

@@ -6,10 +6,13 @@ x Add SHLVL handling
 - Fix cd behaviour according to BASH in cd a/a/ && rm -rf ../../a
 	- OLDPWD should be concatenated with cd . and cd .. values 
 	- cd should throw an error if directory not found in these cases
+- Delete heredoc files after usage
+	- Replace HDOC redir by HDOC_FILE redir and iterate them for unlinking at the end
 - Functions to refactor
 	- do_heredocs()
 	- ft_exit()
-	- ft_cd()
+	x ft_cd()
+	- exec_selector()
 
 
 

@@ -68,7 +68,6 @@ void	free_line(t_line *line)
 	while (i < line->nbcommands)
 		free(line->fds[i]);
 	free(line->fds);
-	// ft_dfree((void **)line->fds);
 	free(line->pids);
 }
 

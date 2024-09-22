@@ -12,8 +12,7 @@
 
 #include "../../include/minishell.h"
 
-// int	update_pwd(t_list **env, char *oldpwd)
-int	update_pwd(t_data *core, char *oldpwd) //TODO no setear OLDPWD si cd invalido
+int	update_pwd(t_data *core, char *oldpwd)
 {
 	char	*newcwd;
 	char	*var;
@@ -32,35 +31,26 @@ int	update_pwd(t_data *core, char *oldpwd) //TODO no setear OLDPWD si cd invalid
 	return (EXIT_SUCCESS);
 }
 
-//TODO cd with wrong args throws weird errors
 int	ft_cd(t_data *core, char **args)
 {
 	int		retcode;
 	char	*oldpwd;
 	t_var	*home;
 
-	if (args[2] && errno)
-		return (perror("cd: "), errno);
+	if (args[1] && args[2])
+		return (dprintf(2, "cd: too many arguments\n"), EXIT_FAILURE);
 	oldpwd = getcwd(NULL, 0);
 	if (!args[1])
 	{
 		home = get_env(core, "HOME");
 		if (!home)
-		{
-			//TODO replace printf with send_error when ready
-			printf("cd: HOME not set\n");
-			return(errno);
-		}
+			return(dprintf(2, "cd: HOME not set\n"), errno);
 		retcode = chdir(home->value);
 	}
 	else
 		retcode = chdir(args[1]);
 	if (retcode)
-	{
-		//TODO replace printf with send_error when ready
-		printf("cd: %s: %s\n", strerror(errno), args[1]);
-		return (errno);
-	}
+		return (dprintf(2, "cd: %s: %s\n", strerror(errno), args[1]), errno);
 	update_pwd(core, oldpwd);
 	return (EXIT_SUCCESS);
 }
