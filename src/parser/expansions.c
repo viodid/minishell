@@ -6,12 +6,11 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 18:48:44 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 20:08:43 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
 {
@@ -36,6 +35,28 @@ t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
 		token_list = token_list->next;
 	}
 	return (head);
+}
+
+char	*filter_quotes(const t_list *env, char *value, int errcode)
+{
+	char		*str_start;
+	char		*str_mid;
+	char		*str_end;
+	uint32_t	size;
+
+	// TODO: handle loop quotes
+	if (ft_strchr(value, '\''))
+	{
+		str_start = ft_substr(value, 0, ft_strchr(value, '\'') - value);
+		str_mid = ft_substr(value, ft_strchr(value, '\'') - value, (ft_strrchr(value, '\'') - value));
+		str_end = ft_substr(value, ft_strrchr(value, '\'') - value, ft_strlen(value));
+		value = ft_strjoin_f12(expand_var_concat(env, str_start, errcode), str_mid);
+		free(str_start);
+		value = ft_strjoin_f12(value, expand_var_concat(env, str_end, errcode));
+		free(str_end);
+	}
+	// TODO: remove quotes
+	return (value);
 }
 
 /*

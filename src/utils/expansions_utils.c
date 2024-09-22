@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 18:24:11 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 19:20:25 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*expand_var_concat(const t_list *env, char *value, int errcode)
 	char		**split;
 	char		*tmp_str;
 
-	if (!strchr(value, '$'))
+	if (!ft_strchr(value, '$'))
 		return (ft_strdup(value));
 	split = ft_split(value, '$');
 	i = 0;
