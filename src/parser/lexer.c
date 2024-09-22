@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 11:35:07 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 12:03:46 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ static void			insert_token(char *value, t_list **token_list);
 static t_token_type	enum_token_value(const char *value);
 
 // TODO: support key=value pair syntax
-// TODO: support '/' character identifier
-// TODO: run; cd /home/"$USER"/.local/bin
-// TODO: run; cd /home/'$USER'/.local/bin
-// TODO: run; cd "/home/$USER"/.local/bin
 t_list	*lexer(void)
 {
 	char	*user_input;
@@ -92,8 +88,6 @@ static t_token_type	enum_token_value(const char *value)
 {
 	if (ft_strchr("<>", *value))
 		return (REDIRECTION);
-	if (*value == '~')
-		return (TILDE_EXPANSION);
 	if (*value == '|')
 		return (PIPE);
 	if (is_word_token(value))

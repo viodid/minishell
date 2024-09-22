@@ -39,3 +39,4 @@ $ cd /home/"$USER/.local"/bin
 $ cd /home/'$USER'/.local"/bin
 $ echo $PWD/.local/bin
 $ echo "hey '$PWD/var.log'"
+$ cat >>~/.zshrc     <<EOF|wc -l

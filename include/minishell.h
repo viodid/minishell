@@ -52,7 +52,6 @@ typedef enum e_redir_type
 typedef enum e_token_type
 {
 	WORD,
-	TILDE_EXPANSION,
 	REDIRECTION,
 	PIPE,
 }	t_token_type;

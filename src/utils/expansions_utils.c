@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/16 01:42:45 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 12:09:44 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*expand_var_concat(t_list *env, char *value, int errcode)
 	while (split[i])
 	{
 		tmp_str = split[i];
-		if (ft_isalpha(tmp_str[0]) || tmp_str[0] == '_') // TODO: change condition, check token correctness in tokenizer
+		if (ft_isalpha(tmp_str[0]) || tmp_str[0] == '_') // BUG: $+var -> $+var
 		{
 			split[i] = expand_var_in_str(env, tmp_str, errcode);
 			free(tmp_str);

@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 11:24:50 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 12:05:58 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	expansions_helper(t_list *redirs, t_list *tokens, t_list *env, int e
 	while (tokens)
 	{
 		type = ((t_token *)tokens->content)->type;
-		if (type == WORD || type == TILDE_EXPANSION)
+		if (type == WORD)
 			((t_token *)tokens->content)->value = expansions_helper_2(
 					((t_token *)tokens->content)->value, env, type, errcode);
 		tokens = tokens->next;
@@ -50,7 +50,7 @@ static void	expansions_helper(t_list *redirs, t_list *tokens, t_list *env, int e
 	while (redirs)
 	{
 		type = ((t_redir *) redirs->content)->token_type;
-		if (type == WORD || type == TILDE_EXPANSION)
+		if (type == REDIRECTION)
 			((t_redir *)redirs->content)->file = expansions_helper_2(
 					((t_redir *)redirs->content)->file, env, type, errcode);
 		redirs = redirs->next;
@@ -71,14 +71,12 @@ static char	*expansions_helper_2(char *value, t_list *env, t_token_type type, in
 static char	*expand_types(t_list *env, char *value,
 	t_token_type type, int errcode)
 {
-	if (type == TILDE_EXPANSION)
+	if (*value == '~')
 		return (expand_var_concat(env,
 				  ft_strjoin_f1(
 						  find_var(env, "HOME", errcode), value + 1),
 					  errcode));
-	if (type == WORD)
-		return (expand_var_concat(env, value, errcode));
-	return (NULL);
+	return (expand_var_concat(env, value, errcode));
 }
 
 /*

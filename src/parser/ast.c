@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 11:23:40 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 12:21:11 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static void	options(t_list *token_list, t_token **look_ahead, t_command *cmd)
 {
 	t_token	*id;
 
-	while (*look_ahead && (is_word(*look_ahead)
-			|| (*look_ahead)->type == TILDE_EXPANSION))
+	while (*look_ahead && (is_word(*look_ahead)))
 	{
 		id = initialize_identifier();
 		id->type = (*look_ahead)->type;
