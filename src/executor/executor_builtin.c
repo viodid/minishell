@@ -25,7 +25,7 @@ int	isbuiltin(char *cmdpath)
 	);
 }
 
-int	exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit)
+int	exec_builtin(t_data *core, char *cmdpath, char **args, int cmd_nb)
 {
 	int		retcode;
 
@@ -40,15 +40,15 @@ int	exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit)
 		retcode = ft_env(core);
 	else if (!ft_strncmp(cmdpath, "exit", 5))
 	{
-		retcode = ft_exit(core, args, !is_exit);
-		free_struct(core);
+		retcode = ft_exit(core, args, cmd_nb);
+		// free_cmd(ft_lstgetnode(core->line->cmds, cmd_nb)->content);
 		exit(retcode);
 	}
 	else if (!ft_strncmp(cmdpath, "export", 7))
 		retcode = ft_export(core, args);
 	else if (!ft_strncmp(cmdpath, "unset", 6))
 		retcode = ft_unset(core, args);
-	if (is_exit)
+	if (core->line->nbcommands > 1)
 		exit(retcode);
 	return (retcode);
 }

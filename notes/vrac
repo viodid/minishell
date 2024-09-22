@@ -1,6 +1,7 @@
-- Add basic envp in case of (!envp)
-- Add SHLVL handling
-
+x Add basic envp in case of (!envp)
+x Add SHLVL handling
+- Fix double free on core->line->fds when exiting via builtin
+- fix leak in case of exit (started in exec_builtin)
 
 
 ----------------------

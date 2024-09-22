@@ -27,7 +27,7 @@ int	ft_aredigits(char *str)
 
 //TODO refactor code correctly when send_error is ready
 //TODO exit from a child shouldn't print error
-int	ft_exit(t_data *core, char **args, int is_parent)
+int	ft_exit(t_data *core, char **args, int cmd_nb)
 {
 	unsigned char	exitcode;
 
@@ -49,13 +49,11 @@ int	ft_exit(t_data *core, char **args, int is_parent)
 	}
 	else
 		exitcode = 2;
-	if (is_parent)
+	if (core->line->nbcommands == 1)
 	{
 		dprintf(2, "exit\n");
 		if (exitcode && args[1])
 			dprintf(2, "exit: %s: numeric argument required\n", args[1]);
 	}
-	// free_struct(core);
-	// exit(exitcode);
 	return (exitcode);
 }

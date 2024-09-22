@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	exec_selector(t_data *core, t_command *command)
+int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 {
 	int		retcode;
 	char	*cmdpath;
@@ -49,7 +49,7 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	do_piperedir(core, command, fds, cmd_nb);
 	do_fileredir(command, fds);
 	if (command->tokens)
-		retcode = exec_selector(core, command);
+		retcode = exec_selector(core, command, cmd_nb);
 	return (retcode);
 }
 

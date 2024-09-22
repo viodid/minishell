@@ -41,6 +41,25 @@ t_var	*split_var(char *var_brut)
 	return (free(tmpenv), var);
 }
 
+int	set_shlvl(t_data *core)
+{
+	int		lvlnb;
+	char	*newvar;
+	t_var	*lvl;
+
+	lvl = get_env(core, "SHLVL");
+	if (!lvl && export_single(core, "SHLVL=1"))
+		return (EXIT_FAILURE);
+	lvlnb = ft_atoi(lvl->value);
+	lvlnb += 1;
+	newvar = ft_strjoin_f2("SHLVL=", ft_itoa(lvlnb));
+	if (!newvar)
+		return (EXIT_FAILURE);
+	export_single(core, newvar);
+	free(newvar);
+	return (EXIT_SUCCESS);
+}
+
 char	**set_basic_env(char *argv0)
 {
 	char	**ret;
@@ -55,7 +74,7 @@ char	**set_basic_env(char *argv0)
 	ret[0] = ft_strjoin_f2("PWD=", cwd);
 	if (!ret[0])
 		return (free(ret), free(cwd), NULL);
-	ret[1] = ft_strdup("SHLVL=1");
+	ret[1] = ft_strdup("SHLVL=0");
 	if (!ret[1])
 		return (ft_dfree((void **)ret), NULL);
 	ret[2] = ft_strjoin("_=", argv0);
@@ -64,7 +83,7 @@ char	**set_basic_env(char *argv0)
 	return (ret);
 }
 
-t_list	*set_env(char **argv, char **envp)
+t_list	*set_env(t_data *core, char **argv, char **envp)
 {
 	int		i;
 	char	**env;
@@ -90,8 +109,10 @@ t_list	*set_env(char **argv, char **envp)
 
 int	init_core(t_data *core, char **argv, char **envp)
 {	
-	core->env = set_env(argv, envp);
+	core->env = set_env(core, argv, envp);
 	if (!core->env)
+		return (EXIT_FAILURE);
+	if (set_shlvl(core))
 		return (EXIT_FAILURE);
 	core->line = ft_calloc(1, sizeof(t_line));
 	if (!core->line)
