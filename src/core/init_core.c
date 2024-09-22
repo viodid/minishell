@@ -78,9 +78,9 @@ t_list	*set_env(char **argv, char **envp)
 		return (NULL);
 	i = -1;
 	ret = NULL;
-	while (envp[++i])
+	while (env[++i])
 	{
-		var = split_var(envp[i]);
+		var = split_var(env[i]);
 		if (!var)
 			return (ft_lstclear(&ret, free_var), NULL);
 		ft_lstadd_back(&ret, ft_lstnew(var));
