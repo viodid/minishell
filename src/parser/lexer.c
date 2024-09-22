@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 10:44:40 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 11:19:48 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,14 @@ static void	insert_token(char *value, t_list **token_list)
 
 static t_token_type	enum_token_value(const char *value)
 {
-	if (is_word_token(value))
-		return (WORD);
 	if (ft_strchr("<>", *value))
 		return (REDIRECTION);
-	if (*value == '$')
-		return (VARIABLE);
 	if (*value == '~')
 		return (TILDE_EXPANSION);
 	if (*value == '|')
 		return (PIPE);
-	if (is_flag(value))
-		return (FLAG);
+	if (is_word_token(value))
+		return (WORD);
 	if (!errno)
 		send_error("syntax error near unexpected token: ", (char *)value, 1);
 	errno = 42;

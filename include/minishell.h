@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/22 10:44:34 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/22 11:19:10 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,10 @@ typedef enum e_redir_type
 
 typedef enum e_token_type
 {
-	IDENTIFIER, // https://en.wikipedia.org/wiki/Identifier_(computer_languages)
-	VARIABLE,
-	SINGLE_QUOTE_STRING,
-	DOUBLE_QUOTE_STRING,
+	WORD,
 	TILDE_EXPANSION,
 	REDIRECTION,
 	PIPE,
-	FLAG,
-	WORD
 }	t_token_type;
 
 /* STRUCTS */
