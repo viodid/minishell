@@ -15,26 +15,26 @@
 int	do_fileredir(t_command *command, t_fds fds)
 {
 	if (hasinput(command->redirs) && dup2(fds.fdin, STDIN_FILENO) == -1)
-		return (print_fds(fds), perror("input redirection"), -1);
+		return (/* print_fds(fds),  */perror("input redirection"), -1);
 	if (hasoutput(command->redirs) && dup2(fds.fdout, STDOUT_FILENO) == -1)
-		return (print_fds(fds), perror("output redirection"), -1);
+		return (/* print_fds(fds),  */perror("output redirection"), -1);
 	return (EXIT_SUCCESS);
 }
 
-int	redirect_files(t_command *command, t_fds *fds)
+int	get_redirs(t_command *command, t_fds *fds)
 {
 	if (hasinput(command->redirs))
 	{
 		fds->fdin = get_infiles((t_list *)command->redirs, fds,
 				(command->tokens && 1));
 		if (fds->fdin == -1)
-			return (perror("post redirect"), -1);
+			return (perror("post inredirect"), -1);
 	}
 	if (hasoutput(command->redirs))
 	{
 		fds->fdout = get_outfiles((t_list *)command->redirs, fds);
 		if (fds->fdout == -1)
-			return (perror("post redirect"), -1);
+			return (perror("post outredirect"), -1);
 	}
 	return (EXIT_SUCCESS);
 }

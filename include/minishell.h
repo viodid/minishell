@@ -141,7 +141,7 @@ int			tmp_parser(t_data *core, char **cmds);
 /* exec */
 
 int				executor(t_data *core); //TODO //TODO
-int				redirect_files(t_command *command, t_fds *fds);
+int				get_redirs(t_command *command, t_fds *fds);
 int				get_infiles(t_list *redirs, t_fds *fds, int iscommand);
 int				get_outfiles(t_list *redirs, t_fds *fds);
 int				isbuiltin(char *cmdpath);

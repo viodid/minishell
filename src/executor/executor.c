@@ -59,7 +59,7 @@ int	process_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	int		retcode;
 
 	set_fds(&fds, core, cmd_nb);
-	redirect_files(command, &fds);
+	get_redirs(command, &fds);
 	pid = core->line->pids[cmd_nb];
 	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
