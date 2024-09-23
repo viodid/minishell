@@ -62,11 +62,31 @@ char	*heredoc_loop(char *limiter, char *tmpname)
 	return (tmpname);
 }
 
+char	*do_heredoc(t_list *redirs, t_redir **lasthdoc)
+{
+	char	*ret;
+	t_redir	*redir;
+
+	ret = NULL;
+	while (redirs && redirs->content)
+	{
+		redir = (t_redir *)redirs->content;
+		if (redir->type == HEREDOC)
+		{
+			ret = heredoc_loop(redir->file, ret);
+			if (!ret)
+				return (perror("heredoc"), NULL);
+			*lasthdoc = redir;
+		}
+		redirs = redirs->next;
+	}
+	return (ret);
+}
+
 int	do_heredocs(t_list *commands)
 {
 	t_command	*command;
 	t_list		*redirs;
-	t_redir		*redir;
 	t_redir		*lasthdoc;
 	char		*tmpfile;
 
@@ -75,18 +95,7 @@ int	do_heredocs(t_list *commands)
 		tmpfile = NULL;
 		command = (t_command *)commands->content;
 		redirs = command->redirs;
-		while (redirs && redirs->content)
-		{
-			redir = (t_redir *)redirs->content;
-			if (redir->type == HEREDOC)
-			{
-				tmpfile = heredoc_loop(redir->file, tmpfile);
-				if (!tmpfile)
-					return (perror("heredoc"), EXIT_FAILURE);
-				lasthdoc = redir;
-			}
-			redirs = redirs->next;
-		}
+		tmpfile = do_heredoc(redirs, &lasthdoc);
 		if (tmpfile)
 		{
 			free(lasthdoc->file);

@@ -10,7 +10,7 @@ x Delete heredoc files after usage
 	x Replace HDOC redir by HDOC_FILE redir and iterate them for unlinking at the end
 - Free line everytime a line finishes execution
 - Functions to refactor
-	- do_heredocs()
+	x do_heredocs()
 	- ft_exit()
 	x ft_cd()
 	- exec_selector()
