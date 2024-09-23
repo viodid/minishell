@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/22 14:09:53 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/23 20:34:56 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ typedef struct s_line
 typedef struct s_data
 {
 	t_list	*env;
-	t_line	*line; // Why static
-	int		errcode; // use for $?
+	t_line	*line;
+	int		errcode;
 }	t_data;
 
 /* core */
@@ -125,7 +125,7 @@ uint8_t			is_identifier(const char *value);
 uint8_t			is_flag(const char *value);
 uint8_t			is_word_token(const char *value);
 char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
-int32_t			get_end_quote_idx(const char *str, int32_t i);
+int32_t			get_next_quote_idx(const char *str, int32_t i);
 int				get_size_metachar(const char *user_input, uint32_t i);
 int32_t			get_str_size(const char *user_input, int32_t i);
 char			*remove_quotes(char *str, t_token_type type);

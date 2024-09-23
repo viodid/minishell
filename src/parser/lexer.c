@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 12:03:46 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/23 20:40:59 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_list	*tokenizer(const char *user_input)
 {
 	char		*tmp_str;
 	t_list		*token_list;
-	uint32_t	offset;
+	int32_t	offset;
 	int32_t		i;
 	uint8_t		size_metachar;
 
