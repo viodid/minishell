@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/23 21:22:50 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/23 21:25:50 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,6 @@ t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
 
 static char	*filter_quotes(const t_list *env, char *value, int errcode)
 {
-//	char		*str_start;
-//	char		*str_mid;
-//	char		*str_end;
-//	uint32_t	size;
 	int32_t	i;
 	int32_t	j;
 	int32_t	offset;
@@ -53,6 +49,7 @@ static char	*filter_quotes(const t_list *env, char *value, int errcode)
 
 	i = 0;
 	offset = 0;
+	// TODO: continue here
 	while (i <= (int32_t)ft_strlen(value))
 	{
 		if (value[i] == '\'' || value[i] == '\0')
@@ -71,17 +68,6 @@ static char	*filter_quotes(const t_list *env, char *value, int errcode)
 		}
 		i++;
 	}
-	// TODO: handle loop quotes
-//	if (ft_strchr(value, '\''))
-//	{
-//		str_start = ft_substr(value, 0, ft_strchr(value, '\'') - value);
-//		str_mid = ft_substr(value, ft_strchr(value, '\'') - value, (ft_strrchr(value, '\'') - value));
-//		str_end = ft_substr(value, ft_strrchr(value, '\'') - value, ft_strlen(value));
-//		value = ft_strjoin_f12(expand_var_concat(env, str_start, errcode), str_mid);
-//		free(str_start);
-//		value = ft_strjoin_f12(value, expand_var_concat(env, str_end, errcode));
-//		free(str_end);
-//	}
 	// TODO: remove quotes
 	return (value);
 }
