@@ -59,11 +59,40 @@ void	free_var(void *cont)
 	free(var);
 }
 
+void	unlink_hdocs(t_line *line)
+{
+	t_list		*commands;
+	t_command	*command;
+	t_list		*redirs;
+	t_redir		*redir;
+
+	commands = line->cmds;
+	while (commands && commands->content)
+	{
+		command = (t_command *)commands->content;
+		redirs = command->redirs;
+		while (redirs && redirs->content)
+		{
+			redir = (t_redir *)redirs->content;
+			dprintf(2, "unlinking %s, type %i\n", redir->file, redir->type);
+			if (redir->type == H_INPUT)
+			{
+				unlink(redir->file);
+				break ;
+			}
+			redirs = redirs->next;
+		}
+		commands = commands->next;
+	}
+}
+
 void	free_line(t_line *line)
 {
 	int	i;
 
+	hola("free_line");
 	i = 0;
+	unlink_hdocs(line);
 	ft_lstclear(&line->cmds, &free_cmd);
 	while (i < line->nbcommands)
 		free(line->fds[i]);

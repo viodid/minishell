@@ -35,15 +35,19 @@ char	*get_tmpname()
 	return (NULL);
 }
 
-char	*heredoc_loop(char *limiter)
+char	*heredoc_loop(char *limiter, char *tmpname)
 {
 	int		fd;
 	char	*line;
-	char	*tmpname;
 
-	tmpname = get_tmpname();
 	if (!tmpname)
-		return (NULL);
+	{
+		tmpname = get_tmpname();
+		if (!tmpname)
+			return (NULL);
+	}
+	else
+		unlink(tmpname);
 	fd = open(tmpname, O_RDWR | O_CREAT | O_EXCL, 0644);
 	if (fd == -1 || access(tmpname, F_OK) == -1)
 		return (NULL);
@@ -76,7 +80,7 @@ int	do_heredocs(t_list *commands)
 			redir = (t_redir *)redirs->content;
 			if (redir->type == HEREDOC)
 			{
-				tmpfile = heredoc_loop(redir->file);
+				tmpfile = heredoc_loop(redir->file, tmpfile);
 				if (!tmpfile)
 					return (perror("heredoc"), EXIT_FAILURE);
 				lasthdoc = redir;
@@ -87,7 +91,7 @@ int	do_heredocs(t_list *commands)
 		{
 			free(lasthdoc->file);
 			lasthdoc->file = tmpfile;
-			lasthdoc->type = INPUT;
+			lasthdoc->type = H_INPUT;
 		}
 		commands = commands->next;
 	}

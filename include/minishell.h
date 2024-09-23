@@ -41,6 +41,7 @@ typedef enum e_redir_type
 	INPUT,
 	OUTPUT,
 	APPEND,
+	H_INPUT,
 }	t_redir_type;
 
 typedef enum e_token_type

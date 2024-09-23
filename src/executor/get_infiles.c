@@ -23,7 +23,7 @@ int	hasinput(t_list *redirs)
 	while (tmp)
 	{
 		redir = (t_redir *)tmp->content;
-		if (redir->type == INPUT)
+		if (redir->type == INPUT || redir->type == H_INPUT)
 			return (TRUE);
 		tmp = tmp->next;
 	}
@@ -54,7 +54,7 @@ int	get_input(t_list *redirs, int iscommand)
 	while (tmp && fd != -1)
 	{
 		redir = (t_redir *)tmp->content;
-		if (redir->type == INPUT)
+		if (redir->type == INPUT || redir->type == H_INPUT)
 			fd = check_infile(redir->file, fd, iscommand);
 		tmp = tmp->next;
 	}
