@@ -1,21 +1,21 @@
-x Add basic envp in case of (!envp)
-x Add SHLVL handling
 - Fix exit behaviour on exit
 	- Fix double free on core->line->fds when exiting via builtin
 	- Fix leak in case of exit (started in exec_builtin)
 - Fix cd behaviour according to BASH in cd a/a/ && rm -rf ../../a
 	- OLDPWD should be concatenated with cd . and cd .. values 
 	- cd should throw an error if directory not found in these cases
-x Delete heredoc files after usage
-	x Replace HDOC redir by HDOC_FILE redir and iterate them for unlinking at the end
 - Free line everytime a line finishes execution
 - Functions to refactor
-	x do_heredocs()
 	- ft_exit()
-	x ft_cd()
 	- exec_selector()
+	x do_heredocs()
+	x ft_cd()
 
 
+x Add basic envp in case of (!envp)
+x Add SHLVL handling
+x Delete heredoc files after usage
+	x Replace HDOC redir by HDOC_FILE redir and iterate them for unlinking at the end
 
 ----------------------
 
