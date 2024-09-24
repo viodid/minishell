@@ -93,11 +93,14 @@ void	free_line(t_line *line)
 	hola("free_line");
 	i = 0;
 	unlink_hdocs(line);
-	ft_lstclear(&line->cmds, &free_cmd);
+	if (ft_lstsize(line->cmds))
+		ft_lstclear(&line->cmds, &free_cmd);
 	while (i < line->nbcommands)
 		free(line->fds[i]);
-	free(line->fds);
-	free(line->pids);
+	if (line->fds)
+		free(line->fds);
+	if (line->pids)
+		free(line->pids);
 }
 
 void	free_struct(t_data *core)

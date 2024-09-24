@@ -51,6 +51,7 @@ t_command	*parse_command(char *str)
 		}
 		i++;
 	}
+	free(tokens);
 	return (ret);
 }
 

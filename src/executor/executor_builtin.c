@@ -41,6 +41,8 @@ int	exec_builtin(t_data *core, char *cmdpath, char **args, int cmd_nb)
 	{
 		retcode = ft_exit(core, args, cmd_nb);
 		// free_cmd(ft_lstgetnode(core->line->cmds, cmd_nb)->content);
+		if (core->line->nbcommands == 1)
+			free_struct(core);
 		exit(retcode);
 	}
 	else if (!ft_strncmp(cmdpath, "export", 7))
