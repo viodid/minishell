@@ -57,5 +57,6 @@ char	*get_cmdpath(t_data *core, char *cmd, t_var *envpaths)
 		if (!access(ret, X_OK))
 			return (ft_dfree((void **)paths), ret);
 	}
-	return (ft_dfree((void **)paths), free(ret), NULL);
+	return (dprintf(2, "%s: command not found\n", cmd),
+		ft_dfree((void **)paths), free(ret), NULL);
 }
