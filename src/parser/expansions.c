@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/23 21:28:02 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/25 19:54:53 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static char	*filter_quotes(const t_list *env, char *value, int errcode)
 	int32_t	i;
 	int32_t	j;
 	int32_t	offset;
+	int32_t	len_idx;
 	char		*tmp_str;
 	char		*tmp_str_2;
 
@@ -58,12 +59,15 @@ static char	*filter_quotes(const t_list *env, char *value, int errcode)
 			tmp_str_2 = tmp_str;
 			tmp_str = expand_var_concat(env, tmp_str, errcode);
 			free(tmp_str_2);
+			tmp_str_2 = ft_substr(value, 0, offset);
+			tmp_str = ft_strjoin_f12(tmp_str_2, tmp_str);
 			j = get_next_quote_idx(value, i) + 1;
+			len_idx = ft_strlen(value) - j;
 			if (j == -1)
-				return (value);
+				return (tmp_str);
 			tmp_str_2 = ft_substr(value, i, ft_strlen(value) - i);
-			i = j;
 			value = ft_strjoin_f12(tmp_str, tmp_str_2);
+			i = ft_strlen(value) - len_idx - 1;
 			offset = i + 1;
 		}
 		i++;
