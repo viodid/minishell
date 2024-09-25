@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/23 21:25:50 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/23 21:28:02 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static char	*filter_quotes(const t_list *env, char *value, int errcode)
 			j = get_next_quote_idx(value, i) + 1;
 			if (j == -1)
 				return (value);
-			tmp_str_2 = ft_substr(value, i, j - i);
+			tmp_str_2 = ft_substr(value, i, ft_strlen(value) - i);
 			i = j;
 			value = ft_strjoin_f12(tmp_str, tmp_str_2);
 			offset = i + 1;
