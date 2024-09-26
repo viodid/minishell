@@ -131,7 +131,7 @@ char		*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
 int32_t		get_next_quote_idx(const char *str, int32_t i);
 int			get_size_metachar(const char *user_input, uint32_t i);
 int32_t		get_str_size(const char *user_input, int32_t i);
-char		*remove_quotes(char *str, t_token_type type);
+char		*remove_quotes(char *str);
 
 /* parser */
 void		parser(t_data *core);

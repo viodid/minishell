@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/26 22:44:09 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 22:54:26 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,28 +95,31 @@ static void	remove_quotes_token(t_list *token_list)
 		if (token->type == DOUBLE_QUOTES || token->type == SINGLE_QUOTES)
 		{
 			tmp_str = token->value;
-			token->value = remove_quotes(token->value, token->type);
+			token->value = remove_quotes(token->value);
 			free(tmp_str);
 		}
 		token_list = token_list->next;
 	}
-
 }
 
 static char	*filter_and_expand(const t_list *env, char *value, int errcode)
 {
 	t_list	*tmp_token_list;
+	t_list	*head_list;
+	t_token	*token;
 
 	tmp_token_list = tokenizer(value);
-	ft_lstiter(tmp_token_list, &print_tokens);
+	head_list = tmp_token_list;
 	expand_token(tmp_token_list, env, errcode);
 	remove_quotes_token(tmp_token_list);
 	value = ft_calloc(1, 1);
 	while (tmp_token_list)
 	{
-		value = ft_strjoin_f1(value, tmp_token_list->content);
+		token = tmp_token_list->content;
+		value = ft_strjoin_f1(value, token->value);
 		tmp_token_list = tmp_token_list->next;
 	}
+	ft_lstclear(&head_list, &free_token);
 	return (value);
 }
 

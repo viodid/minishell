@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/26 22:20:43 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 22:48:27 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,13 @@ uint8_t	is_word_token(const char *value)
 	return (TRUE);
 }
 
-char	*remove_quotes(char *str, t_token_type type)
+char	*remove_quotes(char *str)
 {
-	char	*tmp_str;
 	char	*str_quote;
 
-	if (type != DOUBLE_QUOTES && type != SINGLE_QUOTES)
-		return (str);
-	tmp_str = str;
 	str_quote = (char *)ft_calloc(2, 1);
 	ft_strlcpy(str_quote, str, 2);
 	str = ft_strtrim(str, str_quote);
-	free(tmp_str);
 	free(str_quote);
 	return (str);
 }
