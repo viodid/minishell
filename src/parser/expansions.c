@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/26 22:54:26 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 23:00:06 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,58 +122,6 @@ static char	*filter_and_expand(const t_list *env, char *value, int errcode)
 	ft_lstclear(&head_list, &free_token);
 	return (value);
 }
-
-// static char	*filter_and_expand(const t_list *env, char *value, int errcode)
-// {
-	// int32_t	i;
-	// int32_t	j;
-	// int32_t	offset;
-	// int32_t	len_idx;
-	// char		*tmp_str;
-	// char		*tmp_str_2;
-
-	// i = 0;
-	// offset = 0;
-	// while (i <= (int32_t)ft_strlen(value))
-	// {
-		// if (value[i] == '\"')
-			// i = get_next_quote_idx(value, i);
-		// if (value[i] == '\'' || value[i] == '\0')
-		// {
-			// tmp_str = ft_substr(value, offset, i - offset);
-			// tmp_str_2 = tmp_str;
-			// tmp_str = expand_var_concat(env, tmp_str, errcode);
-			// free(tmp_str_2);
-			// tmp_str_2 = ft_substr(value, 0, offset);
-			// tmp_str = ft_strjoin_f12(tmp_str_2, tmp_str);
-			// j = get_next_quote_idx(value, i) + 1;
-			// len_idx = ft_strlen(value) - j;
-			// if (j == 0)
-				// return(tmp_str);
-			// tmp_str_2 = ft_substr(value, i, ft_strlen(value) - i);
-			// value = ft_strjoin_f12(tmp_str, tmp_str_2);
-			// if (ft_strlen(value) == 0)
-				// i = ft_strlen(value) - len_idx;
-			// else
-				// i = ft_strlen(value) - len_idx - 1;
-			// offset = i + 1;
-		// }
-		// i++;
-	// }
-	// TODO: remove quotes
-	// return (value);
-// }
-
-// static char	*remove_expanded_quotes(char *value)
-// {
-	// int32_t	i;
-
-	// i = 0;
-	// while (value[i])
-	// {
-		// if (ft_strchr("\'\"", value[i]))
-	// }
-// }
 
 /*
  * find_var finds the correct value in t_list *env at key, allocates enough
