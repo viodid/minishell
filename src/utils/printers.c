@@ -63,6 +63,7 @@ void	print_command(void *cont)
 	printf("printing command:\n");
 	ft_lstiter(command->redirs, print_redirs);
 	ft_lstiter(command->tokens, print_tokens);
+	print_fds(command->fds);
 	printf("\n");
 }
 
@@ -76,13 +77,27 @@ void	print_execve(char *cmdpath, char **args, char **envp)
 	printf("args :\n");
 	while (printf("->%i\n", i) && args[i])
 		printf("%s\n", args[i++]);
-	// i = -1;
-	// while (envp[++i])
-	// 	hola(envp[i]);
 }
 
-void	hola(char *str)
+int	hola(char *str)
 {
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
+	int	ret;
+
+	ret = 0;
+	if (str)
+		ret = write(2, str, ft_strlen(str));
+	ret += write(2, "\n", 1);
+	return(ret);
+}
+
+void	print_fds(t_fds fds)
+{
+	dprintf(2, "-----\n");
+	dprintf(2, "%i\n", getpid());
+	dprintf(2, "stdin %i\n", fds.stdfdin);
+	dprintf(2, "fdin %i\n", fds.fdin);
+	dprintf(2, "stdout %i\n", fds.stdfdout);
+	dprintf(2, "fdout %i\n", fds.fdout);
+	// dprintf(2, "%i\n", errno);
+	dprintf(2, "-----\n");
 }

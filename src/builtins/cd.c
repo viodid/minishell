@@ -12,7 +12,6 @@
 
 #include "../../include/minishell.h"
 
-// int	update_pwd(t_list **env, char *oldpwd)
 int	update_pwd(t_data *core, char *oldpwd)
 {
 	char	*newcwd;
@@ -24,7 +23,7 @@ int	update_pwd(t_data *core, char *oldpwd)
 		return (EXIT_FAILURE);
 	export_single(core, var);
 	free(var);
-	var = ft_strjoin_f2("OLDPWD=", oldpwd);
+	var = ft_strjoin("OLDPWD=", oldpwd);
 	if (!var)
 		return (EXIT_FAILURE);
 	export_single(core, var);
@@ -32,34 +31,39 @@ int	update_pwd(t_data *core, char *oldpwd)
 	return (EXIT_SUCCESS);
 }
 
+char	*get_oldpwd(t_data *core)
+{
+	char	*ret;
+	t_var	*var;
+
+	var = get_env(core, "OLDPWD");
+	if (var && var->value)
+		return (var->value);
+	ret = getcwd(NULL, 0);
+	if (!ret)
+		return (NULL);
+	return (ret);
+}
+
 int	ft_cd(t_data *core, char **args)
 {
-	int		retcode;
 	char	*oldpwd;
 	t_var	*home;
 
-	if (args[2])
-		return (perror("cd: too many arguments"), errno);
-	oldpwd = getcwd(NULL, 0);
+	if (args[1] && args[2])
+		return (dprintf(2, "cd: too many arguments\n"), EXIT_FAILURE);
+	oldpwd = get_oldpwd(core);
 	if (!args[1])
 	{
 		home = get_env(core, "HOME");
 		if (!home)
-		{
-			//TODO replace printf with send_error when ready
-			printf("cd: %s: %s\n", strerror(errno), args[1]);
-			return(errno);
-		}
-		retcode = chdir(home->value);
+			return(dprintf(2, "cd: HOME not set\n"), errno);
+		if (chdir(home->value))
+			return (perror(home->value), errno);
 	}
 	else
-		retcode = chdir(args[1]);
-	if (retcode)
-	{
-		//TODO replace printf with send_error when ready
-		printf("cd: %s: %s\n", strerror(errno), args[1]);
-		return (errno);
-	}
+		if (chdir(args[1]))
+			return (perror(args[1]), errno);
 	update_pwd(core, oldpwd);
 	return (EXIT_SUCCESS);
 }

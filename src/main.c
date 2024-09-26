@@ -18,25 +18,21 @@ int	main(int argc, char **argv, char **envp)
 {
 	int					i;
 	int					retcode;
-	t_data				*core;
+	t_data				core;
 	struct sigaction	act;
-	(void)argc;
-	(void)argv;
-	(void)i;
 
 	// Signals
 	act.sa_flags = SA_SIGINFO;
 	act.sa_sigaction = &signal_handler;
 
-	core = ft_calloc(1, sizeof(t_data));
-	core->env = set_env(envp);
-	core->errcode = 0;
+	if (init_core(&core, argv, envp))
+		return (dprintf(2, "minishell: allcoation error\n"), EXIT_FAILURE);
 	while (1)
 	{
 		sigaction(SIGINT, &act, NULL);
 		sigaction(SIGQUIT, &act, NULL);
 		sigaction(SIGHUP, &act, NULL);
-		retcode = minishell(core);
+		retcode = minishell(&core);
 		while (1)
 		{
 			i = waitpid(-1, NULL, 0);
@@ -46,9 +42,9 @@ int	main(int argc, char **argv, char **envp)
 		// TODO: handle frees better
 //		free_line(core->line);
 		if (retcode)
-			return (free_struct(core), retcode);
+			return (free_struct(&core), retcode);
 	}
-	free_struct(core);
+	free_struct(&core);
 	return (retcode);
 }
 

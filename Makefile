@@ -23,19 +23,23 @@ INCLUDE			= $(INCDIR)minishell.h
 SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)core/minishell.c				\
 				$(SRCDIR)core/get_env.c					\
-				$(SRCDIR)core/set_env.c					\
+				$(SRCDIR)core/init_core.c				\
 				$(SRCDIR)core/get_env_array.c			\
 				$(SRCDIR)parser/lexer.c					\
 				$(SRCDIR)parser/parser.c				\
+				$(SRCDIR)parser/tmp_parser.c			\
 				$(SRCDIR)parser/ast.c					\
 				$(SRCDIR)parser/initializations.c		\
 				$(SRCDIR)parser/expansions.c			\
 				$(SRCDIR)executor/executor.c			\
+				$(SRCDIR)executor/redirections.c		\
 				$(SRCDIR)executor/executor_builtin.c	\
-				$(SRCDIR)executor/redirect_input.c		\
-				$(SRCDIR)executor/redirect_output.c		\
+				$(SRCDIR)executor/get_infiles.c			\
+				$(SRCDIR)executor/get_outfiles.c		\
 				$(SRCDIR)executor/get_cmdpath.c			\
 				$(SRCDIR)executor/set_fds.c				\
+				$(SRCDIR)executor/pipes.c				\
+				$(SRCDIR)executor/heredoc.c				\
 				$(SRCDIR)signals/signals.c				\
 				$(SRCDIR)builtins/echo.c				\
 				$(SRCDIR)builtins/cd.c					\
@@ -54,7 +58,6 @@ OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= gcc
 CFLAGS			= -Wextra -Werror -pedantic-errors -g3
-#CFLAGS			= -g3
 LIBFLAG			=
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)
@@ -79,7 +82,7 @@ lsan:			LIBFLAG = lsan
 lsan:			LIBNAME = libft_lsan.a
 lsan:			all
 
-$(NAME):		$(OBJS) $(LIBNAME)
+$(NAME):		$(OBJS) $(LIBNAME) $(INCLUDE)
 				$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBNAME) $(LDFLAGS)
 				@echo "\033[0;32m--- Minishell compiled successfully! ---\033[0m"
 

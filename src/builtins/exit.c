@@ -25,15 +25,12 @@ int	ft_aredigits(char *str)
 	return (TRUE);
 }
 
-//TODO refractor code correctly when send_error is ready
-int	ft_exit(t_data *core, char **args)
+//TODO refactor code correctly when send_error is ready
+//TODO exit from a child shouldn't print error
+int	ft_exit(t_data *core, char **args, int cmd_nb)
 {
-	int				i;
 	unsigned char	exitcode;
-	(void)args;
-	(void)i;
 
-	i = 0;
 	if (!args[1])
 		exitcode = core->errcode;
 	else if (!args[2])
@@ -45,16 +42,21 @@ int	ft_exit(t_data *core, char **args)
 	}
 	else if (args[2] && ft_aredigits(args[1]))
 	{
-		printf("exit\n");
-		printf("Corresponding error");
+		dprintf(2, "exit\n");
+		dprintf(2, "Corresponding error1\n");
 		core->errcode = 1;
 		return (1);
 	}
 	else
 		exitcode = 2;
-	free_struct(core);
-	printf("exit\n");
-	if (exitcode)
-		printf("Corresponding error");
+	if (core->line->nbcommands == 1)
+	{
+		dprintf(2, "exit\n");
+		if (exitcode && args[1])
+			dprintf(2, "exit: %s: numeric argument required\n", args[1]);
+	}
+	// if (core->line->nbcommands == 1)
+	// 	free_struct(core);
 	exit(exitcode);
+	// return (exitcode);
 }

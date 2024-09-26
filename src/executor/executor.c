@@ -12,28 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char	**get_arg_array(t_command *command)
-{
-	int		i;
-	char	**ret;
-	t_list	*tmp;
-	t_token	*token;
-
-	i = 0;
-	ret = ft_calloc(ft_lstsize(command->tokens) + 1, sizeof(char *));
-	if (!ret)
-		return (NULL);
-	tmp = command->tokens;
-	while (tmp)
-	{
-		token = (t_token *)tmp->content;
-		ret[i++] = token->value;
-		tmp = tmp->next;
-	}
-	return (ret);
-}
-
-int	exec_selector(t_data *core, t_command *command)
+int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 {
 	int		retcode;
 	char	*cmdpath;
@@ -41,99 +20,116 @@ int	exec_selector(t_data *core, t_command *command)
 	char	**envp;
 
 	args = get_arg_array(command);
+	if (!args)
+		return (EXIT_FAILURE);
 	envp = get_env_array(core);
-	cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
+	if (!envp)
+		return (free(args), EXIT_FAILURE);
+	cmdpath = args[0];
 	if (isbuiltin(args[0]))
 	{
-		free(cmdpath);
-		retcode = exec_builtin(core, args[0], args);
+		retcode = exec_builtin(core, cmdpath, args, core->line->nbcommands > 1);
+		if (core->line->nbcommands == 1)
+			return (ft_dfree((void **)envp), free(args), retcode);
 	}
 	else
 	{
-		retcode = execve(cmdpath, args, envp);
-		free(cmdpath);
-		//TODO print error here?
+		cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
+		if (!cmdpath)
+		{
+			free_struct(core);
+			free_line(core->line);
+			ft_dfree((void **)envp);
+			free(args);
+			exit(EXIT_FAILURE);
+		}
 	}
-	return (ft_dfree((void **)envp), free(args), retcode);
+	if (execve(cmdpath, args, envp))
+		perror(args[0]);
+	free(cmdpath);
+	free_struct(core);
+	free_line(core->line);
+	ft_dfree((void **)envp);
+	free(args);
+	exit(retcode);
 }
 
-int	run_single(t_data *core, t_command *command, t_fds fds)
+int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 {
 	int		retcode;
 
 	retcode = EXIT_SUCCESS;
-	if (hasinput(command->redirs))
-	{
-		fds.fdin = redirect_input((t_list *)command->redirs, fds,
-				&core->line->stdinbak, (command->tokens && 1));
-		if (fds.fdin == -1)
-			return (perror("post redirect"), -1);
-	}
-	// if (hasoutput(command->redirs))
-	// {
-	// 	fds.fdout = redirect_output((t_list *)command->redirs, fds,
-	// 			&core->line->stdoutbak, (command->tokens && 1));
-	// 	if (fds.fdout == -1)
-	// 		return (perror("post redirect"), -1);
-	// }
+	do_piperedir(core, command, fds, cmd_nb);
+	do_fileredir(command, fds);
 	if (command->tokens)
-		retcode = exec_selector(core, command);
-	if (hasinput(command->redirs) && fds.stdfdin == STDIN_FILENO)
-		dup2(core->line->stdinbak, fds.stdfdin);
-	if (hasoutput(command->redirs) && fds.stdfdout == STDOUT_FILENO)
-		dup2(core->line->stdoutbak, fds.stdfdin);
-	unlink(HDOC_TMP);
+		retcode = exec_selector(core, command, cmd_nb);
 	return (retcode);
 }
 
-int	process_single(t_data *core, t_command *command, int npid)
+int	process_single(t_data *core, t_command *command, int cmd_nb)
 {
-	t_fds	fds;
 	int		pid;
-	int		retcode;
 
-	pid = core->line->pids[npid];
-	if (set_fds(&fds, core, npid))
-		return (errno);
+	set_fds(&command->fds, core, cmd_nb);
+	get_redirs(command, &command->fds);
+	pid = core->line->pids[cmd_nb];
 	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
-		printf("forking\n");
 		pid = fork(); //!start of child process
-		if (pid == 0) // child case
-			retcode = run_single(core, command, fds);
+		if (pid == 0)
+			run_single(core, command, command->fds, cmd_nb);
 		else
+		{
+			close_parent_pipes(core, cmd_nb);
 			return (EXIT_SUCCESS);
+		}
 	}
 	else
-		retcode = run_single(core, command, fds);
-	return (retcode);
+	{
+		run_single(core, command, command->fds, cmd_nb);
+		reset_stdfds(core);
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	process_multiple(t_data *core, t_list *commands)
+{
+	int			i;
+	t_command	*command;
+
+	i = 0;
+	while (commands)
+	{
+		command = (t_command *)commands->content;
+		process_single(core, command, i);
+		commands = commands->next;
+		i++;
+	}
+	while (1)
+		if (waitpid(-1, NULL, 0) < 0) //TODO handle Process &status, external func
+			break ;
+	return (EXIT_SUCCESS);
 }
 
 int	executor(t_data *core)
 {
-	int		i;
-	int		retcode;
 	t_list	*commands;
 
-	i = 0;
-	retcode = EXIT_SUCCESS;
 	commands = core->line->cmds;
-	if (ft_lstsize(commands) == 1)
-		retcode = process_single(core, (t_command *)commands->content, 0);
-	else
-	{	//TODO go handle pipes, start allocating pipes
-		while (commands)
-		{
-			retcode = process_single(core, (t_command *)commands->content, i);
-			if (retcode)
-				return (retcode);
-			commands = commands->next;
-			i++;
-			while (1)
-				if (waitpid(-1, NULL, 0) < 0)
-					break ;
-		}
+	if (do_heredocs(commands) || init_pipes(core) || save_stdfds(core))
+		return (EXIT_FAILURE);
+	commands = core->line->cmds;
+	if (ft_lstsize(commands) == 0)
+		return (EXIT_SUCCESS);
+	else if (ft_lstsize(commands) > 1)
+		return (process_multiple(core, commands));
+	process_single(core, (t_command *)commands->content, 0);
+	if (!core->line->pids[0] && reset_stdfds(core))
+	{
+		free_struct(core);
+		free_line(core->line);
+		exit(EXIT_FAILURE);
 	}
-	return (retcode);
+	return (EXIT_SUCCESS);
 }

@@ -27,43 +27,90 @@ void	free_redir(void *cont)
 	t_redir	*redir;
 
 	redir = (t_redir *)cont;
-	free(redir->file);
-	redir->file = NULL;
-	free(redir);
+	if (redir->file)
+	{
+		free(redir->file);
+		redir->file = NULL;
+	}
+	free(cont);
 }
 
 void	free_cmd(void *cont)
 {
 	t_command	*command;
 
+	hola("free_cmd");
 	command = (t_command *)cont;
-	ft_lstclear(&command->redirs, free_redir);
-	ft_lstclear(&command->tokens, free_token);
-	free(command);
+	if (command->redirs)
+		ft_lstclear(&command->redirs, free_redir);
+	if (command->tokens)
+		ft_lstclear(&command->tokens, free_token);
 }
 
 void	free_var(void *cont)
 {
 	t_var	*var;
 
+	hola("free_var");
 	var = (t_var *)cont;
 	free(var->key);
 	free(var->value);
-	free(var);
+	free(cont);
+}
+
+void	unlink_hdocs(t_line *line)
+{
+	t_list		*commands;
+	t_command	*command;
+	t_list		*redirs;
+	t_redir		*redir;
+
+	commands = line->cmds;
+	while (commands && commands->content)
+	{
+		command = (t_command *)commands->content;
+		redirs = command->redirs;
+		while (redirs && redirs->content)
+		{
+			redir = (t_redir *)redirs->content;
+			dprintf(2, "unlinking %s, type %i\n", redir->file, redir->type);
+			if (redir->type == H_INPUT)
+			{
+				unlink(redir->file);
+				break ;
+			}
+			redirs = redirs->next;
+		}
+		commands = commands->next;
+	}
 }
 
 void	free_line(t_line *line)
 {
-	ft_lstclear(&line->cmds, &free_cmd);
-	free(line->pids);
-	// TODO: free future *fds
+	int	i;
+
+	hola("free_line");
+	i = 0;
+	unlink_hdocs(line);
+	if (ft_lstsize(line->cmds))
+		ft_lstclear(&line->cmds, &free_cmd);
+	while (i < line->nbcommands)
+		free(line->fds[i]);
+	if (line->fds)
+		free(line->fds);
+	if (line->pids)
+		free(line->pids);
 	free(line);
+
 }
 
 void	free_struct(t_data *core)
 {
+	hola("free_struct");
 	ft_lstclear(&core->env, &free_var);
-	ft_lstclear(&core->line->cmds, &free_cmd);
-	free(core->line);
+	if (core->line)
+	{
+		free_line(core->line);
+	}
 	free(core);
 }

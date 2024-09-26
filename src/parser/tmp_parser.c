@@ -22,6 +22,8 @@ t_command	*parse_command(char *str)
 	t_token		*token;
 
 	ret = ft_calloc(1, sizeof(t_command));
+	if (!ret)
+		perror("tmp parser");
 	i = 0;
 	tokens = ft_split(str, ' ');
 	while (tokens[i])
@@ -29,6 +31,8 @@ t_command	*parse_command(char *str)
 		if (ft_strchr(tokens[i], '<') || ft_strchr(tokens[i], '>'))
 		{
 			redir = ft_calloc(1, sizeof(t_redir));
+			if (!redir)
+				perror("tmp parser");
 			redir->type = HEREDOC + (!ft_strncmp(tokens[i], "<", 2) && 1)
 						+ (!ft_strncmp(tokens[i], ">", 1) && 1) * 2
 						+ (!ft_strncmp(tokens[i], ">>", 2) && 1);
@@ -45,21 +49,31 @@ t_command	*parse_command(char *str)
 		&& (!i || (i && !(ft_strchr(tokens[i - 1], '<') || ft_strchr(tokens[i - 1], '>')))))
 		{
 			token = ft_calloc(1, sizeof(t_token));
+			if (!token)
+				perror("tmp parser");
 			token->value = tokens[i];
 			token->type = WORD + (ret->tokens && 1);
 			ft_lstadd_back(&ret->tokens, ft_lstnew(token));
 		}
 		i++;
 	}
+	ft_memset(&ret->fds, -1, sizeof(t_fds));
+	free(tokens);
 	return (ret);
 }
 
 int	tmp_parser(t_data *core, char **cmds)
 {
 	int			i;
+	int			j;
 	t_command	*command;
 
 	i = 0;
+	j = 0;
+	core->line = ft_calloc(1, sizeof(t_line));
+	if (!core->line)
+		return (EXIT_FAILURE);
+	core->line->cmds = NULL;
 	while (cmds[i])
 	{
 		command = parse_command(cmds[i]);
@@ -71,6 +85,8 @@ int	tmp_parser(t_data *core, char **cmds)
 	else
 		core->line->pids = NULL;
 	core->line->nbcommands = i;
-	core->line->fds = ft_calloc(2, sizeof(int));
+	core->line->fds = ft_calloc(i, sizeof(int *));
+	while (j < i)
+		core->line->fds[j++] = ft_calloc(2, sizeof(int));
 	return (EXIT_SUCCESS);
 }

@@ -12,6 +12,27 @@
 
 #include "../../include/minishell.h"
 
+char	**get_arg_array(t_command *command)
+{
+	int		i;
+	char	**ret;
+	t_list	*tmp;
+	t_token	*token;
+
+	i = 0;
+	ret = ft_calloc(ft_lstsize(command->tokens) + 1, sizeof(char *));
+	if (!ret)
+		return (NULL);
+	tmp = command->tokens;
+	while (tmp)
+	{
+		token = (t_token *)tmp->content;
+		ret[i++] = token->value;
+		tmp = tmp->next;
+	}
+	return (ret);
+}
+
 char	*get_cmdpath(t_data *core, char *cmd, t_var *envpaths)
 {
 	int		i;
@@ -24,17 +45,18 @@ char	*get_cmdpath(t_data *core, char *cmd, t_var *envpaths)
 	i = -1;
 	paths = ft_split(envpaths->value, ':');
 	if (!paths)
-		return (perror("paths"), NULL); //TODO decide best way to handle error
+		return (perror("path allocation"), NULL);
 	while (paths[++i])
 	{
 		ret = ft_strjoin(paths[i], "/");
 		if (!ret)
-			return (perror("paths"), ft_dfree((void **)paths), NULL); //TODO decide best way to handle error
+			return (perror("path allocation"), ft_dfree((void **)paths), NULL);
 		ret = ft_strjoin_f1(ret, cmd);
 		if (!ret)
-			return (perror("paths"), ft_dfree((void **)paths), NULL); //TODO decide best way to handle error
+			return (perror("path allocation"), ft_dfree((void **)paths), NULL);
 		if (!access(ret, X_OK))
 			return (ft_dfree((void **)paths), ret);
 	}
-	return (ft_dfree((void **)paths), free(ret), NULL);
+	return (dprintf(2, "%s: command not found\n", cmd),
+		ft_dfree((void **)paths), free(ret), NULL);
 }
