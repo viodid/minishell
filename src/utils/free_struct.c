@@ -35,28 +35,31 @@ void	free_redir(void *cont)
 		free(redir->file);
 		redir->file = NULL;
 	}
-	free(redir);
+	free(cont);
 }
 
 void	free_cmd(void *cont)
 {
 	t_command	*command;
 
+	hola("free_cmd");
 	command = (t_command *)cont;
 	if (command->redirs)
 		ft_lstclear(&command->redirs, free_redir);
 	if (command->tokens)
 		ft_lstclear(&command->tokens, free_token);
+	free(cont);
 }
 
 void	free_var(void *cont)
 {
 	t_var	*var;
 
+	hola("free_var");
 	var = (t_var *)cont;
 	free(var->key);
 	free(var->value);
-	free(var);
+	free(cont);
 }
 
 void	unlink_hdocs(t_line *line)
@@ -101,11 +104,15 @@ void	free_line(t_line *line)
 		free(line->fds);
 	if (line->pids)
 		free(line->pids);
+	free(line);
 }
 
 void	free_struct(t_data *core)
 {
+	hola("free_struct");
 	ft_lstclear(&core->env, free_var);
 	if (core->line)
+	{
 		free_line(core->line);
+	}
 }

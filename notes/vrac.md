@@ -1,8 +1,8 @@
 - Fix exit behaviour on exit
 	- Fix double free on core->line->fds when exiting via builtin
 	- Fix leak in case of exit (started in exec_builtin)
-- Free line everytime a line finishes execution
-- t_fd pointer should be added to t_command struct and allocated on parsing
+- **Free line everytime a line finishes execution**
+- **t_fd pointer should be added to t_command struct and allocated on parsing**
 - Read &status at exit of last process
 - Functions to refactor
 	- ft_exit()

@@ -5,6 +5,20 @@
 # define MAIN_PIPE 0
 # define AUX_PIPE 1
 
+int main()
+{
+	t_list *lst = NULL;
+	t_cords *cords = malloc(sizeof(t_cords));
+
+	ft_lstadd_back(&lst, ft_lstnew(cords));
+	cords = malloc(sizeof(t_cords));
+	ft_lstadd_back(&lst, ft_lstnew(cords));
+	cords = malloc(sizeof(t_cords));
+	ft_lstadd_back(&lst, ft_lstnew(cords));
+
+	ft_lstclear(&lst, free);
+}
+
 // int	dup_pipe(int *pipe2, int *pipe1)
 // {
 // 	close(pipe1[READ_FD]);
@@ -17,82 +31,82 @@
 // 	return EXIT_SUCCESS;
 // }
 
-int main(int argc, char **argv, char **envp)
-{
-	int		i;
-	// int		**fds;
-	int		*fd1, *fd2, *fd3;
-	int		pid[4];
-	char	**cmd1 = ft_split("ls -al", ' ');
-	char	**cmd2 = ft_split("grep m", ' ');
-	char	**cmd3 = ft_split("wc", ' ');
-	char	**cmd4 = ft_split("wc -c", ' ');
-	(void)i;(void)argc;(void)argv;(void)envp;(void)fd3;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	int		i;
+// 	// int		**fds;
+// 	int		*fd1, *fd2, *fd3;
+// 	int		pid[4];
+// 	char	**cmd1 = ft_split("ls -al", ' ');
+// 	char	**cmd2 = ft_split("grep m", ' ');
+// 	char	**cmd3 = ft_split("wc", ' ');
+// 	char	**cmd4 = ft_split("wc -c", ' ');
+// 	(void)i;(void)argc;(void)argv;(void)envp;(void)fd3;
 
-	fd1 = ft_calloc(2, sizeof(int));
-	fd2 = ft_calloc(2, sizeof(int));
-	fd3 = ft_calloc(2, sizeof(int));
-	pipe(fd1);
-	pipe(fd2);
-	pipe(fd3);
+// 	fd1 = ft_calloc(2, sizeof(int));
+// 	fd2 = ft_calloc(2, sizeof(int));
+// 	fd3 = ft_calloc(2, sizeof(int));
+// 	pipe(fd1);
+// 	pipe(fd2);
+// 	pipe(fd3);
 
-	pid[0] = fork();
-	if (!pid[0])
-	{
-		close(fd1[READ_FD]);
-		dup2(fd1[WRITE_FD], STDOUT_FILENO);
-		close(fd1[WRITE_FD]);
-		execve("/bin/ls", cmd1, NULL);
-		exit(EXIT_FAILURE);
-	}
+// 	pid[0] = fork();
+// 	if (!pid[0])
+// 	{
+// 		close(fd1[READ_FD]);
+// 		dup2(fd1[WRITE_FD], STDOUT_FILENO);
+// 		close(fd1[WRITE_FD]);
+// 		execve("/bin/ls", cmd1, NULL);
+// 		exit(EXIT_FAILURE);
+// 	}
 
-	close(fd1[WRITE_FD]);
-	pid[1] = fork();
-	if (!pid[1])
-	{
-		close(fd2[READ_FD]);
-		dup2(fd1[READ_FD], STDIN_FILENO);
-		close(fd1[READ_FD]);
-		dup2(fd2[WRITE_FD], STDOUT_FILENO);
-		close(fd2[WRITE_FD]);
-		execve("/bin/grep", cmd2, NULL);
-		exit(EXIT_FAILURE);
-	}
-	close(fd1[READ_FD]);
+// 	close(fd1[WRITE_FD]);
+// 	pid[1] = fork();
+// 	if (!pid[1])
+// 	{
+// 		close(fd2[READ_FD]);
+// 		dup2(fd1[READ_FD], STDIN_FILENO);
+// 		close(fd1[READ_FD]);
+// 		dup2(fd2[WRITE_FD], STDOUT_FILENO);
+// 		close(fd2[WRITE_FD]);
+// 		execve("/bin/grep", cmd2, NULL);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	close(fd1[READ_FD]);
 
-	close(fd2[WRITE_FD]);
-	pid[2] = fork();
-	if (!pid[2])
-	{
-		close(fd3[READ_FD]);
-		dup2(fd2[READ_FD], STDIN_FILENO);
-		close(fd2[READ_FD]);
-		dup2(fd3[WRITE_FD], STDOUT_FILENO);
-		close(fd3[WRITE_FD]);
-		execve("/bin/wc", cmd3, NULL);
-		exit(EXIT_FAILURE);
-	}
-	close(fd2[READ_FD]);
+// 	close(fd2[WRITE_FD]);
+// 	pid[2] = fork();
+// 	if (!pid[2])
+// 	{
+// 		close(fd3[READ_FD]);
+// 		dup2(fd2[READ_FD], STDIN_FILENO);
+// 		close(fd2[READ_FD]);
+// 		dup2(fd3[WRITE_FD], STDOUT_FILENO);
+// 		close(fd3[WRITE_FD]);
+// 		execve("/bin/wc", cmd3, NULL);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	close(fd2[READ_FD]);
 
-	close(fd3[WRITE_FD]);
-	pid[3] = fork();
-	if (!pid[3])
-	{
-		dup2(fd3[READ_FD], STDIN_FILENO);
-		close(fd3[READ_FD]);
-		execve("/bin/wc", cmd4, NULL);
-		exit(EXIT_FAILURE);
-	}
-	close(fd3[READ_FD]);
+// 	close(fd3[WRITE_FD]);
+// 	pid[3] = fork();
+// 	if (!pid[3])
+// 	{
+// 		dup2(fd3[READ_FD], STDIN_FILENO);
+// 		close(fd3[READ_FD]);
+// 		execve("/bin/wc", cmd4, NULL);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	close(fd3[READ_FD]);
 
 
-	// wait(&status);
-	// wait(&status);
-	// wait(&status);
-	// wait(&status);
+// 	// wait(&status);
+// 	// wait(&status);
+// 	// wait(&status);
+// 	// wait(&status);
 
-	// waitpid(pid[2], NULL, 0);
-}
+// 	// waitpid(pid[2], NULL, 0);
+// }
 
 // int main()
 // {

@@ -43,6 +43,7 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 		if (execve(cmdpath, args, envp))
 			perror(args[0]);
 		free(cmdpath);
+		free_struct(core);
 	}
 	ft_dfree((void **)envp);
 	free(args);

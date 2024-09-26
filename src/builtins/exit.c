@@ -43,7 +43,7 @@ int	ft_exit(t_data *core, char **args, int cmd_nb)
 	else if (args[2] && ft_aredigits(args[1]))
 	{
 		dprintf(2, "exit\n");
-		dprintf(2, "Corresponding error1");
+		dprintf(2, "Corresponding error1\n");
 		core->errcode = 1;
 		return (1);
 	}
@@ -55,5 +55,8 @@ int	ft_exit(t_data *core, char **args, int cmd_nb)
 		if (exitcode && args[1])
 			dprintf(2, "exit: %s: numeric argument required\n", args[1]);
 	}
-	return (exitcode);
+	// if (core->line->nbcommands == 1)
+	// 	free_struct(core);
+	exit(exitcode);
+	// return (exitcode);
 }
