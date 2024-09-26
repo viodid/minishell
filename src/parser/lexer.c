@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/23 20:40:59 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 21:55:01 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static t_list		*tokenizer(const char *user_input);
 static char			*loop_readline(void);
-static void			insert_token(char *value, t_list **token_list);
 static t_token_type	enum_token_value(const char *value);
 
 t_list	*lexer(void)
@@ -65,7 +64,7 @@ static t_list	*tokenizer(const char *user_input)
 	return (token_list);
 }
 
-static void	insert_token(char *value, t_list **token_list)
+void	insert_token(char *value, t_list **token_list)
 {
 	t_token		*token;
 

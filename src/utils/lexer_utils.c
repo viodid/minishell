@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/23 20:51:30 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 21:31:52 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int32_t	get_str_size(const char *user_input, int32_t i)
 
 	idx = i;
 	if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
-		idx = get_next_quote_idx(user_input, i) + 1;
+		idx = get_next_quote_idx(user_input, i);
 	if (idx == -1)
 	{
 		if (!errno)
@@ -131,7 +131,7 @@ int32_t	get_next_quote_idx(const char *str, int32_t i)
 		if (str[i] == quote_type)
 			return (i);
 	}
-	return (-2);
+	return (-1);
 }
 
 int	get_size_metachar(const char *user_input, uint32_t i)

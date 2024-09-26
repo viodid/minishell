@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/23 20:34:56 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 21:54:53 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef enum e_token_type
 	WORD,
 	REDIRECTION,
 	PIPE,
+	SINGLE_QUOTES,
+	DOUBLE_QUOTES
 }	t_token_type;
 
 /* STRUCTS */
@@ -120,15 +122,16 @@ char			**get_env_array(t_data *core);
 
 /* lexer */
 
-t_list			*lexer(void);
-uint8_t			is_identifier(const char *value);
-uint8_t			is_flag(const char *value);
-uint8_t			is_word_token(const char *value);
-char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
-int32_t			get_next_quote_idx(const char *str, int32_t i);
-int				get_size_metachar(const char *user_input, uint32_t i);
-int32_t			get_str_size(const char *user_input, int32_t i);
-char			*remove_quotes(char *str, t_token_type type);
+t_list		*lexer(void);
+void		insert_token(char *value, t_list **token_list);
+uint8_t		is_identifier(const char *value);
+uint8_t		is_flag(const char *value);
+uint8_t		is_word_token(const char *value);
+char		*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
+int32_t		get_next_quote_idx(const char *str, int32_t i);
+int			get_size_metachar(const char *user_input, uint32_t i);
+int32_t		get_str_size(const char *user_input, int32_t i);
+char		*remove_quotes(char *str, t_token_type type);
 
 /* parser */
 void		parser(t_data *core);
