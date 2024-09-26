@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/26 22:17:02 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/27 00:15:35 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,9 @@ static char	*loop_readline(void)
 
 	tmp_str1 = NULL;
 	tmp_str2 = NULL;
-	tmp_str1 = readline("ˢʰᵉˡˡ >");
+	tmp_str1 = readline("ˢʰᵉˡˡ > ");
+    if (ft_strlen(tmp_str1) == 0)
+        return (tmp_str1);
 	while (tmp_str1[ft_strlen(tmp_str1) - 1] == '\\')
 	{
 		tmp_str2 = ft_strtrim(tmp_str1, "\\");
