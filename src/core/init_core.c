@@ -107,6 +107,17 @@ t_list	*set_env(t_data *core, char **argv, char **envp)
 	return (ret);
 }
 
+/**
+ * Initializes `core` with env variables, sets the shell level, allocates memory
+ * for `core->line`, and initializes other variables.
+ * 
+ * @param core `t_data` struct to initialize.
+ * @param argv sets the `_` env variable if no environment is provided.
+ * @param envp contains the environment provided to Minishell.
+ * 
+ * @return `EXIT_SUCCESS` if all operations are successful.
+ * `EXIT_FAILURE` if anything fails.
+ */
 int	init_core(t_data *core, char **argv, char **envp)
 {	
 	core->env = set_env(core, argv, envp);

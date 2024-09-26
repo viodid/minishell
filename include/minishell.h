@@ -84,6 +84,11 @@ typedef struct s_redir
 	t_token_type	token_type;
 }	t_redir;
 
+/**
+ * A single command, it contains:
+ * - `tokens`: a linked list of tokens, contains `t_token` structures
+ * - `redirs`: a linked list of redirections, contains `t_redir` structures
+ */
 typedef struct s_command
 {
 	t_list	*tokens;
@@ -91,6 +96,13 @@ typedef struct s_command
 	int		builtin;
 }	t_command;
 
+/**
+ * A line of commands, it contains:
+ * - `cmds`: a linked list of commands, contains `t_command` structures
+ * - `fds`: a 2D array of ints representing file descriptors
+ * - `pids`: an array of ints representing process IDs
+ * - `nbcommands`: an int representing the number of commands
+ */
 typedef struct s_line
 {
 	t_list	*cmds;
@@ -99,6 +111,14 @@ typedef struct s_line
 	int		nbcommands;
 }	t_line;
 
+/**
+ * Minishell's core, it cotains:
+ * - `env`: a linked list of environment variables
+ * - `line`: a structure containing a line of commands
+ * - `errcode`: an int to store error codes
+ * - `sv_stdin`: an int to save the standard input fd
+ * - `sv_stdout`: an int to save the standard output fd
+ */
 typedef struct s_data
 {
 	t_list	*env;
