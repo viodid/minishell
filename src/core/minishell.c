@@ -12,38 +12,38 @@
 
 #include "../../include/minishell.h"
 
-// int	minishell(t_data *core)
-// {
-// 	int			retcode;
-// 	char		**cmds;
-
-// 	errno = 0;
-// 	parser(core);
-// 	if (errno)
-// 		return(EXIT_SUCCESS);
-// 	retcode = executor(core);
-// 	retcode = 0;
-// 	return (retcode);
-// }
-
 int	minishell(t_data *core)
 {
 	int			retcode;
-	char		*str;
 	char		**cmds;
 
-	str = readline("ˢʰᵉˡˡ$>");
-	cmds = ft_split(str, '|');
-	if (!cmds)
-		return (EXIT_SUCCESS);
-	if (core->line && core->line->cmds)
-		ft_lstclear(&core->line->cmds, free_cmd);
-	tmp_parser(core, cmds);
-
+	errno = 0;
+	parser(core);
+	if (errno)
+		return(EXIT_SUCCESS);
 	retcode = executor(core);
-	if (ft_strlen(str))
-		add_history(str);
-	free(str);
-	ft_dfree((void **)cmds);
+	retcode = 0;
 	return (retcode);
 }
+
+// int	minishell(t_data *core)
+// {
+// 	int			retcode;
+// 	char		*str;
+// 	char		**cmds;
+
+// 	str = readline("ˢʰᵉˡˡ$>");
+// 	cmds = ft_split(str, '|');
+// 	if (!cmds)
+// 		return (EXIT_SUCCESS);
+// 	if (core->line && core->line->cmds)
+// 		ft_lstclear(&core->line->cmds, free_cmd);
+// 	tmp_parser(core, cmds);
+
+// 	retcode = executor(core);
+// 	if (ft_strlen(str))
+// 		add_history(str);
+// 	free(str);
+// 	ft_dfree((void **)cmds);
+// 	return (retcode);
+// }

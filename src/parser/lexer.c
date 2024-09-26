@@ -107,7 +107,7 @@ static char	*loop_readline(void)
 	tmp_str1 = NULL;
 	tmp_str2 = NULL;
 	tmp_str1 = readline("ˢʰᵉˡˡ >");
-	while (tmp_str1[ft_strlen(tmp_str1) - 1] == '\\')
+	while (tmp_str1 && tmp_str1[0] && tmp_str1[ft_strlen(tmp_str1) - 1] == '\\')
 	{
 		tmp_str2 = ft_strtrim(tmp_str1, "\\");
 		free(tmp_str1);

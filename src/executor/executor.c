@@ -116,7 +116,10 @@ int	executor(t_data *core)
 {
 	t_list	*commands;
 
-	commands = core->line->cmds;
+	if (core->line && core->line->cmds)
+		commands = core->line->cmds;
+	else
+		return (EXIT_SUCCESS);
 	if (do_heredocs(commands) || init_pipes(core) || save_stdfds(core))
 		return (EXIT_FAILURE);
 	commands = core->line->cmds;
