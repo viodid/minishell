@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:18:39 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/03 17:54:05 by kde-la-c         ###   ########.fr       */
+/*   Updated: 2024/09/16 20:27:58 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,23 @@ int	run_single(t_data *core, t_command *command, t_fds fds)
 	if (hasinput(command->redirs))
 	{
 		fds.fdin = redirect_input((t_list *)command->redirs, fds,
-				&core->line.stdinbak, (command->tokens && 1));
+				&core->line->stdinbak, (command->tokens && 1));
 		if (fds.fdin == -1)
 			return (perror("post redirect"), -1);
 	}
 	// if (hasoutput(command->redirs))
 	// {
 	// 	fds.fdout = redirect_output((t_list *)command->redirs, fds,
-	// 			&core->line.stdoutbak, (command->tokens && 1));
+	// 			&core->line->stdoutbak, (command->tokens && 1));
 	// 	if (fds.fdout == -1)
 	// 		return (perror("post redirect"), -1);
 	// }
 	if (command->tokens)
 		retcode = exec_selector(core, command);
 	if (hasinput(command->redirs) && fds.stdfdin == STDIN_FILENO)
-		dup2(core->line.stdinbak, fds.stdfdin);
+		dup2(core->line->stdinbak, fds.stdfdin);
 	if (hasoutput(command->redirs) && fds.stdfdout == STDOUT_FILENO)
-		dup2(core->line.stdoutbak, fds.stdfdin);
+		dup2(core->line->stdoutbak, fds.stdfdin);
 	unlink(HDOC_TMP);
 	return (retcode);
 }
@@ -92,10 +92,10 @@ int	process_single(t_data *core, t_command *command, int npid)
 	int		pid;
 	int		retcode;
 
-	pid = core->line.pids[npid];
+	pid = core->line->pids[npid];
 	if (set_fds(&fds, core, npid))
 		return (errno);
-	if (command->tokens && (core->line.nbcommands > 1
+	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
 		printf("forking\n");
@@ -118,7 +118,7 @@ int	executor(t_data *core)
 
 	i = 0;
 	retcode = EXIT_SUCCESS;
-	commands = core->line.cmds;
+	commands = core->line->cmds;
 	if (ft_lstsize(commands) == 1)
 		retcode = process_single(core, (t_command *)commands->content, 0);
 	else

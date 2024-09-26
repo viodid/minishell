@@ -6,87 +6,128 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/11 00:31:31 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 23:00:06 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char	*expand_types(t_list *env, char *value,
-				t_token_type type, int errcode);
-static void	expansions_helper(t_list *redirs, t_list *tokens,
-				t_list *env, int errcode);
-static char	*expansions_helper_2(char *value, t_list *env,
-				t_token_type type, int errcode);
+static char		*filter_and_expand(const t_list *env, char *value, int errcode);
+static t_list	*tokenizer(const char *user_input);
 
-void	execute_expansions(t_data *core)
-{
-	t_list			*cmds;
-	t_list			*tokens;
-	t_list			*redirs;
-
-	cmds = core->line->cmds;
-	while (cmds)
-	{
-		tokens = ((t_command *)cmds->content)->tokens;
-		redirs = ((t_command *)cmds->content)->redirs;
-		expansions_helper(redirs, tokens, core->env, core->errcode);
-		cmds = cmds->next;
-	}
-}
-
-static void	expansions_helper(t_list *redirs, t_list *tokens, t_list *env, int errcode)
+t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
 {
 	t_token_type	type;
+	t_list			*head;
+	char			*value;
+	char			*tmp_str;
 
-	while (tokens)
+	head = token_list;
+	while (token_list)
 	{
-		type = ((t_token *)tokens->content)->type;
-		if (type == VARIABLE || type == TILDE_EXPANSION
-			|| type == DOUBLE_QUOTE_STRING)
-			((t_token *)tokens->content)->value = expansions_helper_2(
-					((t_token *)tokens->content)->value, env, type, errcode);
-		tokens = tokens->next;
+		type = ((t_token *)token_list->content)->type;
+		value = ((t_token *)token_list->content)->value;
+		if (type == WORD)
+		{
+			tmp_str = value;
+			if (*value == '~')
+				value = ft_strjoin_f1(find_var(env, "HOME", errcode), value + 1);
+			((t_token *)token_list->content)->value = filter_and_expand(env, value, errcode);
+			free(tmp_str);
+		}
+		token_list = token_list->next;
 	}
-	while (redirs)
-	{
-		type = ((t_redir *) redirs->content)->token_type;
-		if (type == VARIABLE || type == TILDE_EXPANSION
-			|| type == DOUBLE_QUOTE_STRING)
-			((t_redir *)redirs->content)->file = expansions_helper_2(
-					((t_redir *)redirs->content)->file, env, type, errcode);
-		redirs = redirs->next;
-	}
+	return (head);
 }
 
-static char	*expansions_helper_2(char *value, t_list *env, t_token_type type, int errcode)
+static t_list	*tokenizer(const char *user_input)
+{
+	char		*tmp_str;
+	t_list		*token_list;
+	int32_t	offset;
+	int32_t		i;
+
+	token_list = NULL;
+	i = -1;
+	offset = 0;
+	while (++i <= (int32_t)ft_strlen(user_input))
+	{
+		if (ft_strchr("\'\"", user_input[i]))
+		{
+			tmp_str = ft_substr(user_input, offset, i - offset);
+			insert_token(tmp_str, &token_list,TRUE);
+			offset = i;
+			i = get_str_size(user_input, i);
+			tmp_str = ft_substr(user_input, offset, i - offset + 1);
+			insert_token(tmp_str, &token_list,TRUE);
+			offset = i + 1;
+		}
+	}
+	return (token_list);
+}
+
+static void	expand_token(t_list *token_list, const t_list *env, int errcode)
 {
 	char	*tmp_str;
-	char	*output;
+	t_token	*token;
 
-	tmp_str = value;
-	output = expand_types(env, value, type, errcode);
-	free(tmp_str);
-	return (output);
+	while (token_list)
+	{
+		token = token_list->content;
+		if (token->type == WORD || token->type == DOUBLE_QUOTES)
+		{
+			tmp_str = token->value;
+			token->value = expand_var_concat(env, token->value, errcode);
+			free(tmp_str);
+		}
+		token_list = token_list->next;
+	}
 }
 
-static char	*expand_types(t_list *env, char *value,
-	t_token_type type, int errcode)
+static void	remove_quotes_token(t_list *token_list)
 {
-	if (type == TILDE_EXPANSION)
-		return (find_var(env, "HOME", errcode));
-	if (type == VARIABLE)
-		return (find_var(env, (value + 1), errcode));
-	if (type == DOUBLE_QUOTE_STRING)
-		return (expand_var_quotes(env, value, errcode));
-	return (NULL);
+	char	*tmp_str;
+	t_token	*token;
+
+	while (token_list)
+	{
+		token = token_list->content;
+		if (token->type == DOUBLE_QUOTES || token->type == SINGLE_QUOTES)
+		{
+			tmp_str = token->value;
+			token->value = remove_quotes(token->value);
+			free(tmp_str);
+		}
+		token_list = token_list->next;
+	}
+}
+
+static char	*filter_and_expand(const t_list *env, char *value, int errcode)
+{
+	t_list	*tmp_token_list;
+	t_list	*head_list;
+	t_token	*token;
+
+	tmp_token_list = tokenizer(value);
+	head_list = tmp_token_list;
+	expand_token(tmp_token_list, env, errcode);
+	remove_quotes_token(tmp_token_list);
+	value = ft_calloc(1, 1);
+	while (tmp_token_list)
+	{
+		token = tmp_token_list->content;
+		value = ft_strjoin_f1(value, token->value);
+		tmp_token_list = tmp_token_list->next;
+	}
+	ft_lstclear(&head_list, &free_token);
+	return (value);
 }
 
 /*
  * find_var finds the correct value in t_list *env at key, allocates enough
  * space for value and returns it.
 */
-char	*find_var(t_list *env, char *key, int errcode)
+char	*find_var(const t_list *env, char *key, int errcode)
 {
 	t_var	*var;
 	char	*empty_str;
@@ -96,7 +137,8 @@ char	*find_var(t_list *env, char *key, int errcode)
 	while (env)
 	{
 		var = ((t_var *)env->content);
-		if (ft_strncmp(key, var->key, ft_strlen(key)) == 0)
+		if (ft_strlen(key) == ft_strlen(var->key)
+		&& ft_strncmp(key, var->key, ft_strlen(key)) == 0)
 			return (ft_strdup(var->value));
 		env = env->next;
 	}

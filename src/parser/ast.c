@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/09 21:55:39 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 23:05:27 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ static int	is_word(t_token *look_ahead)
 	t_token_type	type;
 
 	type = look_ahead->type;
-	if (type == IDENTIFIER || type == VARIABLE || type == SINGLE_QUOTE_STRING
-		|| type == DOUBLE_QUOTE_STRING)
+	if (type == WORD)
 		return (TRUE);
 	return (FALSE);
 }
@@ -27,8 +26,7 @@ static void	options(t_list *token_list, t_token **look_ahead, t_command *cmd)
 {
 	t_token	*id;
 
-	while (*look_ahead && (is_word(*look_ahead) || (*look_ahead)->type == FLAG
-			|| (*look_ahead)->type == TILDE_EXPANSION))
+	while (*look_ahead && (is_word(*look_ahead)))
 	{
 		id = initialize_identifier();
 		id->type = (*look_ahead)->type;
@@ -43,25 +41,14 @@ static void	command_name(t_list *token_list, t_token **look_ahead,
 {
 	t_token	*id;
 
-	if (*look_ahead == NULL || !is_word(*look_ahead))
+	if (*look_ahead && is_word(*look_ahead))
 	{
-		if (!errno)
-		{
-			if (*look_ahead == NULL)
-				send_error("unexpected end of string",
-					"", 1);
-			else
-				send_error("syntax error near unexpected token: ",
-					(*look_ahead)->value, 1);
-		}
-		errno = 42;
-		return ;
+		id = initialize_identifier();
+		id->type = (*look_ahead)->type;
+		id->value = ft_strdup((*look_ahead)->value);
+		get_next_token(token_list, look_ahead);
+		ft_lstadd_back(&cmd->tokens, ft_lstnew(id));
 	}
-	id = initialize_identifier();
-	id->type = (*look_ahead)->type;
-	id->value = ft_strdup((*look_ahead)->value);
-	get_next_token(token_list, look_ahead);
-	ft_lstadd_back(&cmd->tokens, ft_lstnew(id));
 }
 
 static void	redirection(t_list *token_list, t_token **look_ahead,
@@ -73,7 +60,8 @@ static void	redirection(t_list *token_list, t_token **look_ahead,
 	{
 		redir = initialize_redir(*look_ahead);
 		get_next_token(token_list, look_ahead);
-		if (*look_ahead == NULL || !is_word(*look_ahead))
+		if (*look_ahead == NULL || !is_word(*look_ahead)
+			|| !is_identifier((*look_ahead)->value))
 		{
 			if (!errno)
 			{

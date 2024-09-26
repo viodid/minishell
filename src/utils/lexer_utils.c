@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/10 23:06:36 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 22:48:27 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,41 +40,63 @@ char	*handle_odd_quotes(char quote, uint16_t total_quotes, char *str)
 	return (output_str - (str_len - 1));
 }
 
-int32_t	get_end_quote_idx(const char *str, int32_t i)
+uint8_t	is_identifier(const char *value)
 {
-	char	quote_type;
+	uint32_t	i;
 
-	quote_type = str[i];
-	while (str[++i])
+	if (!ft_isalpha(*value) && *value != '_')
+		return (FALSE);
+	i = 1;
+	while (value[i])
 	{
-		if (str[i] == quote_type)
-			return (i + 1);
+		if (!ft_isalnum(value[i]) && value[i] != '_')
+			return (FALSE);
+		i++;
 	}
-	return (-1);
+	return (TRUE);
 }
 
-t_token_type	enum_token_value(const char *value)
+uint8_t	is_flag(const char *value)
 {
-	if (ft_strchr("<>", *value))
-		return (REDIRECTION);
-	if (*value == '\'')
-		return (SINGLE_QUOTE_STRING);
-	if (*value == '\"')
-		return (DOUBLE_QUOTE_STRING);
-	if (*value == '$')
-		return (VARIABLE);
-	if (*value == '~')
-		return (TILDE_EXPANSION);
-	if (*value == '|')
-		return (PIPE);
-	if (*value == '-')
-		return (FLAG); // TODO: stronger FLAG checker
-	if (ft_isalnum(*value))
-		return (IDENTIFIER); // TODO: stronger IDENTIFIER checker
-	if (!errno)
-		send_error("syntax error near unexpected token: ", (char *)value, 1);
-	errno = 42;
-	return (-1);
+	uint32_t	i;
+
+	if (*value != '-')
+		return (FALSE);
+	i = 1;
+	while (value[i])
+	{
+		if (!ft_isalpha(value[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+uint8_t	is_word_token(const char *value)
+{
+	int32_t	i;
+
+	i = 0;
+	while (value[i])
+	{
+		if (ft_strchr("\"\'", value[i]))
+			i = get_str_size(value, i);
+		if (value[i] && ft_strchr(" |&;()<>\t\n", value[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+char	*remove_quotes(char *str)
+{
+	char	*str_quote;
+
+	str_quote = (char *)ft_calloc(2, 1);
+	ft_strlcpy(str_quote, str, 2);
+	str = ft_strtrim(str, str_quote);
+	free(str_quote);
+	return (str);
 }
 
 int32_t	get_str_size(const char *user_input, int32_t i)
@@ -83,23 +105,34 @@ int32_t	get_str_size(const char *user_input, int32_t i)
 
 	idx = i;
 	if (ft_strchr("\"\'", user_input[i]) && user_input[i] != '\0')
-		idx = get_end_quote_idx(user_input, i);
+		idx = get_next_quote_idx(user_input, i);
 	if (idx == -1)
 	{
-		send_error("syntax error: ", "unclosed quotes", -1);
+		if (!errno)
+			send_error("syntax error: ", "unclosed quotes", -1);
 		errno = 42;
 		return (i);
 	}
 	return (idx);
 }
 
+int32_t	get_next_quote_idx(const char *str, int32_t i)
+{
+	char	quote_type;
+
+	quote_type = str[i];
+	while (str[++i])
+	{
+		if (str[i] == quote_type)
+			return (i);
+	}
+	return (-1);
+}
+
 int	get_size_metachar(const char *user_input, uint32_t i)
 {
-	if (ft_strchr("<>", user_input[i]) && user_input[i] != '\0')
-	{
-		if ((ft_strncmp(&user_input[i], ">>", 2) == 0)
-			|| (ft_strncmp(&user_input[i], "<<", 2) == 0))
-			return (2);
-	}
+	if ((ft_strncmp(&user_input[i], ">>", 2) == 0)
+		|| (ft_strncmp(&user_input[i], "<<", 2) == 0))
+		return (2);
 	return (1);
 }

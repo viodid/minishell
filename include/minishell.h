@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/11 00:31:27 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 21:54:53 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 # define TRUE 1
 # define FALSE 0
-# define METACHARACTERS " \"\'|&;()<>\t\n"
+# define METACHARACTERS " |<>\t\n"
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -22,6 +22,7 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 # define HDOC_TMP	"_tmphdoc"
 
@@ -50,17 +51,16 @@ typedef enum e_redir_type
 
 typedef enum e_token_type
 {
-	IDENTIFIER, // https://en.wikipedia.org/wiki/Identifier_(computer_languages)
-	VARIABLE,
-	SINGLE_QUOTE_STRING,
-	DOUBLE_QUOTE_STRING,
-	TILDE_EXPANSION,
+	WORD,
 	REDIRECTION,
 	PIPE,
-	FLAG
+	SINGLE_QUOTES,
+	DOUBLE_QUOTES
 }	t_token_type;
 
 /* STRUCTS */
+
+
 typedef struct s_fds
 {
 	int	stdfdin;
@@ -108,8 +108,8 @@ typedef struct s_line
 typedef struct s_data
 {
 	t_list	*env;
-	t_line	*line; // Why static
-	int		errcode; // use for $?
+	t_line	*line;
+	int		errcode;
 }	t_data;
 
 /* core */
@@ -122,12 +122,16 @@ char			**get_env_array(t_data *core);
 
 /* lexer */
 
-t_list			*lexer(void);
-char			*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
-int32_t			get_end_quote_idx(const char *str, int32_t i);
-t_token_type	enum_token_value(const char *value);
-int				get_size_metachar(const char *user_input, uint32_t i);
-int32_t			get_str_size(const char *user_input, int32_t i);
+t_list		*lexer(void);
+void		insert_token(char *value, t_list **token_list, int parse_quotes);
+uint8_t		is_identifier(const char *value);
+uint8_t		is_flag(const char *value);
+uint8_t		is_word_token(const char *value);
+char		*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
+int32_t		get_next_quote_idx(const char *str, int32_t i);
+int			get_size_metachar(const char *user_input, uint32_t i);
+int32_t		get_str_size(const char *user_input, int32_t i);
+char		*remove_quotes(char *str);
 
 /* parser */
 void		parser(t_data *core);
@@ -137,9 +141,9 @@ t_token		*initialize_identifier(void);
 t_line		*initialize_line(void);
 t_command	*command(t_list *token_list, t_token **look_ahead);
 void		get_next_token(t_list *token_list, t_token **look_ahead);
-void		execute_expansions(t_data *core);
-char		*find_var(t_list *env, char *key, int errcode);
-char		*expand_var_quotes(t_list *env, char *value, int errcode);
+t_list		*execute_expansions(t_list *token_list, const t_list *env, int errcode);
+char		*find_var(const t_list *env, char *key, int errcode);
+char		*expand_var_concat(const t_list *env, char *value, int errcode);
 
 /* exec */
 
@@ -170,8 +174,9 @@ int				ft_exit(t_data *core, char **args); //TODO senderror
 /* utils */
 
 void			free_struct(t_data *core);
-void			free_var(void *cont);
+void			free_line(t_line *line);
 void			free_cmd(void *cont);
+void			free_var(void *cont);
 void			free_token(void *cont);
 
 int				tmp_parser(t_data *core, char **cmds);
