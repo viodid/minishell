@@ -2,7 +2,6 @@
 	- Fix double free on core->line->fds when exiting via builtin
 	- Fix leak in case of exit (started in exec_builtin)
 - **Free line everytime a line finishes execution**
-- **t_fd pointer should be added to t_command struct and allocated on parsing**
 - Read &status at exit of last process
 - Functions to refactor
 	- ft_exit()
@@ -11,6 +10,7 @@
 	x ft_cd()
 
 
+x t_fd pointer should be added to t_command struct and allocated on parsing
 x Fix cd behaviour according to BASH in cd a/a/ && rm -rf ../../a
 	x OLDPWD should be concatenated with cd . and cd .. values 
 	x cd should throw an error if directory not found in these cases

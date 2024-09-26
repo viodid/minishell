@@ -57,6 +57,7 @@ t_command	*parse_command(char *str)
 		}
 		i++;
 	}
+	ft_memset(&ret->fds, -1, sizeof(t_fds));
 	free(tokens);
 	return (ret);
 }

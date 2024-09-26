@@ -93,6 +93,7 @@ typedef struct s_command
 {
 	t_list	*tokens;
 	t_list	*redirs;
+	t_fds	fds;
 	int		builtin;
 }	t_command;
 
@@ -217,4 +218,3 @@ void	print_execve(char *cmdpath, char **args, char **envp);
 void	print_fds(t_fds fds);
 
 #endif
-

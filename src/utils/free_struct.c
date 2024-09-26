@@ -48,6 +48,8 @@ void	free_cmd(void *cont)
 		ft_lstclear(&command->redirs, free_redir);
 	if (command->tokens)
 		ft_lstclear(&command->tokens, free_token);
+	// if (command->fds)
+	// 	free(command->fds);
 	free(cont);
 }
 

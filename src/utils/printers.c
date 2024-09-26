@@ -63,6 +63,7 @@ void	print_command(void *cont)
 	printf("printing command:\n");
 	ft_lstiter(command->redirs, print_redirs);
 	ft_lstiter(command->tokens, print_tokens);
+	print_fds(command->fds);
 	printf("\n");
 }
 
