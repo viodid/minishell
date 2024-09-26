@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/26 21:55:01 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 22:17:02 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_list		*tokenizer(const char *user_input);
 static char			*loop_readline(void);
-static t_token_type	enum_token_value(const char *value);
+static t_token_type	enum_token_value(const char *value, int parse_quotes);
 
 t_list	*lexer(void)
 {
@@ -53,10 +53,10 @@ static t_list	*tokenizer(const char *user_input)
 		if (ft_strchr(METACHARACTERS, user_input[i]))
 		{
 			tmp_str = ft_substr(user_input, offset, i - offset);
-			insert_token(tmp_str, &token_list);
+			insert_token(tmp_str, &token_list,FALSE);
 			size_metachar = get_size_metachar(user_input, i);
 			tmp_str = ft_substr(user_input, i, size_metachar);
-			insert_token(tmp_str, &token_list);
+			insert_token(tmp_str, &token_list,FALSE);
 			i += size_metachar - 1;
 			offset = i + 1;
 		}
@@ -64,7 +64,7 @@ static t_list	*tokenizer(const char *user_input)
 	return (token_list);
 }
 
-void	insert_token(char *value, t_list **token_list)
+void	insert_token(char *value, t_list **token_list, int parse_quotes)
 {
 	t_token		*token;
 
@@ -76,18 +76,21 @@ void	insert_token(char *value, t_list **token_list)
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		exit(EXIT_FAILURE);
-	token->type = enum_token_value(value);
-//	token->value = remove_quotes(value, token->type);
+	token->type = enum_token_value(value,parse_quotes);
 	token->value = value;
 	ft_lstadd_back(token_list, ft_lstnew(token));
 }
 
-static t_token_type	enum_token_value(const char *value)
+static t_token_type	enum_token_value(const char *value, int parse_quotes)
 {
 	if (ft_strchr("<>", *value))
 		return (REDIRECTION);
 	if (*value == '|')
 		return (PIPE);
+	if (parse_quotes && *value == '\'')
+		return (SINGLE_QUOTES);
+	if (parse_quotes && *value == '\"')
+		return (DOUBLE_QUOTES);
 	if (is_word_token(value))
 		return (WORD);
 	if (!errno)

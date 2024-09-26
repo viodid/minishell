@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/26 21:31:52 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 22:20:43 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ char	*remove_quotes(char *str, t_token_type type)
 	char	*tmp_str;
 	char	*str_quote;
 
-//	if (type != DOUBLE_QUOTE_STRING && type != SINGLE_QUOTE_STRING)
-//		return (str);
+	if (type != DOUBLE_QUOTES && type != SINGLE_QUOTES)
+		return (str);
 	tmp_str = str;
 	str_quote = (char *)ft_calloc(2, 1);
 	ft_strlcpy(str_quote, str, 2);

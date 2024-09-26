@@ -123,7 +123,7 @@ char			**get_env_array(t_data *core);
 /* lexer */
 
 t_list		*lexer(void);
-void		insert_token(char *value, t_list **token_list);
+void		insert_token(char *value, t_list **token_list, int parse_quotes);
 uint8_t		is_identifier(const char *value);
 uint8_t		is_flag(const char *value);
 uint8_t		is_word_token(const char *value);
