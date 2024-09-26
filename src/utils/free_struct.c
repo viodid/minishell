@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:12:21 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/09 20:48:48 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/14 14:09:14 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,8 @@ void	free_token(void *cont)
 	t_token	*token;
 
 	token = (t_token *)cont;
-	if (token->value)
-	{
-		free(token->value);
-		token->value = NULL;
-	}
+	free(token->value);
+	token->value = NULL;
 	free(cont);
 }
 
@@ -48,9 +45,6 @@ void	free_cmd(void *cont)
 		ft_lstclear(&command->redirs, free_redir);
 	if (command->tokens)
 		ft_lstclear(&command->tokens, free_token);
-	// if (command->fds)
-	// 	free(command->fds);
-	free(cont);
 }
 
 void	free_var(void *cont)
@@ -107,14 +101,16 @@ void	free_line(t_line *line)
 	if (line->pids)
 		free(line->pids);
 	free(line);
+
 }
 
 void	free_struct(t_data *core)
 {
 	hola("free_struct");
-	ft_lstclear(&core->env, free_var);
+	ft_lstclear(&core->env, &free_var);
 	if (core->line)
 	{
 		free_line(core->line);
 	}
+	free(core);
 }

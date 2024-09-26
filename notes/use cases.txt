@@ -33,3 +33,14 @@ $ export var1=hey var1=hola
 
 $ unset var1 var2
 *deletes both variables from export list*
+
+Parser :
+$ cd /home/"$USER/.local"/bin
+$ cd /home/'$USER'/.local/bin
+$ cat hey '$USER' this is your cwd: $CWD and shell:'$SHELL'
+$ echo $PWD/.local/bin
+$ echo "hey '$PWD/var.log'"
+$ cat>>~/.zshrc     <<EOF|wc -l
+$ echo $USER$?~$SHELL
+$ echo $.hey $~
+$ echo /hey$var___var/hey

@@ -6,16 +6,15 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/09 21:10:47 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 22:17:02 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static t_list	*tokenizer(const char *user_input);
-static char		*loop_readline(void);
-static void		insert_token(char *value, t_list **token_list);
-static char		*remove_odd_quotes(char *user_input);
+static t_list		*tokenizer(const char *user_input);
+static char			*loop_readline(void);
+static t_token_type	enum_token_value(const char *value, int parse_quotes);
 
 t_list	*lexer(void)
 {
@@ -29,7 +28,6 @@ t_list	*lexer(void)
 		return (EXIT_SUCCESS);
 	}
 	token_list = tokenizer(user_input);
-	ft_lstiter(token_list, &print_tokens);
 	add_history(user_input);
 	free(user_input);
 	if (errno)
@@ -41,7 +39,7 @@ static t_list	*tokenizer(const char *user_input)
 {
 	char		*tmp_str;
 	t_list		*token_list;
-	uint32_t	offset;
+	int32_t	offset;
 	int32_t		i;
 	uint8_t		size_metachar;
 
@@ -50,14 +48,15 @@ static t_list	*tokenizer(const char *user_input)
 	offset = 0;
 	while (++i <= (int32_t)ft_strlen(user_input))
 	{
+		if (ft_strchr("\"\'", user_input[i]))
+			i = get_str_size(user_input, i);
 		if (ft_strchr(METACHARACTERS, user_input[i]))
 		{
-			i = get_str_size(user_input, i);
 			tmp_str = ft_substr(user_input, offset, i - offset);
-			insert_token(tmp_str, &token_list);
+			insert_token(tmp_str, &token_list,FALSE);
 			size_metachar = get_size_metachar(user_input, i);
 			tmp_str = ft_substr(user_input, i, size_metachar);
-			insert_token(tmp_str, &token_list);
+			insert_token(tmp_str, &token_list,FALSE);
 			i += size_metachar - 1;
 			offset = i + 1;
 		}
@@ -65,34 +64,11 @@ static t_list	*tokenizer(const char *user_input)
 	return (token_list);
 }
 
-static char	*remove_odd_quotes(char *user_input)
-{
-	uint16_t	single_quotes;
-	uint16_t	double_quotes;
-	uint16_t	i;
-
-	single_quotes = 0;
-	double_quotes = 0;
-	i = -1;
-	while (user_input[++i])
-	{
-		if (user_input[i] == '\'')
-			single_quotes++;
-		else if (user_input[i] == '\"')
-			double_quotes++;
-	}
-	if ((single_quotes % 2) == 1)
-		user_input = handle_odd_quotes('\'', single_quotes, user_input);
-	if ((double_quotes % 2) == 1)
-		user_input = handle_odd_quotes('\"', double_quotes, user_input);
-	return (user_input);
-}
-
-static void	insert_token(char *value, t_list **token_list)
+void	insert_token(char *value, t_list **token_list, int parse_quotes)
 {
 	t_token		*token;
 
-	if (ft_strchr(" \t\n", *value))
+	if (!*value || ft_strchr(" \t\n", *value))
 	{
 		free(value);
 		return ;
@@ -100,9 +76,27 @@ static void	insert_token(char *value, t_list **token_list)
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		exit(EXIT_FAILURE);
+	token->type = enum_token_value(value,parse_quotes);
 	token->value = value;
-	token->type = enum_token_value(value);
 	ft_lstadd_back(token_list, ft_lstnew(token));
+}
+
+static t_token_type	enum_token_value(const char *value, int parse_quotes)
+{
+	if (ft_strchr("<>", *value))
+		return (REDIRECTION);
+	if (*value == '|')
+		return (PIPE);
+	if (parse_quotes && *value == '\'')
+		return (SINGLE_QUOTES);
+	if (parse_quotes && *value == '\"')
+		return (DOUBLE_QUOTES);
+	if (is_word_token(value))
+		return (WORD);
+	if (!errno)
+		send_error("syntax error near unexpected token: ", (char *)value, 1);
+	errno = 42;
+	return (-1);
 }
 
 static char	*loop_readline(void)
@@ -117,7 +111,7 @@ static char	*loop_readline(void)
 	{
 		tmp_str2 = ft_strtrim(tmp_str1, "\\");
 		free(tmp_str1);
-		tmp_str1 = ft_strjoin_f12(tmp_str2, readline(">"));
+		tmp_str1 = ft_strjoin_f12(tmp_str2, readline("> "));
 	}
 	return (tmp_str1);
 }

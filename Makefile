@@ -25,10 +25,11 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)core/get_env.c					\
 				$(SRCDIR)core/init_core.c				\
 				$(SRCDIR)core/get_env_array.c			\
-				$(SRCDIR)lexer/lexer.c					\
+				$(SRCDIR)parser/lexer.c					\
 				$(SRCDIR)parser/parser.c				\
 				$(SRCDIR)parser/tmp_parser.c			\
-				$(SRCDIR)parser/production_rules.c		\
+				$(SRCDIR)parser/ast.c					\
+				$(SRCDIR)parser/initializations.c		\
 				$(SRCDIR)parser/expansions.c			\
 				$(SRCDIR)executor/executor.c			\
 				$(SRCDIR)executor/redirections.c		\
@@ -51,7 +52,6 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)utils/printers.c				\
 				$(SRCDIR)utils/lexer_utils.c			\
 				$(SRCDIR)utils/errors.c					\
-				$(SRCDIR)utils/parser_utils.c			\
 				$(SRCDIR)utils/expansions_utils.c		\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
@@ -71,7 +71,8 @@ all:			$(NAME)
 asan:			cleanbin
 asan:			CFLAGS += -fsanitize=address
 asan:			LIBFLAG = asan
-asan:			LIBNAME = libft_asan.a
+#asan:			LIBNAME = libft_asan.a
+asan:			LIBNAME = libft.a
 asan:			all
 
 # lsan:			fclean
