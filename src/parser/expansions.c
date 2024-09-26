@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/26 22:19:33 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/26 22:44:09 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,57 @@ static t_list	*tokenizer(const char *user_input)
 	return (token_list);
 }
 
+static void	expand_token(t_list *token_list, const t_list *env, int errcode)
+{
+	char	*tmp_str;
+	t_token	*token;
+
+	while (token_list)
+	{
+		token = token_list->content;
+		if (token->type == WORD || token->type == DOUBLE_QUOTES)
+		{
+			tmp_str = token->value;
+			token->value = expand_var_concat(env, token->value, errcode);
+			free(tmp_str);
+		}
+		token_list = token_list->next;
+	}
+}
+
+static void	remove_quotes_token(t_list *token_list)
+{
+	char	*tmp_str;
+	t_token	*token;
+
+	while (token_list)
+	{
+		token = token_list->content;
+		if (token->type == DOUBLE_QUOTES || token->type == SINGLE_QUOTES)
+		{
+			tmp_str = token->value;
+			token->value = remove_quotes(token->value, token->type);
+			free(tmp_str);
+		}
+		token_list = token_list->next;
+	}
+
+}
+
 static char	*filter_and_expand(const t_list *env, char *value, int errcode)
 {
 	t_list	*tmp_token_list;
 
 	tmp_token_list = tokenizer(value);
 	ft_lstiter(tmp_token_list, &print_tokens);
+	expand_token(tmp_token_list, env, errcode);
+	remove_quotes_token(tmp_token_list);
+	value = ft_calloc(1, 1);
+	while (tmp_token_list)
+	{
+		value = ft_strjoin_f1(value, tmp_token_list->content);
+		tmp_token_list = tmp_token_list->next;
+	}
 	return (value);
 }
 
