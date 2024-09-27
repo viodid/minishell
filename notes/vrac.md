@@ -1,7 +1,8 @@
 - Fix exit behaviour on exit
 	- Fix double free on core->line->fds when exiting via builtin
 	- Fix leak in case of exit (started in exec_builtin)
-- **Free line everytime a line finishes execution**
+- *Free line everytime a line finishes execution*
+- **Fix t_fds dereferencing causing crash**
 - Read &status at exit of last process
 - Functions to refactor
 	- ft_exit()

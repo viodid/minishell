@@ -65,7 +65,7 @@ int	init_pipes(t_data *core)
 	int	i;
 
 	i = 0;
-	while (i < core->line->nbcommands)
+	while (i < core->line->nbcommands && core->line->fds)
 	{
 		if (pipe(core->line->fds[i++]))
 			return (perror("pipes"), EXIT_FAILURE);
