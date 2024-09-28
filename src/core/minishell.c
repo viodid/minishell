@@ -12,15 +12,11 @@
 
 #include "../../include/minishell.h"
 
-int	minishell(t_data *core)
+void	extra_parsings(t_data *core)
 {
-	int			i;
-	int			retcode;
-	char		**cmds;
+	int	i;
 
 	i = 0;
-	errno = 0;
-	parser(core);
 	if (core->line)
 	{
 		core->line->nbcommands = 0;
@@ -29,10 +25,20 @@ int	minishell(t_data *core)
 		if (core->line->nbcommands > 1)
 		{
 			core->line->fds = ft_calloc(core->line->nbcommands, sizeof(int *));
-			while (i < core->line->nbcommands && hola("alloc"))
+			while (i < core->line->nbcommands - 1)
 				core->line->fds[i++] = ft_calloc(2, sizeof(int));
 		}
 	}
+}
+
+int	minishell(t_data *core)
+{
+	int			retcode;
+	char		**cmds;
+
+	errno = 0;
+	parser(core);
+	extra_parsings(core);
 	if (errno)
 		return(EXIT_SUCCESS);
 	retcode = executor(core);

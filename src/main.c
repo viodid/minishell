@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 				break ;
 		}
 		// TODO: handle frees better
-//		free_line(core->line);
+		free_line(core.line);
 		if (retcode)
 			return (free_struct(&core), retcode);
 	}

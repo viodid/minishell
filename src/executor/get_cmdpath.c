@@ -51,7 +51,7 @@ char	*get_cmdpath(t_data *core, char *cmd, t_var *envpaths)
 		ret = ft_strjoin(paths[i], "/");
 		if (!ret)
 			return (perror("path allocation"), ft_dfree((void **)paths), NULL);
-		ret = ft_strjoin_f1(ret, cmd);
+		ret = ft_strjoin_f12(ret, cmd);
 		if (!ret)
 			return (perror("path allocation"), ft_dfree((void **)paths), NULL);
 		if (!access(ret, X_OK))

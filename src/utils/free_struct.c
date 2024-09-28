@@ -45,6 +45,7 @@ void	free_cmd(void *cont)
 		ft_lstclear(&command->redirs, free_redir);
 	if (command->tokens)
 		ft_lstclear(&command->tokens, free_token);
+	free(cont);
 }
 
 void	free_var(void *cont)
@@ -65,6 +66,8 @@ void	unlink_hdocs(t_line *line)
 	t_list		*redirs;
 	t_redir		*redir;
 
+	if (!line || !line->cmds)
+		return ;
 	commands = line->cmds;
 	while (commands && commands->content)
 	{
@@ -89,19 +92,20 @@ void	free_line(t_line *line)
 {
 	int	i;
 
+	if (!line)
+		return ;
 	hola("free_line");
 	i = 0;
 	unlink_hdocs(line);
-	if (ft_lstsize(line->cmds))
-		ft_lstclear(&line->cmds, &free_cmd);
-	while (i < line->nbcommands)
-		free(line->fds[i]);
+	if (line->cmds && ft_lstsize(line->cmds))
+		ft_lstclear(&line->cmds, free_cmd);
+	while (i < line->nbcommands - 1)
+		free(line->fds[i++]);
 	if (line->fds)
 		free(line->fds);
 	if (line->pids)
 		free(line->pids);
 	free(line);
-
 }
 
 void	free_struct(t_data *core)
@@ -109,8 +113,5 @@ void	free_struct(t_data *core)
 	hola("free_struct");
 	ft_lstclear(&core->env, &free_var);
 	if (core->line)
-	{
 		free_line(core->line);
-	}
-	free(core);
 }

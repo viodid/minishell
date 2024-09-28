@@ -38,7 +38,7 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 		if (!cmdpath)
 		{
 			free_struct(core);
-			free_line(core->line);
+			// free_line(core->line);
 			ft_dfree((void **)envp);
 			free(args);
 			exit(EXIT_FAILURE);
@@ -48,7 +48,7 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 		perror(args[0]);
 	free(cmdpath);
 	free_struct(core);
-	free_line(core->line);
+	// free_line(core->line);
 	ft_dfree((void **)envp);
 	free(args);
 	exit(retcode);

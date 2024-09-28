@@ -1,9 +1,8 @@
+- **Free line everytime a line finishes execution**
 - Fix exit behaviour on exit
 	- Fix double free on core->line->fds when exiting via builtin
 	- Fix leak in case of exit (started in exec_builtin)
-- *Free line everytime a line finishes execution*
-- **Fix t_fds dereferencing causing crash**
-- Read &status at exit of last process
+- Read &status at wait for last process
 - Functions to refactor
 	- ft_exit()
 	- exec_selector()
@@ -11,6 +10,7 @@
 	x ft_cd()
 
 
+x Fix t_fds dereferencing causing crash
 x t_fd pointer should be added to t_command struct and allocated on parsing
 x Fix cd behaviour according to BASH in cd a/a/ && rm -rf ../../a
 	x OLDPWD should be concatenated with cd . and cd .. values 
