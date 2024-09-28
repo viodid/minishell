@@ -21,13 +21,17 @@ int	minishell(t_data *core)
 	i = 0;
 	errno = 0;
 	parser(core);
-	if (core->line && core->line->cmds)
-		core->line->nbcommands = ft_lstsize(core->line->cmds);
-	if (core->line->nbcommands > 1)
+	if (core->line)
 	{
-		core->line->fds = ft_calloc(core->line->nbcommands, sizeof(int *));
-		while (i < core->line->nbcommands && hola("alloc"))
-			core->line->fds[i++] = ft_calloc(2, sizeof(int));
+		core->line->nbcommands = 0;
+		if (core->line->cmds)
+			core->line->nbcommands = ft_lstsize(core->line->cmds);
+		if (core->line->nbcommands > 1)
+		{
+			core->line->fds = ft_calloc(core->line->nbcommands, sizeof(int *));
+			while (i < core->line->nbcommands && hola("alloc"))
+				core->line->fds[i++] = ft_calloc(2, sizeof(int));
+		}
 	}
 	if (errno)
 		return(EXIT_SUCCESS);

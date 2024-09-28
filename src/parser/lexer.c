@@ -22,7 +22,7 @@ t_list	*lexer(void)
 	t_list	*token_list;
 
 	user_input = loop_readline();
-	if (!*user_input)
+	if (!user_input || !*user_input)
 	{
 		free(user_input);
 		return (EXIT_SUCCESS);
