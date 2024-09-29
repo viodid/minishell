@@ -25,7 +25,7 @@ t_list	*lexer(void)
 	if (!user_input || !*user_input)
 	{
 		free(user_input);
-		return (EXIT_SUCCESS);
+		return (NULL);
 	}
 	token_list = tokenizer(user_input);
 	add_history(user_input);
