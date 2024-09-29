@@ -59,7 +59,7 @@ int	ft_cd(t_data *core, char **args)
 		if (!home)
 			return(dprintf(2, "cd: HOME not set\n"), errno);
 		if (chdir(home->value))
-			return (perror(home->value), errno);
+			return (dprintf(2, "cd :"), perror(home->value), errno);
 	}
 	else
 		if (chdir(args[1]))

@@ -1,5 +1,7 @@
-- **Free line everytime a line finishes execution**
+- parsing restriction makes export malfunction (and leaks process?)
+- cd .. in case of unexisting file should throw error
 - Fix exit behaviour on exit
+	- exit with number shouldn't cause error
 	- Fix double free on core->line->fds when exiting via builtin
 	- Fix leak in case of exit (started in exec_builtin)
 - Read &status at wait for last process
@@ -10,6 +12,9 @@
 	x ft_cd()
 
 
+x pipes: bad access problem with two commands
+x Free line everytime a line finishes execution
+x getcommandpath should throw error in case of unset PATH
 x Fix t_fds dereferencing causing crash
 x t_fd pointer should be added to t_command struct and allocated on parsing
 x Fix cd behaviour according to BASH in cd a/a/ && rm -rf ../../a

@@ -14,6 +14,7 @@
 
 void	extra_parsings(t_data *core)
 {
+	//TODO (dyunta): quitar el parsing para el export
 	int	i;
 
 	i = 0;
@@ -25,7 +26,7 @@ void	extra_parsings(t_data *core)
 		if (core->line->nbcommands > 1)
 		{
 			core->line->fds = ft_calloc(core->line->nbcommands, sizeof(int *));
-			while (i < core->line->nbcommands - 1)
+			while (i < core->line->nbcommands)
 				core->line->fds[i++] = ft_calloc(2, sizeof(int));
 		}
 	}

@@ -34,7 +34,7 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 	}
 	else
 	{
-		cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
+		cmdpath = get_cmdpath(args[0], get_env(core, "PATH"));
 		if (!cmdpath)
 		{
 			free_struct(core);

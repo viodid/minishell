@@ -172,7 +172,7 @@ int				get_redirs(t_command *command, t_fds *fds);
 int				get_infiles(t_list *redirs, t_fds *fds, int iscommand);
 int				get_outfiles(t_list *redirs, t_fds *fds);
 int				isbuiltin(char *cmdpath);
-char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths);
+char			*get_cmdpath(char *cmd, t_var *envpaths);
 char			**get_arg_array(t_command *command);
 int				hasinput(t_list *redirs);
 int				hasoutput(t_list *redirs);
