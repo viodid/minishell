@@ -14,9 +14,7 @@
 
 static	t_list	*descent_parser(t_list *token_list);
 
-// TODO: rm quotes expansion
-// TODO: skip single quotes expansions
-// TODO: check IDENTIFIER syntax, redirections and export variable names
+
 void	parser(t_data *core)
 {
 	t_list	*token_list;
