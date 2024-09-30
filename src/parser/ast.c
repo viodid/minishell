@@ -6,49 +6,70 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/26 23:05:27 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/30 20:58:07 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	is_word(t_token *look_ahead)
+static uint8_t	is_identifier(t_token *look_ahead)
 {
-	t_token_type	type;
+	uint32_t	i;
+	char		*value;
 
-	type = look_ahead->type;
-	if (type == WORD)
-		return (TRUE);
-	return (FALSE);
+	if (look_ahead == NULL || look_ahead->type != WORD)
+		return (FALSE);
+	value = look_ahead->value;
+	if (!ft_isalpha(*value) && *value != '_')
+		return (FALSE);
+	i = 1;
+	while (value[i])
+	{
+		if (!ft_isalnum(value[i]) && value[i] != '_')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
 }
 
 static void	options(t_list *token_list, t_token **look_ahead, t_command *cmd)
 {
-	t_token	*id;
+	t_token	*token;
 
-	while (*look_ahead && (is_word(*look_ahead)))
+	while (*look_ahead && (*look_ahead)->type == WORD)
 	{
-		id = initialize_identifier();
-		id->type = (*look_ahead)->type;
-		id->value = ft_strdup((*look_ahead)->value);
+		token = initialize_token();
+		token->type = (*look_ahead)->type;
+		token->value = ft_strdup((*look_ahead)->value);
 		get_next_token(token_list, look_ahead);
-		ft_lstadd_back(&cmd->tokens, ft_lstnew(id));
+		ft_lstadd_back(&cmd->tokens, ft_lstnew(token));
 	}
 }
 
 static void	command_name(t_list *token_list, t_token **look_ahead,
 	t_command *cmd)
 {
-	t_token	*id;
+	t_token	*token;
 
-	if (*look_ahead && is_word(*look_ahead))
+	if (is_identifier(*look_ahead) == FALSE)
 	{
-		id = initialize_identifier();
-		id->type = (*look_ahead)->type;
-		id->value = ft_strdup((*look_ahead)->value);
-		get_next_token(token_list, look_ahead);
-		ft_lstadd_back(&cmd->tokens, ft_lstnew(id));
+		if (!errno)
+		{
+			if (*look_ahead == NULL)
+				send_error("missing redirection identifier",
+						   "", 1);
+			else
+				send_error("syntax error near unexpected token: ",
+						   (*look_ahead)->value, 1);
+		}
+		errno = 42;
+		return ;
 	}
+	token = initialize_token();
+	token->type = (*look_ahead)->type;
+	token->value = ft_strdup((*look_ahead)->value);
+	get_next_token(token_list, look_ahead);
+	ft_lstadd_back(&cmd->tokens, ft_lstnew(token));
 }
 
 static void	redirection(t_list *token_list, t_token **look_ahead,
@@ -60,8 +81,7 @@ static void	redirection(t_list *token_list, t_token **look_ahead,
 	{
 		redir = initialize_redir(*look_ahead);
 		get_next_token(token_list, look_ahead);
-		if (*look_ahead == NULL || !is_word(*look_ahead)
-			|| !is_identifier((*look_ahead)->value))
+		if (is_identifier(*look_ahead) == FALSE)
 		{
 			if (!errno)
 			{

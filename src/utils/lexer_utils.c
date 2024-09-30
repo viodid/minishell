@@ -12,21 +12,6 @@
 
 #include "../../include/minishell.h"
 
-uint8_t	is_identifier(const char *value)
-{
-	uint32_t	i;
-
-	if (!ft_isalpha(*value) && *value != '_')
-		return (FALSE);
-	i = 1;
-	while (value[i])
-	{
-		if (!ft_isalnum(value[i]) && value[i] != '_')
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
-}
 
 uint8_t	is_word_token(const char *value)
 {

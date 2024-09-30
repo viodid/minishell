@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/27 00:02:15 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/30 20:39:51 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@
  	parser(core);
  	if (errno)
  		return(EXIT_SUCCESS);
- 	retcode = executor(core);
+// 	retcode = executor(core);
  	retcode = 0;
  	return (retcode);
 }
-

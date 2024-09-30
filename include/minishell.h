@@ -143,7 +143,6 @@ int				init_core(t_data *core, char **argv, char **envp);
 
 t_list		*lexer(void);
 void		insert_token(char *value, t_list **token_list, int parse_quotes);
-uint8_t		is_identifier(const char *value);
 uint8_t		is_flag(const char *value);
 uint8_t		is_word_token(const char *value);
 char		*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
@@ -156,7 +155,7 @@ char		*remove_quotes(char *str);
 void		parser(t_data *core);
 t_redir		*initialize_redir(t_token *token);
 t_command	*initialize_cmd(void);
-t_token		*initialize_identifier(void);
+t_token		*initialize_token(void);
 t_line		*initialize_line(void);
 t_command	*command(t_list *token_list, t_token **look_ahead);
 void		get_next_token(t_list *token_list, t_token **look_ahead);
