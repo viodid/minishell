@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/30 20:58:07 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/09/30 21:00:50 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,8 @@ static void	command_name(t_list *token_list, t_token **look_ahead,
 	if (is_identifier(*look_ahead) == FALSE)
 	{
 		if (!errno)
-		{
-			if (*look_ahead == NULL)
-				send_error("missing redirection identifier",
-						   "", 1);
-			else
-				send_error("syntax error near unexpected token: ",
-						   (*look_ahead)->value, 1);
-		}
+			send_error("syntax error near unexpected token: ",
+					   (*look_ahead)->value, 1);
 		errno = 42;
 		return ;
 	}
