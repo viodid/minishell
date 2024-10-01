@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:29:17 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/16 01:58:18 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/01 20:46:58 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	main(int argc, char **argv, char **envp)
 		return (dprintf(2, "minishell: allcoation error\n"), EXIT_FAILURE);
 	while (1)
 	{
-		sigaction(SIGINT, &act, NULL);
-		sigaction(SIGQUIT, &act, NULL);
-		sigaction(SIGHUP, &act, NULL);
+		// sigaction(SIGINT, &act, NULL);
+		// sigaction(SIGQUIT, &act, NULL);
+		// sigaction(SIGHUP, &act, NULL);
 		retcode = minishell(&core);
 		while (1)
 		{
