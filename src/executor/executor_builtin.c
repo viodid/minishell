@@ -46,11 +46,7 @@ int	exec_builtin(t_data *core, char *cmdpath, char **args, int cmd_nb)
 	else if (!ft_strncmp(cmdpath, "unset", 6))
 		retcode = ft_unset(core, args);
 	if (core->line->nbcommands > 1)
-	{
-		// core->line = NULL;
-		// free_struct(core);
 		exit(retcode);
-	}
 	return (retcode);
 }
 

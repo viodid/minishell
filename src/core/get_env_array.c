@@ -25,12 +25,17 @@ char	**get_env_array(t_data *core)
 		return (NULL);
 	while (tmp)
 	{
-		envp[i] = ft_strjoin(((t_var *)tmp->content)->key, "=");
-		if (!envp[i])
-			return (ft_dfree((void **)envp), NULL);
-		envp[i] = ft_strjoin_f1(envp[i], ((t_var *)tmp->content)->value);
-		if (!envp[i])
-			return (ft_dfree((void **)envp), NULL);
+		if (((t_var *)tmp->content)->value)
+		{
+			envp[i] = ft_strjoin(((t_var *)tmp->content)->key, "=");
+			if (!envp[i])
+				return (ft_dfree((void **)envp), NULL);
+			envp[i] = ft_strjoin_f1(envp[i], ((t_var *)tmp->content)->value);
+			if (!envp[i])
+				return (ft_dfree((void **)envp), NULL);
+		}
+		else
+			envp[i] = ((t_var *)tmp->content)->key;
 		tmp = tmp->next;
 		i++;
 	}

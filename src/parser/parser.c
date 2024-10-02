@@ -23,7 +23,7 @@ void	parser(t_data *core)
 
 	token_list = lexer();
 //	ft_lstiter(token_list, &print_tokens);
-	if (errno || !token_list)
+	if (errno)
 	{
 		core->line = NULL;
 		return ;

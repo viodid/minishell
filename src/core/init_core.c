@@ -126,9 +126,6 @@ int	init_core(t_data *core, char **argv, char **envp)
 	if (set_shlvl(core))
 		return (EXIT_FAILURE);
 	core->line = NULL;
-	// core->line = ft_calloc(1, sizeof(t_line));
-	// if (!core->line)
-	// 	return (free_struct(core), EXIT_FAILURE);
 	core->errcode = 0;
 	core->sv_stdin = -1;
 	core->sv_stdout = -1;

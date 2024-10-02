@@ -15,9 +15,9 @@
 int	do_fileredir(t_command *command, t_fds fds)
 {
 	if (hasinput(command->redirs) && dup2(fds.fdin, STDIN_FILENO) == -1)
-		return (/* print_fds(fds),  */perror("input redirection"), -1);
+		return (perror("input redirection"), -1);
 	if (hasoutput(command->redirs) && dup2(fds.fdout, STDOUT_FILENO) == -1)
-		return (/* print_fds(fds),  */perror("output redirection"), -1);
+		return (perror("output redirection"), -1);
 	return (EXIT_SUCCESS);
 }
 

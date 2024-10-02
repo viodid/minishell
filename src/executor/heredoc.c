@@ -58,6 +58,7 @@ char	*heredoc_loop(char *limiter, char *tmpname)
 		free(line);
 		line = readline(">");
 	}
+	free(line);
 	close(fd);
 	return (tmpname);
 }

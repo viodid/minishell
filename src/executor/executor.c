@@ -21,36 +21,25 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 
 	args = get_arg_array(command);
 	if (!args)
-		return (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	envp = get_env_array(core);
 	if (!envp)
-		return (free(args), EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	cmdpath = args[0];
 	if (isbuiltin(args[0]))
 	{
 		retcode = exec_builtin(core, cmdpath, args, core->line->nbcommands > 1);
-		if (core->line->nbcommands == 1)
-			return (ft_dfree((void **)envp), free(args), retcode);
+		// if (core->line->nbcommands == 1)
+		return (ft_dfree((void **)envp), free(args), retcode);
 	}
 	else
 	{
 		cmdpath = get_cmdpath(args[0], get_env(core, "PATH"));
 		if (!cmdpath)
-		{
-			free_struct(core);
-			// free_line(core->line);
-			ft_dfree((void **)envp);
-			free(args);
 			exit(EXIT_FAILURE);
-		}
 	}
 	if (execve(cmdpath, args, envp))
 		perror(args[0]);
-	free(cmdpath);
-	free_struct(core);
-	// free_line(core->line);
-	ft_dfree((void **)envp);
-	free(args);
 	exit(retcode);
 }
 

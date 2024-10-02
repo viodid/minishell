@@ -39,7 +39,6 @@ void	free_cmd(void *cont)
 {
 	t_command	*command;
 
-	// hola("free_cmd");
 	command = (t_command *)cont;
 	if (command->redirs)
 		ft_lstclear(&command->redirs, free_redir);
@@ -52,7 +51,6 @@ void	free_var(void *cont)
 {
 	t_var	*var;
 
-	// hola("free_var");
 	var = (t_var *)cont;
 	free(var->key);
 	free(var->value);
@@ -76,7 +74,6 @@ void	unlink_hdocs(t_line *line)
 		while (redirs && redirs->content)
 		{
 			redir = (t_redir *)redirs->content;
-			// dprintf(2, "unlinking %s, type %i\n", redir->file, redir->type);
 			if (redir->type == H_INPUT)
 			{
 				unlink(redir->file);
@@ -94,7 +91,6 @@ void	free_line(t_line *line)
 
 	if (!line)
 		return ;
-	// hola("free_line");
 	i = 0;
 	unlink_hdocs(line);
 	if (line->cmds && ft_lstsize(line->cmds))
@@ -110,7 +106,6 @@ void	free_line(t_line *line)
 
 void	free_struct(t_data *core)
 {
-	// hola("free_struct");
 	ft_lstclear(&core->env, &free_var);
 	if (core->line)
 		free_line(core->line);

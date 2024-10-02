@@ -1,4 +1,4 @@
-- parsing restriction makes export malfunction (and leaks process?)
+- ft_fds should be a pointer aswell
 - cd .. in case of unexisting file should throw error
 - Fix exit behaviour on exit
 	- exit with number shouldn't cause error
@@ -8,10 +8,13 @@
 - Functions to refactor
 	- ft_exit()
 	- exec_selector()
+	- get_cmdpath()
+	- get_env_array()
 	x do_heredocs()
 	x ft_cd()
 
 
+x parsing restriction makes export malfunction (and leaks process?)
 x pipes: bad access problem with two commands
 x Free line everytime a line finishes execution
 x getcommandpath should throw error in case of unset PATH
