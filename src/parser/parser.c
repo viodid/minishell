@@ -35,7 +35,7 @@ void	parser(t_data *core)
 	core->line->cmds = descent_parser(token_list);
 	core->line->pids = ft_calloc(ft_lstsize(core->line->cmds), sizeof(int));
 	ft_lstclear(&token_list, &free_token);
-	ft_lstiter(core->line->cmds, &print_command);
+	// ft_lstiter(core->line->cmds, &print_command);
 }
 
 static t_list	*full_command(t_list *token_list, t_token	**look_ahead)

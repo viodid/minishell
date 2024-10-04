@@ -25,22 +25,17 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 	envp = get_env_array(core);
 	if (!envp)
 		exit(EXIT_FAILURE);
-	cmdpath = args[0];
 	if (isbuiltin(args[0]))
 	{
-		retcode = exec_builtin(core, cmdpath, args, core->line->nbcommands > 1);
-		// if (core->line->nbcommands == 1)
+		retcode = exec_builtin(core, args[0], args, core->line->nbcommands > 1);
 		return (ft_dfree((void **)envp), free(args), retcode);
 	}
-	else
-	{
-		cmdpath = get_cmdpath(args[0], get_env(core, "PATH"));
-		if (!cmdpath)
-			exit(EXIT_FAILURE);
-	}
+	cmdpath = get_cmdpath(args[0], get_env(core, "PATH"));
+	if (!cmdpath)
+		exit(EXIT_FAILURE);
 	if (execve(cmdpath, args, envp))
 		perror(args[0]);
-	exit(retcode);
+	exit(EXIT_FAILURE);
 }
 
 int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
