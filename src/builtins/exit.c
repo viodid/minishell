@@ -17,6 +17,8 @@ int	ft_aredigits(char *str)
 	int	i;
 
 	i = -1;
+	if (str[0] == '-' || str[0] == '+')
+		i++;
 	while (str[++i])
 	{
 		if (!ft_isdigit(str[i]))
@@ -25,30 +27,31 @@ int	ft_aredigits(char *str)
 	return (TRUE);
 }
 
-// void	do_exit(char *err, char *errarg, unsigned char errcode)
-// {
-// 	if (!err && !errarg)
-// 	{
-// 		dprintf((errcode && 1) + 1, "exit\n");
-// 		exit(errcode);
-// 	}
-// 	else
-
-// }
+void	do_exit(char *err, char *errarg, unsigned char errcode)
+{
+	dprintf(2, "exit\n");
+	if (err)
+		if (errarg)
+			dprintf(2, "minishell: exit: %s: %s\n", errarg, err);
+		else
+		{
+			dprintf(2, "minishell: exit: %s\n", err);
+			return ;
+		}
+	exit(errcode);
+}
 
 //TODO refactor code correctly when send_error is ready
 //TODO exit from a child shouldn't print error
 int	ft_exit(t_data *core, char **args, int cmd_nb)
 {
-	unsigned char	exitcode;
-
 	if (!args[1])
-		exit(EXIT_SUCCESS);
+		do_exit(NULL, NULL, 0);
 	else if (!args[2] && ft_aredigits(args[1]))
-		exit(ft_atoi(args[1]));
-	else if (!args[2] && !ft_aredigits(args[1]))
-	{
-		dprintf(2, "exit");
-	}
-	exit(exitcode);
+		do_exit(NULL, NULL, ft_atoi(args[1]));
+	else if (!ft_aredigits(args[1]))
+		do_exit("numeric argument required", args[1], 2);
+	else if (ft_aredigits(args[1]))
+		do_exit("too many arguments", NULL, 1);
+	return (EXIT_FAILURE);
 }
