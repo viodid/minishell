@@ -33,6 +33,27 @@ char	**get_arg_array(t_command *command)
 	return (ret);
 }
 
+char	*loop_path(char *cmd, char **paths)
+{
+	int		i;
+	char	*ret;
+
+	i = -1;
+	while (paths[++i])
+	{
+		ret = ft_strjoin(paths[i], "/");
+		if (!ret)
+			return (perror("path allocation"), NULL);
+		ret = ft_strjoin_f1(ret, cmd);
+		if (!ret)
+			return (perror("path allocation"), NULL);
+		if (!access(ret, X_OK))
+			return (ret);
+		free(ret);
+	}
+	return (NULL);
+}
+
 char	*get_cmdpath(char *cmd, t_var *envpaths)
 {
 	int		i;
@@ -47,17 +68,9 @@ char	*get_cmdpath(char *cmd, t_var *envpaths)
 	paths = ft_split(envpaths->value, ':');
 	if (!paths)
 		return (perror("path allocation"), NULL);
-	while (paths[++i])
-	{
-		ret = ft_strjoin(paths[i], "/");
-		if (!ret)
-			return (perror("path allocation"), ft_dfree((void **)paths), NULL);
-		ret = ft_strjoin_f1(ret, cmd);
-		if (!ret)
-			return (perror("path allocation"), ft_dfree((void **)paths), NULL);
-		if (!access(ret, X_OK))
-			return (ft_dfree((void **)paths), ret);
-		free(ret);
-	}
-	return (dprintf(2, "%s: command not found\n", cmd), ft_dfree((void **)paths), NULL);
+	ret = loop_path(cmd, paths);
+	ft_dfree((void **)paths);
+	if (!ret)
+		return (dprintf(2, "%s: command not found\n", cmd), NULL);
+	return (ret);
 }
