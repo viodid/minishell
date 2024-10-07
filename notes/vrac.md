@@ -1,23 +1,23 @@
-- ft_fds should be a pointer aswell
 - cd .. in case of unexisting file should throw error
-- Fix exit behaviour on exit
-	- exit with number shouldn't cause error
-		- exit -> exits 0
-		- exit 42 -> exits 42
-		- exit hola && exit hola hola -> prints exit then throws num arg req, exits 2
-		- exit 42 hola -> prints exit then too many args, returns 1
-	x Fix double free on core->line->fds when exiting via builtin
-	x Fix leak in case of exit (started in exec_builtin)
 - Read &status at wait for last process
 - Functions to refactor
-	- ft_exit()
 	- get_cmdpath()
 	- get_env_array()
+	x ft_exit()
 	x exec_selector()
 	x do_heredocs()
 	x ft_cd()
 
 
+x ft_fds should be a pointer aswell
+x Fix exit behaviour on exit
+	x exit with number shouldn't cause error
+		x exit -> exits 0
+		x exit 42 -> exits 42
+		x exit hola && exit hola hola -> prints exit then throws num arg req, exits 2
+		x exit 42 hola -> prints exit then too many args, returns 1
+	x Fix double free on core->line->fds when exiting via builtin
+	x Fix leak in case of exit (started in exec_builtin)
 x parsing restriction makes export malfunction (and leaks process?)
 x pipes: bad access problem with two commands
 x Free line everytime a line finishes execution

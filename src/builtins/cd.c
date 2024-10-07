@@ -62,8 +62,12 @@ int	ft_cd(t_data *core, char **args)
 			return (dprintf(2, "cd :"), perror(home->value), errno);
 	}
 	else
+	{
+		if (access(args[1], F_OK))
+			return (perror(args[1]), errno);
 		if (chdir(args[1]))
 			return (perror(args[1]), errno);
+	}
 	update_pwd(core, oldpwd);
 	return (EXIT_SUCCESS);
 }
