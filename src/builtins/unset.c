@@ -22,7 +22,7 @@ int	unset_single(t_data *core, char *key)
 	while (tmp && tmp->next)
 	{
 		if (tmp->next->content == var)
-			break;
+			break ;
 		tmp = tmp->next;
 	}
 	ft_lstdelnext(&tmp, &free_var);

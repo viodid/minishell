@@ -31,6 +31,7 @@ void	do_exit(char *err, char *errarg, unsigned char errcode)
 {
 	dprintf(2, "exit\n");
 	if (err)
+	{
 		if (errarg)
 			dprintf(2, "minishell: exit: %s: %s\n", errarg, err);
 		else
@@ -38,6 +39,7 @@ void	do_exit(char *err, char *errarg, unsigned char errcode)
 			dprintf(2, "minishell: exit: %s\n", err);
 			return ;
 		}
+	}
 	exit(errcode);
 }
 

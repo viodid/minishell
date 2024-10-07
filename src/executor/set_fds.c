@@ -26,9 +26,9 @@ int	save_stdfds(t_data *core)
 int	reset_stdfds(t_data *core)
 {
 	if (dup2(core->sv_stdin, STDIN_FILENO) == -1)
-		return(perror("restore input"), EXIT_FAILURE);
+		return (perror("restore input"), EXIT_FAILURE);
 	if (dup2(core->sv_stdout, STDOUT_FILENO) == -1)
-		return(perror("restore output"), EXIT_FAILURE);
+		return (perror("restore output"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

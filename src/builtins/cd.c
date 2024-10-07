@@ -57,7 +57,7 @@ int	ft_cd(t_data *core, char **args)
 	{
 		home = get_env(core, "HOME");
 		if (!home)
-			return(dprintf(2, "cd: HOME not set\n"), errno);
+			return (dprintf(2, "cd: HOME not set\n"), errno);
 		if (chdir(home->value))
 			return (dprintf(2, "cd :"), perror(home->value), errno);
 	}

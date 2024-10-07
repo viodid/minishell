@@ -1,7 +1,9 @@
+- fix unset provoking double free crash
+	-> export hola + unset hola
 - cd .. in case of unexisting file should throw error
 - Read &status at wait for last process
 - Functions to refactor
-	- get_env_array()
+	x get_env_array()
 	x get_cmdpath()
 	x ft_exit()
 	x exec_selector()

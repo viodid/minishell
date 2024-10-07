@@ -14,7 +14,6 @@
 
 void	extra_parsings(t_data *core)
 {
-	//TODO (dyunta): quitar el parsing para el export
 	int	i;
 
 	i = 0;
@@ -41,8 +40,9 @@ int	minishell(t_data *core)
 	parser(core);
 	extra_parsings(core);
 	if (errno)
-		return(EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
 	retcode = executor(core);
+	dprintf(2, "size: %i\n", ft_lstsize(core->env));
 	retcode = 0;
 	return (retcode);
 }

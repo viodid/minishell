@@ -39,7 +39,6 @@ int	main(int argc, char **argv, char **envp)
 			if (i < 0)
 				break ;
 		}
-		// TODO: handle frees better
 		free_line(core.line);
 		if (retcode)
 			return (free_struct(&core), retcode);

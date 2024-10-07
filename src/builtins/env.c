@@ -14,6 +14,9 @@
 
 int	ft_env(t_data *core)
 {
-	ft_lstiter(core->env, &print_var_env);
+	t_list	*tmp;
+
+	tmp = core->env;
+	ft_lstiter(tmp, &print_var_env);
 	return (EXIT_SUCCESS);
 }

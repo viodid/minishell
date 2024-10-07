@@ -70,8 +70,8 @@ void	print_command(void *cont)
 void	print_execve(char *cmdpath, char **args, char **envp)
 {
 	int	i;
-	(void)envp;
 
+	(void)envp;
 	i = 0;
 	printf("command :%s\n", cmdpath);
 	printf("args :\n");
@@ -87,7 +87,7 @@ int	hola(char *str)
 	if (str)
 		ret = write(2, str, ft_strlen(str));
 	ret += write(2, "\n", 1);
-	return(ret);
+	return (ret);
 }
 
 void	print_fds(t_fds fds)
@@ -98,6 +98,5 @@ void	print_fds(t_fds fds)
 	dprintf(2, "fdin %i\n", fds.fdin);
 	dprintf(2, "stdout %i\n", fds.stdfdout);
 	dprintf(2, "fdout %i\n", fds.fdout);
-	// dprintf(2, "%i\n", errno);
 	dprintf(2, "-----\n");
 }

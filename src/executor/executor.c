@@ -22,7 +22,7 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 	args = get_arg_array(command);
 	if (!args)
 		exit(EXIT_FAILURE);
-	envp = get_env_array(core);
+	envp = get_env_array(core->env);
 	if (!envp)
 		exit(EXIT_FAILURE);
 	if (isbuiltin(args[0]))
@@ -60,7 +60,7 @@ int	process_single(t_data *core, t_command *command, int cmd_nb)
 	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
-		pid = fork(); //!start of child process
+		pid = fork();
 		if (pid == 0)
 			run_single(core, command, command->fds, cmd_nb);
 		else

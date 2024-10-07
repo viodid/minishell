@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	ft_pwd(t_data *core) //TODO cuidado con imprimir un PWD que no exista con lo de rm ../../test
+int	ft_pwd(t_data *core)
 {
 	t_var	*pwd;
 	char	*path;

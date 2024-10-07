@@ -53,7 +53,8 @@ void	free_var(void *cont)
 
 	var = (t_var *)cont;
 	free(var->key);
-	free(var->value);
+	if (var->value)
+		free(var->value);
 	free(cont);
 }
 
