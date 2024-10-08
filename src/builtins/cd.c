@@ -51,15 +51,15 @@ int	ft_cd(t_data *core, char **args)
 	t_var	*home;
 
 	if (args[1] && args[2])
-		return (dprintf(2, "cd: too many arguments\n"), EXIT_FAILURE);
+		return (ft_fdprintf(2, "cd: too many arguments\n"), EXIT_FAILURE);
 	oldpwd = get_oldpwd(core);
 	if (!args[1])
 	{
 		home = get_env(core, "HOME");
 		if (!home)
-			return (dprintf(2, "cd: HOME not set\n"), errno);
+			return (ft_fdprintf(2, "cd: HOME not set\n"), errno);
 		if (chdir(home->value))
-			return (dprintf(2, "cd :"), perror(home->value), errno);
+			return (ft_fdprintf(2, "cd :"), perror(home->value), errno);
 	}
 	else
 	{

@@ -29,14 +29,14 @@ int	ft_aredigits(char *str)
 
 void	do_exit(char *err, char *errarg, unsigned char errcode)
 {
-	dprintf(2, "exit\n");
+	ft_fdprintf(2, "exit\n");
 	if (err)
 	{
 		if (errarg)
-			dprintf(2, "minishell: exit: %s: %s\n", errarg, err);
+			ft_fdprintf(2, "minishell: exit: %s: %s\n", errarg, err);
 		else
 		{
-			dprintf(2, "minishell: exit: %s\n", err);
+			ft_fdprintf(2, "minishell: exit: %s\n", err);
 			return ;
 		}
 	}

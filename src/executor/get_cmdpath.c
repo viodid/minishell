@@ -63,7 +63,7 @@ char	*get_cmdpath(char *cmd, t_var *envpaths)
 	if (!access(cmd, X_OK))
 		return (cmd);
 	if (!envpaths)
-		return (dprintf(2, "%s: command not found\n", cmd), NULL);
+		return (ft_fdprintf(2, "%s: command not found\n", cmd), NULL);
 	i = -1;
 	paths = ft_split(envpaths->value, ':');
 	if (!paths)
@@ -71,6 +71,6 @@ char	*get_cmdpath(char *cmd, t_var *envpaths)
 	ret = loop_path(cmd, paths);
 	ft_dfree((void **)paths);
 	if (!ret)
-		return (dprintf(2, "%s: command not found\n", cmd), NULL);
+		return (ft_fdprintf(2, "%s: command not found\n", cmd), NULL);
 	return (ret);
 }
