@@ -45,7 +45,7 @@ void	do_exit(char *err, char *errarg, unsigned char errcode)
 
 //TODO refactor code correctly when send_error is ready
 //TODO exit from a child shouldn't print error
-int	ft_exit(t_data *core, char **args, int cmd_nb)
+int	ft_exit(char **args)
 {
 	if (!args[1])
 		do_exit(NULL, NULL, 0);

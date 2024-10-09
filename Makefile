@@ -58,7 +58,7 @@ SRC				= $(SRCDIR)main.c						\
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= cc
-CFLAGS			= -Wextra -Werror -pedantic-errors -g3
+CFLAGS			= -Wall -Wextra -Werror -pedantic-errors -g3
 LIBFLAG			=
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)

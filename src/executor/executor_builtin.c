@@ -25,7 +25,7 @@ int	isbuiltin(char *cmdpath)
 	);
 }
 
-int	exec_builtin(t_data *core, char *cmdpath, char **args, int cmd_nb)
+int	exec_builtin(t_data *core, char *cmdpath, char **args)
 {
 	int		retcode;
 
@@ -38,7 +38,7 @@ int	exec_builtin(t_data *core, char *cmdpath, char **args, int cmd_nb)
 	else if (!ft_strncmp(cmdpath, "env", 4))
 		retcode = ft_env(core);
 	else if (!ft_strncmp(cmdpath, "exit", 5))
-		retcode = ft_exit(core, args, cmd_nb);
+		retcode = ft_exit(args);
 	else if (!ft_strncmp(cmdpath, "export", 7))
 		retcode = ft_export(core, args);
 	else if (!ft_strncmp(cmdpath, "unset", 6))

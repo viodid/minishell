@@ -35,6 +35,7 @@ int	minishell(t_data *core)
 {
 	int			retcode;
 	char		**cmds;
+	(void)cmds;
 
 	errno = 0;
 	parser(core);

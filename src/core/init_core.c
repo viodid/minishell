@@ -83,7 +83,7 @@ char	**set_basic_env(char *argv0)
 	return (ret);
 }
 
-t_list	*set_env(t_data *core, char **argv, char **envp)
+t_list	*set_env(char **argv, char **envp)
 {
 	int		i;
 	char	**env;
@@ -120,7 +120,7 @@ t_list	*set_env(t_data *core, char **argv, char **envp)
  */
 int	init_core(t_data *core, char **argv, char **envp)
 {	
-	core->env = set_env(core, argv, envp);
+	core->env = set_env(argv, envp);
 	if (!core->env)
 		return (EXIT_FAILURE);
 	if (set_shlvl(core))

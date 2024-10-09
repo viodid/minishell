@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	do_piperedir(t_data *core, t_command *command, t_fds fds, int cmd_nb)
+int	do_piperedir(t_data *core, int cmd_nb)
 {
 	int	**pipes;
 

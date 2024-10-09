@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	exec_selector(t_data *core, t_command *command, int cmd_nb)
+int	exec_selector(t_data *core, t_command *command)
 {
 	int		retcode;
 	char	*cmdpath;
@@ -27,7 +27,7 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 		exit(EXIT_FAILURE);
 	if (isbuiltin(args[0]))
 	{
-		retcode = exec_builtin(core, args[0], args, core->line->nbcommands > 1);
+		retcode = exec_builtin(core, args[0], args);
 		return (ft_dfree((void **)envp), free(args), retcode);
 	}
 	cmdpath = get_cmdpath(args[0], get_env(core, "PATH"));
@@ -43,10 +43,10 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	int		retcode;
 
 	retcode = EXIT_SUCCESS;
-	do_piperedir(core, command, fds, cmd_nb);
+	do_piperedir(core, cmd_nb);
 	do_fileredir(command, fds);
 	if (command->tokens)
-		retcode = exec_selector(core, command, cmd_nb);
+		retcode = exec_selector(core, command);
 	return (retcode);
 }
 

@@ -20,6 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	int					retcode;
 	t_data				core;
 	struct sigaction	act;
+	(void)argc;
 
 	// Signals
 	act.sa_flags = SA_SIGINFO;
@@ -49,6 +50,9 @@ int	main(int argc, char **argv, char **envp)
 
 static void	signal_handler(int signum, siginfo_t *info, void *context)
 {
+	(void)info;
+	(void)context;
+
 	if (signum == SIGHUP)
 		ft_printf("SIGHUP\n");
 	if (signum == SIGINT)
