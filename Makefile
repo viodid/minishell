@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 NAME			= minishell
+NAMEDBG			= dbg
 LIBNAME			= libft.a
 
 SRCDIR			= src/
@@ -56,7 +57,7 @@ SRC				= $(SRCDIR)main.c						\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
-CC				= gcc
+CC				= cc
 CFLAGS			= -Wextra -Werror -pedantic-errors -g3
 LIBFLAG			=
 LIBREADLINE		= -lreadline

@@ -50,6 +50,7 @@ void	free_cmd(void *cont)
 void	free_var(void *cont)
 {
 	t_var	*var;
+	hola("var freed");
 
 	var = (t_var *)cont;
 	free(var->key);

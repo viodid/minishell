@@ -1,16 +1,24 @@
+- leak on command not found
 - fix unset provoking double free crash
 	-> export hola + unset hola
-- cd .. in case of unexisting file should throw error
+- `cd ..` in case of unexisting file should throw error
 - Read &status at wait for last process
-- Functions to refactor
+- `< notexist ls > ret` shouldn't create ret nor execute ls
+	- don't execute cmd in case of failed redir
+- before defence
+	- norminette
+	- battery tests with valgrind
+	- add -Werror flag to Makefile
+	- check relinks
+
+
+x Functions to refactor
 	x get_env_array()
 	x get_cmdpath()
 	x ft_exit()
 	x exec_selector()
 	x do_heredocs()
 	x ft_cd()
-
-
 x ft_fds should be a pointer aswell
 x Fix exit behaviour on exit
 	x exit with number shouldn't cause error

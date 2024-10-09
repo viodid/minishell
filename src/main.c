@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	act.sa_sigaction = &signal_handler;
 
 	if (init_core(&core, argv, envp))
-		return (ft_fdprintf(2, "minishell: allcoation error\n"), EXIT_FAILURE);
+		return (ft_fdprintf(2, "minishell: allocation error\n"), EXIT_FAILURE);
 	while (1)
 	{
 		sigaction(SIGINT, &act, NULL);

@@ -42,7 +42,7 @@ int	minishell(t_data *core)
 	if (errno)
 		return (EXIT_SUCCESS);
 	retcode = executor(core);
-	ft_fdprintf(2, "size: %i\n", ft_lstsize(core->env));
+	// ft_fdprintf(2, "size: %i\n", ft_lstsize(core->env));
 	retcode = 0;
 	return (retcode);
 }
