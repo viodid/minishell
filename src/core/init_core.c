@@ -90,9 +90,10 @@ t_list	*set_env(char **argv, char **envp)
 	t_list	*ret;
 	t_var	*var;
 
-	env = envp;
 	if (!envp || !envp[0])
 		env = set_basic_env(argv[0]);
+	else
+		env = ft_matdup((void **)envp);
 	if (!env)
 		return (NULL);
 	i = -1;
@@ -104,6 +105,7 @@ t_list	*set_env(char **argv, char **envp)
 			return (ft_lstclear(&ret, free_var), NULL);
 		ft_lstadd_back(&ret, ft_lstnew(var));
 	}
+	ft_dfree((void **)env);
 	return (ret);
 }
 

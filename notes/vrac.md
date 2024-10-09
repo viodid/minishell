@@ -1,4 +1,3 @@
-- leak on command not found
 - fix unset provoking double free crash
 	-> export hola + unset hola
 - `cd ..` in case of unexisting file should throw error
@@ -11,7 +10,8 @@
 	- add -Werror flag to Makefile
 	- check relinks
 
-
+- - - - - -
+x `env -i ./minishell` causes leak of env at finishing process
 x Functions to refactor
 	x get_env_array()
 	x get_cmdpath()

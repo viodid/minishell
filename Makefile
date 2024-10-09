@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME			= minishell
-NAMEDBG			= dbg
+NAME_DBG		= dbg
 LIBNAME			= libft.a
 
 SRCDIR			= src/
