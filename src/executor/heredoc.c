@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char	*get_tmpname()
+char	*get_tmpname(void)
 {
 	int		i;
 	char	*id;

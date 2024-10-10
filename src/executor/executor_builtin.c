@@ -47,4 +47,3 @@ int	exec_builtin(t_data *core, char *cmdpath, char **args)
 		exit(retcode);
 	return (retcode);
 }
-

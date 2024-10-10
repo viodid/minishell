@@ -121,7 +121,7 @@ t_list	*set_env(char **argv, char **envp)
  * `EXIT_FAILURE` if anything fails.
  */
 int	init_core(t_data *core, char **argv, char **envp)
-{	
+{
 	core->env = set_env(argv, envp);
 	if (!core->env)
 		return (EXIT_FAILURE);
