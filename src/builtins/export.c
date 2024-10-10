@@ -31,8 +31,12 @@ int	export_single(t_data *core, char *arg)
 	t_var	*tmp;
 
 	tmp = split_var(arg);
+	if (!tmp)
+		return (perror(arg), EXIT_FAILURE);
 	if (!is_valid(tmp->key))
-		return (free_var(tmp), EXIT_FAILURE);
+		return (free_var(tmp),
+			ft_fdprintf(2, "export: `%s': not a valid identifier\n", arg),
+			EXIT_FAILURE);
 	envvar = get_env(core, tmp->key);
 	if (envvar)
 	{
@@ -61,13 +65,6 @@ int	ft_export(t_data *core, char **args)
 	retcode = EXIT_SUCCESS;
 	i = 0;
 	while (args[++i])
-	{
-		retcode = export_single(core, args[i]);
-		if (retcode)
-		{
-			core->errcode = EXIT_FAILURE;
-			printf("export: `%s': not a valid identifier\n", args[i]);
-		}
-	}
+		retcode = export_single(core, args[i]); //TODO set $? ?
 	return (retcode);
 }

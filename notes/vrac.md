@@ -1,11 +1,12 @@
 - `cd ..` in case of unexisting file should throw error
-- Read &status at wait for last process
+- set `$?` var in builtins
+- **Read &status at wait for last process**
 - `< notexist ls > ret` shouldn't create ret nor execute ls
 	- don't execute cmd in case of failed redir
 - before defence
 	- norminette
 	- battery tests with valgrind
-	- add -Werror flag to Makefile
+	x add -Werror flag to Makefile
 	- check relinks
 
 - - - - - -
