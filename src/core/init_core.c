@@ -32,7 +32,7 @@ t_var	*split_var(char *var_brut)
 		return (free(var), free(var->key), NULL);
 	if (!ft_strchr(tmpenv, '='))
 	{
-		var->value = NULL;
+		var->value = ft_strdup("");
 		return (free(tmpenv), var);
 	}
 	var->value = ft_strdup(ft_strchr(tmpenv, '=') + 1);

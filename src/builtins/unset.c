@@ -19,6 +19,14 @@ int	unset_single(t_data *core, char *key)
 
 	tmp = core->env;
 	var = get_env(core, key);
+	if (!var)
+		return (EXIT_FAILURE);
+	if (tmp->content == var)
+	{
+		core->env = tmp->next;
+		ft_lstdelone(tmp, &free_var);
+		return (EXIT_SUCCESS);
+	}
 	while (tmp && tmp->next)
 	{
 		if (tmp->next->content == var)

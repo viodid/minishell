@@ -1,5 +1,3 @@
-- fix unset provoking double free crash
-	-> export hola + unset hola
 - `cd ..` in case of unexisting file should throw error
 - Read &status at wait for last process
 - `< notexist ls > ret` shouldn't create ret nor execute ls
@@ -11,6 +9,9 @@
 	- check relinks
 
 - - - - - -
+x unset doesn't work on first var
+x fix unset provoking double free crash
+	x export hola + unset hola
 x `env -i ./minishell` causes leak of env at finishing process
 x Functions to refactor
 	x get_env_array()
