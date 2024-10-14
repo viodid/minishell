@@ -45,6 +45,27 @@ char	*get_oldpwd(t_data *core)
 	return (ret);
 }
 
+int	access_newcwd(char *path)
+{
+	int		ret;
+	char	*oldpwd;
+	char	*newpwd;
+
+	if (path[0] == '/')
+		return (access(path, F_OK));
+	oldpwd = getcwd(NULL, 0);
+	if (!oldpwd)
+		return (perror("getcwd"), EXIT_FAILURE);
+	newpwd = ft_strjoin_f1(oldpwd, "/");
+	if (!newpwd)
+		return (EXIT_FAILURE);
+	newpwd = ft_strjoin_f1(newpwd, path);
+	if (!newpwd)
+		return (EXIT_FAILURE);
+	ret = access(newpwd, F_OK);
+	return (free(newpwd), ret);
+}
+
 int	ft_cd(t_data *core, char **args)
 {
 	char	*oldpwd;
@@ -63,8 +84,8 @@ int	ft_cd(t_data *core, char **args)
 	}
 	else
 	{
-		if (access(args[1], F_OK))
-			return (perror(args[1]), errno);
+		if (access_newcwd(args[1]))
+			perror(args[1]);
 		if (chdir(args[1]))
 			return (perror(args[1]), errno);
 	}

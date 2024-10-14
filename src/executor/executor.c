@@ -32,7 +32,7 @@ int	exec_selector(t_data *core, t_command *command)
 	}
 	cmdpath = get_cmdpath(args[0], get_env(core, "PATH"));
 	if (!cmdpath)
-		exit(EXIT_FAILURE);
+		return (ft_dfree((void **)envp), free(args), EXIT_FAILURE);
 	if (execve(cmdpath, args, envp))
 		perror(args[0]);
 	exit(EXIT_FAILURE);
@@ -45,9 +45,15 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	retcode = EXIT_SUCCESS;
 	do_piperedir(core, cmd_nb);
 	if (do_fileredir(command, fds))
+	{
+		core->errcode = EXIT_FAILURE;
 		return (EXIT_FAILURE);
+	}
 	if (command->tokens)
+	{
 		retcode = exec_selector(core, command);
+		core->errcode = retcode;
+	}
 	return (retcode);
 }
 

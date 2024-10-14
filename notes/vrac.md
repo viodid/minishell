@@ -1,15 +1,15 @@
-- `cd ..` in case of unexisting file should throw error
-- set `$?` var in builtins
-- **Read &status at wait for last process**
-- `< notexist ls > ret` shouldn't create ret nor execute ls
-	- don't execute cmd in case of failed redir
+- **set `$?` var in builtins**
+- Read &status at wait for last process
 - before defence
 	- norminette
 	- battery tests with valgrind
-	x add -Werror flag to Makefile
 	- check relinks
 
 - - - - - -
+x `< notexist ls > ret` shouldn't create ret nor execute ls
+	x don't execute cmd in case of failed redir
+x `cd ..` in case of unexisting file should throw error
+x add -Werror flag to Makefile
 x unset doesn't work on first var
 x fix unset provoking double free crash
 	x export hola + unset hola
