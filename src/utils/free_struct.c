@@ -44,6 +44,7 @@ void	free_cmd(void *cont)
 		ft_lstclear(&command->redirs, free_redir);
 	if (command->tokens)
 		ft_lstclear(&command->tokens, free_token);
+	close_fds(&command->fds);
 	free(cont);
 }
 
@@ -110,4 +111,8 @@ void	free_struct(t_data *core)
 	ft_lstclear(&core->env, &free_var);
 	if (core->line)
 		free_line(core->line);
+	if (core->sv_stdin > 2)
+		close(core->sv_stdin);
+	if (core->sv_stdout > 2)
+		close(core->sv_stdout);
 }

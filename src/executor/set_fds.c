@@ -14,9 +14,13 @@
 
 int	save_stdfds(t_data *core)
 {
+	if (core->sv_stdin > 2)
+		close(core->sv_stdin);
 	core->sv_stdin = dup(STDIN_FILENO);
 	if (core->sv_stdin == -1)
 		return (perror("save stdin"), EXIT_FAILURE);
+	if (core->sv_stdout > 2)
+		close(core->sv_stdout);
 	core->sv_stdout = dup(STDOUT_FILENO);
 	if (core->sv_stdout == -1)
 		return (perror("save stdout"), EXIT_FAILURE);
@@ -56,5 +60,18 @@ int	set_fds(t_fds *fds, t_data *core, int cmd_nb)
 	}
 	fds->fdin = fds->stdfdin;
 	fds->fdout = fds->stdfdout;
+	return (EXIT_SUCCESS);
+}
+
+int	close_fds(t_fds *fds)
+{
+	if (fds->fdin > 2)
+		close(fds->fdin);
+	if (fds->fdout > 2)
+		close(fds->fdout);
+	if (fds->stdfdin > 2)
+		close(fds->stdfdin);
+	if (fds->stdfdout > 2)
+		close(fds->stdfdout);
 	return (EXIT_SUCCESS);
 }

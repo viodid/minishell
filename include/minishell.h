@@ -167,7 +167,7 @@ int			tmp_parser(t_data *core, char **cmds);
 
 /* exec */
 
-int				executor(t_data *core); //TODO //TODO
+int				executor(t_data *core); //TODO
 int				get_redirs(t_command *command, t_fds *fds);
 int				get_infiles(t_list *redirs, t_fds *fds, int iscommand);
 int				get_outfiles(t_list *redirs, t_fds *fds);
@@ -177,6 +177,7 @@ char			**get_arg_array(t_command *command);
 int				hasinput(t_list *redirs);
 int				hasoutput(t_list *redirs);
 int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
+int				close_fds(t_fds *fds);
 int				reset_stdfds(t_data *core);
 int				save_stdfds(t_data *core);
 int				init_pipes(t_data *core);
@@ -190,9 +191,9 @@ int				close_parent_pipes(t_data *core, int cmd_nb);
 
 int				ft_pwd(t_data *core);
 int				ft_echo(char **args);
-int				ft_cd(t_data *core, char **args); //TODO senderror
+int				ft_cd(t_data *core, char **args);
 int				ft_env(t_data *core);
-int				ft_export(t_data *core, char **args); //TODO
+int				ft_export(t_data *core, char **args);
 int				export_single(t_data *core, char *arg);
 int				ft_unset(t_data *core, char **args);
 int				unset_single(t_data *core, char *key);

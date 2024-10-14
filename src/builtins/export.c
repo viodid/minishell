@@ -65,6 +65,6 @@ int	ft_export(t_data *core, char **args)
 	retcode = EXIT_SUCCESS;
 	i = 0;
 	while (args[++i])
-		retcode = export_single(core, args[i]); //TODO set $? ?
+		retcode = export_single(core, args[i]);
 	return (retcode);
 }
