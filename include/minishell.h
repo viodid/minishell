@@ -196,7 +196,7 @@ int				ft_export(t_data *core, char **args); //TODO
 int				export_single(t_data *core, char *arg);
 int				ft_unset(t_data *core, char **args);
 int				unset_single(t_data *core, char *key);
-int				ft_exit(char **args);
+int				ft_exit(char **args, int ischild);
 
 /* utils */
 
