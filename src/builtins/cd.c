@@ -55,7 +55,7 @@ int	access_newcwd(char *path)
 		return (access(path, F_OK));
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		return (perror("getcwd"), EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	newpwd = ft_strjoin_f1(oldpwd, "/");
 	if (!newpwd)
 		return (EXIT_FAILURE);
@@ -87,7 +87,7 @@ int	ft_cd(t_data *core, char **args)
 		if (access_newcwd(args[1]))
 			perror(args[1]);
 		if (chdir(args[1]))
-			return (perror(args[1]), errno);
+			return (errno);
 	}
 	update_pwd(core, oldpwd);
 	return (EXIT_SUCCESS);
