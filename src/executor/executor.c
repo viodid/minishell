@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	exec_selector(t_data *core, t_command *command, int cmd_nb)
+int	exec_selector(t_data *core, t_command *command)
 {
 	int		retcode;
 	char	*cmdpath;
@@ -21,37 +21,21 @@ int	exec_selector(t_data *core, t_command *command, int cmd_nb)
 
 	args = get_arg_array(command);
 	if (!args)
-		return (EXIT_FAILURE);
-	envp = get_env_array(core);
+		exit(EXIT_FAILURE);
+	envp = get_env_array(core->env);
 	if (!envp)
-		return (free(args), EXIT_FAILURE);
-	cmdpath = args[0];
+		exit(EXIT_FAILURE);
 	if (isbuiltin(args[0]))
 	{
-		retcode = exec_builtin(core, cmdpath, args, core->line->nbcommands > 1);
-		if (core->line->nbcommands == 1)
-			return (ft_dfree((void **)envp), free(args), retcode);
+		retcode = exec_builtin(core, args[0], args);
+		return (ft_dfree((void **)envp), free(args), retcode);
 	}
-	else
-	{
-		cmdpath = get_cmdpath(core, args[0], get_env(core, "PATH"));
-		if (!cmdpath)
-		{
-			free_struct(core);
-			free_line(core->line);
-			ft_dfree((void **)envp);
-			free(args);
-			exit(EXIT_FAILURE);
-		}
-	}
+	cmdpath = get_cmdpath(args[0], get_env(core, "PATH"));
+	if (!cmdpath)
+		return (ft_dfree((void **)envp), free(args), EXIT_FAILURE);
 	if (execve(cmdpath, args, envp))
 		perror(args[0]);
-	free(cmdpath);
-	free_struct(core);
-	free_line(core->line);
-	ft_dfree((void **)envp);
-	free(args);
-	exit(retcode);
+	exit(EXIT_FAILURE);
 }
 
 int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
@@ -59,10 +43,17 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	int		retcode;
 
 	retcode = EXIT_SUCCESS;
-	do_piperedir(core, command, fds, cmd_nb);
-	do_fileredir(command, fds);
+	do_piperedir(core, cmd_nb);
+	if (do_fileredir(command, fds))
+	{
+		core->errcode = EXIT_FAILURE;
+		return (EXIT_FAILURE);
+	}
 	if (command->tokens)
-		retcode = exec_selector(core, command, cmd_nb);
+	{
+		retcode = exec_selector(core, command);
+		core->errcode = retcode;
+	}
 	return (retcode);
 }
 
@@ -76,9 +67,9 @@ int	process_single(t_data *core, t_command *command, int cmd_nb)
 	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
-		pid = fork(); //!start of child process
+		pid = fork();
 		if (pid == 0)
-			run_single(core, command, command->fds, cmd_nb);
+			exit(run_single(core, command, command->fds, cmd_nb));
 		else
 		{
 			close_parent_pipes(core, cmd_nb);
@@ -116,7 +107,10 @@ int	executor(t_data *core)
 {
 	t_list	*commands;
 
-	commands = core->line->cmds;
+	if (core->line && core->line->cmds)
+		commands = core->line->cmds;
+	else
+		return (EXIT_SUCCESS);
 	if (do_heredocs(commands) || init_pipes(core) || save_stdfds(core))
 		return (EXIT_FAILURE);
 	commands = core->line->cmds;

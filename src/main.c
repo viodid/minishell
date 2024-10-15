@@ -20,13 +20,14 @@ int	main(int argc, char **argv, char **envp)
 	int					retcode;
 	t_data				core;
 	struct sigaction	act;
+	(void)argc;
 
 	// Signals
 	act.sa_flags = SA_SIGINFO;
 	act.sa_sigaction = &signal_handler;
 
 	if (init_core(&core, argv, envp))
-		return (dprintf(2, "minishell: allcoation error\n"), EXIT_FAILURE);
+		return (ft_fdprintf(2, "minishell: allocation error\n"), EXIT_FAILURE);
 	while (1)
 	{
 		// sigaction(SIGINT, &act, NULL);
@@ -39,8 +40,7 @@ int	main(int argc, char **argv, char **envp)
 			if (i < 0)
 				break ;
 		}
-		// TODO: handle frees better
-//		free_line(core->line);
+		free_line(core.line);
 		if (retcode)
 			return (free_struct(&core), retcode);
 	}
@@ -50,6 +50,9 @@ int	main(int argc, char **argv, char **envp)
 
 static void	signal_handler(int signum, siginfo_t *info, void *context)
 {
+	(void)info;
+	(void)context;
+
 	if (signum == SIGHUP)
 		ft_printf("SIGHUP\n");
 	if (signum == SIGINT)

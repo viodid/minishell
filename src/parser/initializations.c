@@ -73,7 +73,6 @@ t_command	*initialize_cmd(void)
 	cmd->tokens = NULL;
 	cmd->redirs = NULL;
 	cmd->fds = fds;
-	cmd->builtin = -1;
 	return (cmd);
 }
 
@@ -87,6 +86,5 @@ t_line	*initialize_line(void)
 	line->cmds = NULL;
 	line->fds = NULL;
 	line->pids = NULL;
-	// line->stdinbak = 0;
 	return (line);
 }

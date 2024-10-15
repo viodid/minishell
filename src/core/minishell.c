@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/10/15 19:09:10 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/15 19:46:39 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	extra_parsings(t_data *core)
 {
-	//TODO (dyunta): quitar el parsing para el export
 	int	i;
 
 	i = 0;
@@ -32,16 +31,41 @@ void	extra_parsings(t_data *core)
 	}
 }
 
- int	minishell(t_data *core)
- {
- 	int			retcode;
- 	char		**cmds;
+int	minishell(t_data *core)
+{
+	int			retcode;
+	char		**cmds;
+	(void)cmds;
 
- 	errno = 0;
- 	parser(core);
- 	if (errno)
- 		return(EXIT_FAILURE); // TODO: change to EXIT_SUCCESS
-	// retcode = executor(core);
- 	retcode = 0;
- 	return (retcode);
+	errno = 0;
+	parser(core);
+	extra_parsings(core);
+	if (errno)
+		return (EXIT_FAILURE); // TODO: Exit success
+	retcode = executor(core);
+	// ft_fdprintf(2, "size: %i\n", ft_lstsize(core->env));
+	retcode = 0;
+	return (retcode);
 }
+
+// int	minishell(t_data *core)
+// {
+// 	int			retcode;
+// 	char		*str;
+// 	char		**cmds;
+
+// 	str = readline("ˢʰᵉˡˡ$>");
+// 	cmds = ft_split(str, '|');
+// 	if (!cmds)
+// 		return (EXIT_SUCCESS);
+// 	if (core->line && core->line->cmds)
+// 		ft_lstclear(&core->line->cmds, free_cmd);
+// 	tmp_parser(core, cmds);
+
+// 	retcode = executor(core);
+// 	if (ft_strlen(str))
+// 		add_history(str);
+// 	free(str);
+// 	ft_dfree((void **)cmds);
+// 	return (retcode);
+// }

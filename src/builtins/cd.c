@@ -45,25 +45,50 @@ char	*get_oldpwd(t_data *core)
 	return (ret);
 }
 
+int	access_newcwd(char *path)
+{
+	int		ret;
+	char	*oldpwd;
+	char	*newpwd;
+
+	if (path[0] == '/')
+		return (access(path, F_OK));
+	oldpwd = getcwd(NULL, 0);
+	if (!oldpwd)
+		return (EXIT_FAILURE);
+	newpwd = ft_strjoin_f1(oldpwd, "/");
+	if (!newpwd)
+		return (EXIT_FAILURE);
+	newpwd = ft_strjoin_f1(newpwd, path);
+	if (!newpwd)
+		return (EXIT_FAILURE);
+	ret = access(newpwd, F_OK);
+	return (free(newpwd), ret);
+}
+
 int	ft_cd(t_data *core, char **args)
 {
 	char	*oldpwd;
 	t_var	*home;
 
 	if (args[1] && args[2])
-		return (dprintf(2, "cd: too many arguments\n"), EXIT_FAILURE);
+		return (ft_fdprintf(2, "cd: too many arguments\n"), EXIT_FAILURE);
 	oldpwd = get_oldpwd(core);
 	if (!args[1])
 	{
 		home = get_env(core, "HOME");
 		if (!home)
-			return(dprintf(2, "cd: HOME not set\n"), errno);
+			return (ft_fdprintf(2, "cd: HOME not set\n"), errno);
 		if (chdir(home->value))
-			return (perror(home->value), errno);
+			return (ft_fdprintf(2, "cd :"), perror(home->value), errno);
 	}
 	else
+	{
+		if (access_newcwd(args[1]))
+			perror(args[1]);
 		if (chdir(args[1]))
-			return (perror(args[1]), errno);
+			return (errno);
+	}
 	update_pwd(core, oldpwd);
 	return (EXIT_SUCCESS);
 }

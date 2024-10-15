@@ -22,10 +22,10 @@ t_list	*lexer(void)
 	t_list	*token_list;
 
 	user_input = loop_readline();
-	if (!*user_input)
+	if (!user_input || !*user_input)
 	{
 		free(user_input);
-		return (EXIT_SUCCESS);
+		return (NULL);
 	}
 	token_list = tokenizer(user_input);
 	add_history(user_input);
@@ -106,10 +106,8 @@ static char	*loop_readline(void)
 
 	tmp_str1 = NULL;
 	tmp_str2 = NULL;
-	tmp_str1 = readline("ˢʰᵉˡˡ > ");
-    if (ft_strlen(tmp_str1) == 0)
-        return (tmp_str1);
-	while (tmp_str1[ft_strlen(tmp_str1) - 1] == '\\')
+	tmp_str1 = readline("ˢʰᵉˡˡ >");
+	while (tmp_str1 && tmp_str1[0] && tmp_str1[ft_strlen(tmp_str1) - 1] == '\\')
 	{
 		tmp_str2 = ft_strtrim(tmp_str1, "\\");
 		free(tmp_str1);

@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 NAME			= minishell
+NAME_DBG		= dbg
 LIBNAME			= libft.a
 
 SRCDIR			= src/
@@ -56,8 +57,8 @@ SRC				= $(SRCDIR)main.c						\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
-CC				= gcc
-CFLAGS			= -Wextra -Werror -pedantic-errors -g3
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror -pedantic-errors -g3
 LIBFLAG			=
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)
@@ -71,8 +72,8 @@ all:			$(NAME)
 asan:			cleanbin
 asan:			CFLAGS += -fsanitize=address
 asan:			LIBFLAG = asan
-#asan:			LIBNAME = libft_asan.a
-asan:			LIBNAME = libft.a
+asan:			LIBNAME = libft_asan.a
+# asan:			LIBNAME = libft.a
 asan:			all
 
 # lsan:			fclean
