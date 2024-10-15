@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/26 21:54:53 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/01 21:06:33 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ typedef struct s_command
 {
 	t_list	*tokens;
 	t_list	*redirs;
-	t_fds	fds;
+	t_fds	*fds;
 	int		builtin;
 }	t_command;
 

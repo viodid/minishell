@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:03 by dyunta            #+#    #+#             */
-/*   Updated: 2024/10/01 20:39:28 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/01 21:05:43 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	parser(t_data *core)
 	core->line->cmds = descent_parser(
 		execute_expansions(token_list, core->env, core->errcode));
 	core->line->pids = ft_calloc(ft_lstsize(core->line->cmds), sizeof(int));
+	core->line->fds = ft_calloc(core->line->nbcommands, sizeof(int *));
 	ft_lstclear(&token_list, &free_token);
 	ft_lstiter(core->line->cmds, &print_command);
 }

@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:12 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/30 20:44:17 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/01 21:06:33 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_command	*initialize_cmd(void)
 		exit(EXIT_FAILURE);
 	cmd->tokens = NULL;
 	cmd->redirs = NULL;
+	cmd->fds = NULL;
 	cmd->builtin = -1;
 	return (cmd);
 }

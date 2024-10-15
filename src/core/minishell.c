@@ -6,11 +6,31 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/10/01 20:41:08 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/01 21:05:13 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	extra_parsings(t_data *core)
+{
+	//TODO (dyunta): quitar el parsing para el export
+	int	i;
+
+	i = 0;
+	if (core->line)
+	{
+		core->line->nbcommands = 0;
+		if (core->line->cmds)
+			core->line->nbcommands = ft_lstsize(core->line->cmds);
+		if (core->line->nbcommands > 1)
+		{
+			core->line->fds = ft_calloc(core->line->nbcommands, sizeof(int *));
+			while (i < core->line->nbcommands)
+				core->line->fds[i++] = ft_calloc(2, sizeof(int));
+		}
+	}
+}
 
  int	minishell(t_data *core)
  {
