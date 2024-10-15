@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/10/01 21:05:13 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/15 19:09:10 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	extra_parsings(t_data *core)
  	parser(core);
  	if (errno)
  		return(EXIT_FAILURE); // TODO: change to EXIT_SUCCESS
-// 	retcode = executor(core);
+	// retcode = executor(core);
  	retcode = 0;
  	return (retcode);
 }

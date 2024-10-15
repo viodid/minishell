@@ -95,7 +95,7 @@ typedef struct s_command
 {
 	t_list	*tokens;
 	t_list	*redirs;
-	t_fds	*fds;
+	t_fds	fds;
 	int		builtin;
 }	t_command;
 
