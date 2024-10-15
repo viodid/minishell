@@ -98,7 +98,13 @@ void	free_line(t_line *line)
 	if (line->cmds && ft_lstsize(line->cmds))
 		ft_lstclear(&line->cmds, free_cmd);
 	while (i < line->nbcommands && line->fds && line->fds[i])
+	{
+		if (line->fds[i][READ_FD] > 2)
+			close(line->fds[i][READ_FD]);
+		if (line->fds[i][WRITE_FD] > 2)
+			close(line->fds[i][WRITE_FD]);
 		free(line->fds[i++]);
+	}
 	if (line->fds)
 		free(line->fds);
 	if (line->pids)
