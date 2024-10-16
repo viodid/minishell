@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:07 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/10/15 19:46:39 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/15 20:19:11 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	minishell(t_data *core)
 	parser(core);
 	extra_parsings(core);
 	if (errno)
-		return (EXIT_FAILURE); // TODO: Exit success
+		return (EXIT_SUCCESS);
 	retcode = executor(core);
 	// ft_fdprintf(2, "size: %i\n", ft_lstsize(core->env));
 	retcode = 0;

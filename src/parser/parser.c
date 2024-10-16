@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:03 by dyunta            #+#    #+#             */
-/*   Updated: 2024/10/15 19:45:13 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/15 20:28:47 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static	t_list	*descent_parser(t_list *token_list);
 
+// TODO:
+// ˢʰᵉˡˡ > cat>~/test.rm     <<EOF|wc -l
+// minishell: syntax error near unexpected token: /home/dyunta/test.rm
 
 void	parser(t_data *core)
 {

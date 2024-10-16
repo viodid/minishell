@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:29:17 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/10/01 20:46:58 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/15 20:17:23 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ int	main(int argc, char **argv, char **envp)
 				break ;
 		}
 		free_line(core.line);
+		core.line = NULL;
 		if (retcode)
 			return (free_struct(&core), retcode);
 	}
-	free_struct(&core);
-	return (retcode);
 }
 
 static void	signal_handler(int signum, siginfo_t *info, void *context)

@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/30 21:00:50 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/16 19:26:21 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static void	redirection(t_list *token_list, t_token **look_ahead,
 		{
 			if (!errno)
 			{
+				free(redir);
 				if (*look_ahead == NULL)
 					send_error("missing redirection identifier",
 						"", 1);
@@ -106,9 +107,6 @@ t_command	*command(t_list *token_list, t_token **look_ahead)
 	options(token_list, look_ahead, cmd);
 	redirection(token_list, look_ahead, cmd);
 	if (errno)
-	{
-		free_cmd(cmd);
-		return (NULL);
-	}
+		return (free_cmd(cmd),NULL);
 	return (cmd);
 }
