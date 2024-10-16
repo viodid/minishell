@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/26 23:00:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/16 20:01:53 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
 		{
 			tmp_str = value;
 			if (*value == '~')
+			{
 				value = ft_strjoin_f1(find_var(env, "HOME", errcode), value + 1);
+				free(tmp_str);
+				tmp_str = value;
+			}
 			((t_token *)token_list->content)->value = filter_and_expand(env, value, errcode);
 			free(tmp_str);
 		}

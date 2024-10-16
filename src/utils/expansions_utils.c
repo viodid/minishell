@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/22 19:20:25 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/16 20:45:50 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,15 @@ char	*expand_var_concat(const t_list *env, char *value, int errcode)
 	while (split[i])
 	{
 		tmp_str = split[i];
-		if (ft_isalpha(tmp_str[0]) || tmp_str[0] == '_' || tmp_str[0] == '?') // BUG: $+var -> $+var
-		{
+		if (ft_isalpha(tmp_str[0]) || tmp_str[0] == '_' || tmp_str[0] == '?')
 			split[i] = expand_var_in_str(env, tmp_str, errcode);
-			free(tmp_str);
-		}
 		else
 		{
 			uint32_t	len = ft_strlen(split[i]) + 2;
 			split[i] = ft_calloc(len, 1);
 			ft_strlcpy(split[i], ft_strjoin("$", tmp_str), len);
-			free(tmp_str);
 		}
+		free(tmp_str);
 		i++;
 	}
 	return (join_split(split));
