@@ -6,17 +6,13 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:03 by dyunta            #+#    #+#             */
-/*   Updated: 2024/10/16 20:54:36 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/17 20:17:57 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static	t_list	*descent_parser(t_list *token_list);
-
-// TODO:
-// ˢʰᵉˡˡ > cat>~/test.rm     <<EOF|wc -l
-// minishell: syntax error near unexpected token: /home/dyunta/test.rm
 
 void	parser(t_data *core)
 {
