@@ -70,8 +70,8 @@ void	print_command(void *cont)
 void	print_execve(char *cmdpath, char **args, char **envp)
 {
 	int	i;
-	(void)envp;
 
+	(void)envp;
 	i = 0;
 	printf("command :%s\n", cmdpath);
 	printf("args :\n");
@@ -87,17 +87,16 @@ int	hola(char *str)
 	if (str)
 		ret = write(2, str, ft_strlen(str));
 	ret += write(2, "\n", 1);
-	return(ret);
+	return (ret);
 }
 
 void	print_fds(t_fds fds)
 {
-	dprintf(2, "-----\n");
-	dprintf(2, "%i\n", getpid());
-	dprintf(2, "stdin %i\n", fds.stdfdin);
-	dprintf(2, "fdin %i\n", fds.fdin);
-	dprintf(2, "stdout %i\n", fds.stdfdout);
-	dprintf(2, "fdout %i\n", fds.fdout);
-	// dprintf(2, "%i\n", errno);
-	dprintf(2, "-----\n");
+	ft_fdprintf(2, "-----\n");
+	ft_fdprintf(2, "%i\n", getpid());
+	ft_fdprintf(2, "stdin %i\n", fds.stdfdin);
+	ft_fdprintf(2, "fdin %i\n", fds.fdin);
+	ft_fdprintf(2, "stdout %i\n", fds.stdfdout);
+	ft_fdprintf(2, "fdout %i\n", fds.fdout);
+	ft_fdprintf(2, "-----\n");
 }

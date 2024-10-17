@@ -12,26 +12,29 @@
 
 #include "../../include/minishell.h"
 
-char	**get_env_array(t_data *core)
+char	**get_env_array(t_list *env)
 {
 	int		i;
 	char	**envp;
-	t_list	*tmp;
 
 	i = 0;
-	tmp = core->env;
-	envp = ft_calloc(ft_lstsize(tmp) + 1, sizeof(char *));
+	envp = ft_calloc(ft_lstsize(env) + 1, sizeof(char *));
 	if (!envp)
 		return (NULL);
-	while (tmp)
+	while (env)
 	{
-		envp[i] = ft_strjoin(((t_var *)tmp->content)->key, "=");
-		if (!envp[i])
-			return (ft_dfree((void **)envp), NULL);
-		envp[i] = ft_strjoin_f1(envp[i], ((t_var *)tmp->content)->value);
-		if (!envp[i])
-			return (ft_dfree((void **)envp), NULL);
-		tmp = tmp->next;
+		if (((t_var *)env->content)->value)
+		{
+			envp[i] = ft_strjoin(((t_var *)env->content)->key, "=");
+			if (!envp[i])
+				return (ft_dfree((void **)envp), NULL);
+			envp[i] = ft_strjoin_f1(envp[i], ((t_var *)env->content)->value);
+			if (!envp[i])
+				return (ft_dfree((void **)envp), NULL);
+		}
+		else
+			envp[i] = ((t_var *)env->content)->key;
+		env = env->next;
 		i++;
 	}
 	return (envp);

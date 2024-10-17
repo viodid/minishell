@@ -25,32 +25,23 @@ int	isbuiltin(char *cmdpath)
 	);
 }
 
-int	exec_builtin(t_data *core, char *cmdpath, char **args, int cmd_nb)
+int	exec_builtin(t_data *core, char *cmdpath, char **args)
 {
-	int		retcode;
-
 	if (!ft_strncmp(cmdpath, "pwd", 4))
-		retcode = ft_pwd(core);
+		core->errcode = ft_pwd(core);
 	else if (!ft_strncmp(cmdpath, "cd", 3))
-		retcode = ft_cd(core, args);
+		core->errcode = ft_cd(core, args);
 	else if (!ft_strncmp(cmdpath, "echo", 5))
-		retcode = ft_echo(args);
+		core->errcode = ft_echo(args);
 	else if (!ft_strncmp(cmdpath, "env", 4))
-		retcode = ft_env(core);
+		core->errcode = ft_env(core);
 	else if (!ft_strncmp(cmdpath, "exit", 5))
-	{
-		retcode = ft_exit(core, args, cmd_nb);
-	}
+		core->errcode = ft_exit(args, core->line->nbcommands > 1);
 	else if (!ft_strncmp(cmdpath, "export", 7))
-		retcode = ft_export(core, args);
+		core->errcode = ft_export(core, args);
 	else if (!ft_strncmp(cmdpath, "unset", 6))
-		retcode = ft_unset(core, args);
+		core->errcode = ft_unset(core, args);
 	if (core->line->nbcommands > 1)
-	{
-		// core->line = NULL;
-		// free_struct(core);
-		exit(retcode);
-	}
-	return (retcode);
+		exit(core->errcode);
+	return (core->errcode);
 }
-

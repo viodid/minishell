@@ -32,7 +32,7 @@ t_var	*split_var(char *var_brut)
 		return (free(var), free(var->key), NULL);
 	if (!ft_strchr(tmpenv, '='))
 	{
-		var->value = NULL;
+		var->value = ft_strdup("");
 		return (free(tmpenv), var);
 	}
 	var->value = ft_strdup(ft_strchr(tmpenv, '=') + 1);
@@ -83,16 +83,17 @@ char	**set_basic_env(char *argv0)
 	return (ret);
 }
 
-t_list	*set_env(t_data *core, char **argv, char **envp)
+t_list	*set_env(char **argv, char **envp)
 {
 	int		i;
 	char	**env;
 	t_list	*ret;
 	t_var	*var;
 
-	env = envp;
 	if (!envp || !envp[0])
 		env = set_basic_env(argv[0]);
+	else
+		env = ft_matdup((void **)envp);
 	if (!env)
 		return (NULL);
 	i = -1;
@@ -104,6 +105,7 @@ t_list	*set_env(t_data *core, char **argv, char **envp)
 			return (ft_lstclear(&ret, free_var), NULL);
 		ft_lstadd_back(&ret, ft_lstnew(var));
 	}
+	ft_dfree((void **)env);
 	return (ret);
 }
 
@@ -119,16 +121,13 @@ t_list	*set_env(t_data *core, char **argv, char **envp)
  * `EXIT_FAILURE` if anything fails.
  */
 int	init_core(t_data *core, char **argv, char **envp)
-{	
-	core->env = set_env(core, argv, envp);
+{
+	core->env = set_env(argv, envp);
 	if (!core->env)
 		return (EXIT_FAILURE);
 	if (set_shlvl(core))
 		return (EXIT_FAILURE);
 	core->line = NULL;
-	// core->line = ft_calloc(1, sizeof(t_line));
-	// if (!core->line)
-	// 	return (free_struct(core), EXIT_FAILURE);
 	core->errcode = 0;
 	core->sv_stdin = -1;
 	core->sv_stdout = -1;

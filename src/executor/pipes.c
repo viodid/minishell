@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	do_piperedir(t_data *core, t_command *command, t_fds fds, int cmd_nb)
+int	do_piperedir(t_data *core, int cmd_nb)
 {
 	int	**pipes;
 
@@ -65,10 +65,10 @@ int	init_pipes(t_data *core)
 	int	i;
 
 	i = 0;
-	while (i < core->line->nbcommands)
+	while (i < core->line->nbcommands && core->line->fds)
 	{
 		if (pipe(core->line->fds[i++]))
-			return (perror("pipes"), EXIT_FAILURE);
+			return (perror("pipesss"), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }

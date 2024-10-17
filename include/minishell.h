@@ -88,23 +88,22 @@ typedef struct s_redir
 
 /**
  * A single command, it contains:
- * - `tokens`: a linked list of tokens, contains `t_token` structures
- * - `redirs`: a linked list of redirections, contains `t_redir` structures
+ * - `tokens`: linked list, contains `t_token` structures
+ * - `redirs`: linked list, contains `t_redir` structures
  */
 typedef struct s_command
 {
 	t_list	*tokens;
 	t_list	*redirs;
 	t_fds	fds;
-	int		builtin;
 }	t_command;
 
 /**
- * A line of commands, it contains:
- * - `cmds`: a linked list of commands, contains `t_command` structures
- * - `fds`: a 2D array of ints representing file descriptors
- * - `pids`: an array of ints representing process IDs
- * - `nbcommands`: an int representing the number of commands
+ * A line of commands, contains:
+ * - `cmds`: linked list, contains `t_command` structures
+ * - `fds`: 2D array of integers, contains pipe file descriptors
+ * - `pids`: array of integers, contains process IDs
+ * - `nbcommands`: integer, contains the number of commands
  */
 typedef struct s_line
 {
@@ -115,12 +114,12 @@ typedef struct s_line
 }	t_line;
 
 /**
- * Minishell's core, it cotains:
- * - `env`: a linked list of environment variables
- * - `line`: a structure containing a line of commands
- * - `errcode`: an int to store error codes
- * - `sv_stdin`: an int to save the standard input fd
- * - `sv_stdout`: an int to save the standard output fd
+ * Minishell's core, contains:
+ * - `env`: linked list, contains environment variables
+ * - `line`: structure, contains a line of commands
+ * - `errcode`: integer, stores error codes
+ * - `sv_stdin`: integer, saves the standard input fd
+ * - `sv_stdout`: integer, saves the standard output fd
  */
 typedef struct s_data
 {
@@ -136,7 +135,7 @@ typedef struct s_data
 int				minishell(t_data *core);
 t_var			*get_env(t_data *core, char *key);
 t_var			*split_var(char *var_brut);
-char			**get_env_array(t_data *core);
+char			**get_env_array(t_list *env);
 int				init_core(t_data *core, char **argv, char **envp);
 
 /* lexer */
@@ -168,36 +167,37 @@ int			tmp_parser(t_data *core, char **cmds);
 
 /* exec */
 
-int				executor(t_data *core); //TODO //TODO
+int				executor(t_data *core); //TODO
 int				get_redirs(t_command *command, t_fds *fds);
 int				get_infiles(t_list *redirs, t_fds *fds, int iscommand);
 int				get_outfiles(t_list *redirs, t_fds *fds);
 int				isbuiltin(char *cmdpath);
-char			*get_cmdpath(t_data *core, char *cmd, t_var *envpaths);
+char			*get_cmdpath(char *cmd, t_var *envpaths);
 char			**get_arg_array(t_command *command);
 int				hasinput(t_list *redirs);
 int				hasoutput(t_list *redirs);
 int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
+int				close_fds(t_fds *fds);
 int				reset_stdfds(t_data *core);
 int				save_stdfds(t_data *core);
 int				init_pipes(t_data *core);
 int				do_heredocs(t_list *commands);
 int				do_fileredir(t_command *command, t_fds fds);
-int				exec_builtin(t_data *core, char *cmdpath, char **args, int is_exit);
-int				do_piperedir(t_data *core, t_command *command, t_fds fds, int cmd_nb);
+int				exec_builtin(t_data *core, char *cmdpath, char **args);
+int				do_piperedir(t_data *core, int cmd_nb);
 int				close_parent_pipes(t_data *core, int cmd_nb);
 
 /* builtins */
 
 int				ft_pwd(t_data *core);
 int				ft_echo(char **args);
-int				ft_cd(t_data *core, char **args); //TODO senderror
+int				ft_cd(t_data *core, char **args);
 int				ft_env(t_data *core);
-int				ft_export(t_data *core, char **args); //TODO
+int				ft_export(t_data *core, char **args);
 int				export_single(t_data *core, char *arg);
 int				ft_unset(t_data *core, char **args);
 int				unset_single(t_data *core, char *key);
-int				ft_exit(t_data *core, char **args, int cmd_nb); //TODO senderror
+int				ft_exit(char **args, int ischild);
 
 /* utils */
 
