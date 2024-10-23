@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/10/16 20:54:25 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/23 20:14:41 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 static void	free_split(char **tab);
 static char	*join_split(char **split);
+static char	*return_unexpanded_var(const char *value);
 static char	*expand_var_in_str(const t_list *env, char *value, int errcode);
 
-char	*expand_var_concat(const t_list *env, char *value, int errcode)
+/*
+ * Takes a string value (lexer token) and expands its variables accordingly.
+*/
+char	*expand_var_concat(const t_list *env, const char *value, int errcode)
 {
 	uint16_t	i;
 	char		**split;
@@ -26,7 +30,7 @@ char	*expand_var_concat(const t_list *env, char *value, int errcode)
 		return (ft_strdup(value));
 	split = ft_split(value, '$');
 	i = 0;
-	if (value[0] != '$') // because first split str may not be a var
+	if (value[0] != '$')
 		i++;
 	while (split[i])
 	{
@@ -34,17 +38,29 @@ char	*expand_var_concat(const t_list *env, char *value, int errcode)
 		if (ft_isalpha(tmp_str[0]) || tmp_str[0] == '_' || tmp_str[0] == '?')
 			split[i] = expand_var_in_str(env, tmp_str, errcode);
 		else
-		{
-			uint32_t	len = ft_strlen(split[i]) + 2;
-			split[i] = ft_calloc(len, 1);
-			char *tmp = ft_strjoin("$", tmp_str); // TODO: clean this
-			ft_strlcpy(split[i], tmp, len);
-			free (tmp);
-		}
+			split[i] = return_unexpanded_var(tmp_str);
 		free(tmp_str);
 		i++;
 	}
 	return (join_split(split));
+}
+
+/*
+ * This functions just returns the input string "value" with a dollar
+ * sign "$" inserted at the beginning of the str.
+*/
+static char	*return_unexpanded_var(const char *value)
+{
+	char		*tmp_str;
+	char		*output;
+	uint32_t	len;
+
+	len = ft_strlen(value) + 2;
+	output = ft_calloc(len, sizeof(char));
+	tmp_str = ft_strjoin("$", value);
+	ft_strlcpy(output, value, len);
+	free(tmp_str);
+	return (output);
 }
 
 static char	*expand_var_in_str(const t_list *env, char *value, int errcode)

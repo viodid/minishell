@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/10/01 21:06:33 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/23 20:14:58 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ t_command	*command(t_list *token_list, t_token **look_ahead);
 void		get_next_token(t_list *token_list, t_token **look_ahead);
 t_list		*execute_expansions(t_list *token_list, const t_list *env, int errcode);
 char		*find_var(const t_list *env, char *key, int errcode);
-char		*expand_var_concat(const t_list *env, char *value, int errcode);
+char		*expand_var_concat(const t_list *env, const char *value, int errcode);
 
 int			tmp_parser(t_data *core, char **cmds);
 
