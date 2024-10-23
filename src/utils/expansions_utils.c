@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:05:30 by dyunta            #+#    #+#             */
-/*   Updated: 2024/10/23 20:14:41 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/23 20:22:28 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*return_unexpanded_var(const char *value)
 	len = ft_strlen(value) + 2;
 	output = ft_calloc(len, sizeof(char));
 	tmp_str = ft_strjoin("$", value);
-	ft_strlcpy(output, value, len);
+	ft_strlcpy(output, tmp_str, len);
 	free(tmp_str);
 	return (output);
 }
