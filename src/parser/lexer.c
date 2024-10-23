@@ -39,7 +39,7 @@ static t_list	*tokenizer(const char *user_input)
 {
 	char		*tmp_str;
 	t_list		*token_list;
-	int32_t	offset;
+	int32_t		offset;
 	int32_t		i;
 	uint8_t		size_metachar;
 
@@ -53,10 +53,10 @@ static t_list	*tokenizer(const char *user_input)
 		if (ft_strchr(METACHARACTERS, user_input[i]))
 		{
 			tmp_str = ft_substr(user_input, offset, i - offset);
-			insert_token(tmp_str, &token_list,FALSE);
+			insert_token(tmp_str, &token_list, FALSE);
 			size_metachar = get_size_metachar(user_input, i);
 			tmp_str = ft_substr(user_input, i, size_metachar);
-			insert_token(tmp_str, &token_list,FALSE);
+			insert_token(tmp_str, &token_list, FALSE);
 			i += size_metachar - 1;
 			offset = i + 1;
 		}
@@ -76,7 +76,7 @@ void	insert_token(char *value, t_list **token_list, int parse_quotes)
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		exit(EXIT_FAILURE);
-	token->type = enum_token_value(value,parse_quotes);
+	token->type = enum_token_value(value, parse_quotes);
 	token->value = value;
 	ft_lstadd_back(token_list, ft_lstnew(token));
 }
