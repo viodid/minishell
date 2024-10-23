@@ -6,16 +6,16 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/10/16 20:01:53 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/23 20:43:09 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char		*filter_and_expand(const t_list *env, char *value, int errcode);
+static char		*expand(const t_list *env, char *value, int errcode);
 static t_list	*tokenizer(const char *user_input);
 
-t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
+t_list	*execute_expansions(t_list *token_list, const t_list *env, int err)
 {
 	t_token_type	type;
 	t_list			*head;
@@ -32,11 +32,11 @@ t_list	*execute_expansions(t_list *token_list, const t_list *env, int errcode)
 			tmp_str = value;
 			if (*value == '~')
 			{
-				value = ft_strjoin_f1(find_var(env, "HOME", errcode), value + 1);
+				value = ft_strjoin_f1(find_var(env, "HOME", err), value + 1);
 				free(tmp_str);
 				tmp_str = value;
 			}
-			((t_token *)token_list->content)->value = filter_and_expand(env, value, errcode);
+			((t_token *)token_list->content)->value = expand(env, value, err);
 			free(tmp_str);
 		}
 		token_list = token_list->next;
@@ -48,7 +48,7 @@ static t_list	*tokenizer(const char *user_input)
 {
 	char		*tmp_str;
 	t_list		*token_list;
-	int32_t	offset;
+	int32_t		offset;
 	int32_t		i;
 
 	token_list = NULL;
@@ -59,18 +59,19 @@ static t_list	*tokenizer(const char *user_input)
 		if (ft_strchr("\'\"", user_input[i]))
 		{
 			tmp_str = ft_substr(user_input, offset, i - offset);
-			insert_token(tmp_str, &token_list,TRUE);
+			insert_token(tmp_str, &token_list, TRUE);
 			offset = i;
 			i = get_str_size(user_input, i);
 			tmp_str = ft_substr(user_input, offset, i - offset + 1);
-			insert_token(tmp_str, &token_list,TRUE);
+			insert_token(tmp_str, &token_list, TRUE);
 			offset = i + 1;
 		}
 	}
 	return (token_list);
 }
 
-static void	expand_token(t_list *token_list, const t_list *env, int errcode)
+static void	expand_token_filter_quotes(t_list *token_list,
+	const t_list *env, int errcode)
 {
 	char	*tmp_str;
 	t_token	*token;
@@ -84,18 +85,6 @@ static void	expand_token(t_list *token_list, const t_list *env, int errcode)
 			token->value = expand_var_concat(env, token->value, errcode);
 			free(tmp_str);
 		}
-		token_list = token_list->next;
-	}
-}
-
-static void	remove_quotes_token(t_list *token_list)
-{
-	char	*tmp_str;
-	t_token	*token;
-
-	while (token_list)
-	{
-		token = token_list->content;
 		if (token->type == DOUBLE_QUOTES || token->type == SINGLE_QUOTES)
 		{
 			tmp_str = token->value;
@@ -106,7 +95,7 @@ static void	remove_quotes_token(t_list *token_list)
 	}
 }
 
-static char	*filter_and_expand(const t_list *env, char *value, int errcode)
+static char	*expand(const t_list *env, char *value, int errcode)
 {
 	t_list	*tmp_token_list;
 	t_list	*head_list;
@@ -114,8 +103,7 @@ static char	*filter_and_expand(const t_list *env, char *value, int errcode)
 
 	tmp_token_list = tokenizer(value);
 	head_list = tmp_token_list;
-	expand_token(tmp_token_list, env, errcode);
-	remove_quotes_token(tmp_token_list);
+	expand_token_filter_quotes(tmp_token_list, env, errcode);
 	value = ft_calloc(1, 1);
 	while (tmp_token_list)
 	{
@@ -142,7 +130,7 @@ char	*find_var(const t_list *env, char *key, int errcode)
 	{
 		var = ((t_var *)env->content);
 		if (ft_strlen(key) == ft_strlen(var->key)
-		&& ft_strncmp(key, var->key, ft_strlen(key)) == 0)
+			&& ft_strncmp(key, var->key, ft_strlen(key)) == 0)
 			return (ft_strdup(var->value));
 		env = env->next;
 	}

@@ -158,7 +158,7 @@ t_token		*initialize_token(void);
 t_line		*initialize_line(void);
 t_command	*command(t_list *token_list, t_token **look_ahead);
 void		get_next_token(t_list *token_list, t_token **look_ahead);
-t_list		*execute_expansions(t_list *token_list, const t_list *env, int errcode);
+t_list		*execute_expansions(t_list *token_list, const t_list *env, int err);
 char		*find_var(const t_list *env, char *key, int errcode);
 char		*expand_var_concat(const t_list *env, const char *value, int errcode);
 

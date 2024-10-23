@@ -6,12 +6,11 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:23:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/30 20:15:55 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/23 20:24:51 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 uint8_t	is_word_token(const char *value)
 {
