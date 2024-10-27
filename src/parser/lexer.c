@@ -25,6 +25,7 @@ t_list	*lexer(void)
 	if (!user_input || !*user_input)
 	{
 		free(user_input);
+		errno = 42;
 		return (NULL);
 	}
 	token_list = tokenizer(user_input);
