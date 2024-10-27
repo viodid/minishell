@@ -6,13 +6,13 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:29:17 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/10/27 19:46:50 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/27 20:34:04 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	signal_handler(int signum, siginfo_t *info, void *context);
+static void	signal_handler(int signum);
 
 uint8_t	curr_signal;
 
@@ -21,20 +21,14 @@ int	main(int argc, char **argv, char **envp)
 	int					i;
 	int					retcode;
 	t_data				core;
-	struct sigaction	act;
 	(void)argc;
-
-	// Signals
-	act.sa_flags = SA_SIGINFO;
-	act.sa_sigaction = &signal_handler;
 
 	if (init_core(&core, argv, envp))
 		return (ft_fdprintf(2, "minishell: allocation error\n"), EXIT_FAILURE);
 	while (1)
 	{
-		sigaction(SIGINT, &act, NULL);
-		sigaction(SIGQUIT, &act, NULL);
-		sigaction(SIGHUP, &act, NULL);
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
 		retcode = minishell(&core);
 		while (1)
 		{
@@ -49,16 +43,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 }
 
-/*
- * By the absent of the SIGQUIT handler, SIGQUIT is implicitly ignored.
-*/
-static void	signal_handler(int signum, siginfo_t *info, void *context)
+static void	signal_handler(int signum)
 {
-	(void)info;
-	(void)context;
-
-	if (signum == SIGHUP)
-		ft_printf("SIGHUP\n");
 	if (signum == SIGINT)
 	{
 		curr_signal = SIGINT;
