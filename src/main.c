@@ -16,7 +16,6 @@ static void	signal_handler(int signum, siginfo_t *info, void *context);
 
 int	main(int argc, char **argv, char **envp)
 {
-	int					i;
 	int					retcode;
 	t_data				core;
 	struct sigaction	act;
@@ -34,12 +33,6 @@ int	main(int argc, char **argv, char **envp)
 		sigaction(SIGQUIT, &act, NULL);
 		sigaction(SIGHUP, &act, NULL);
 		retcode = minishell(&core);
-		while (1)
-		{
-			i = waitpid(-1, NULL, 0);
-			if (i < 0)
-				break ;
-		}
 		free_line(core.line);
 		if (retcode)
 			return (free_struct(&core), retcode);
