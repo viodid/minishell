@@ -45,8 +45,6 @@ int	minishell(t_data *core)
 	int		i;
 	int		wstatus;
 	int		retcode;
-	char	**cmds;
-	(void)cmds;
 
 	errno = 0;
 	i = 0;

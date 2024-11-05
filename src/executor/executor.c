@@ -99,12 +99,6 @@ int	process_multiple(t_data *core, t_list *commands)
 		commands = commands->next;
 		i++;
 	}
-	// while (1)
-	// 	if (waitpid(-1, &status, 0) < 0) //TODO handle Process &status, external func
-	// 	{
-	// 		core->errcode = check_retstatus(status);
-	// 		break ;
-	// 	}
 	return (EXIT_SUCCESS);
 }
 
