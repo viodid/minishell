@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/09/26 21:54:53 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/23 20:14:58 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ int				init_core(t_data *core, char **argv, char **envp);
 
 t_list		*lexer(void);
 void		insert_token(char *value, t_list **token_list, int parse_quotes);
-uint8_t		is_identifier(const char *value);
 uint8_t		is_flag(const char *value);
 uint8_t		is_word_token(const char *value);
 char		*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
@@ -155,13 +154,13 @@ char		*remove_quotes(char *str);
 void		parser(t_data *core);
 t_redir		*initialize_redir(t_token *token);
 t_command	*initialize_cmd(void);
-t_token		*initialize_identifier(void);
+t_token		*initialize_token(void);
 t_line		*initialize_line(void);
 t_command	*command(t_list *token_list, t_token **look_ahead);
 void		get_next_token(t_list *token_list, t_token **look_ahead);
-t_list		*execute_expansions(t_list *token_list, const t_list *env, int errcode);
+t_list		*execute_expansions(t_list *token_list, const t_list *env, int err);
 char		*find_var(const t_list *env, char *key, int errcode);
-char		*expand_var_concat(const t_list *env, char *value, int errcode);
+char		*expand_var_concat(const t_list *env, const char *value, int errcode);
 
 int			tmp_parser(t_data *core, char **cmds);
 
