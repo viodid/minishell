@@ -53,7 +53,7 @@ int	minishell(t_data *core)
 	if (errno)
 		return (EXIT_SUCCESS);
 	retcode = executor(core);
-	while (1)
+	while (core->line->haschild)
 	{
 		i = waitpid(-1, &wstatus, 0);
 		if (i < 0)
@@ -62,7 +62,6 @@ int	minishell(t_data *core)
 			break ;
 		}
 	}
-	retcode = 0;
 	return (retcode);
 }
 

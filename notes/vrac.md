@@ -1,10 +1,10 @@
-- `echo $?` bugs with builtins
 - before defence
 	- norminette
 	- battery tests with valgrind
 	- check relinks
 
 - - - - - -
+x `echo $?` bugs with builtins
 x Read &status at wait for last process
 x close fds to prevent them leaking
 x set `$?` var in builtins

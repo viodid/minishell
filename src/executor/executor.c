@@ -67,6 +67,7 @@ int	process_single(t_data *core, t_command *command, int cmd_nb)
 	if (command->tokens && (core->line->nbcommands > 1
 			|| !isbuiltin(((t_token *)command->tokens->content)->value)))
 	{
+		core->line->haschild = 1;
 		pid = fork();
 		if (pid == 0)
 			exit(run_single(core, command, command->fds, cmd_nb));

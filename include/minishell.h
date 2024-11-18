@@ -111,6 +111,7 @@ typedef struct s_line
 	int		**fds;
 	int		*pids;
 	int		nbcommands;
+	int		haschild;
 }	t_line;
 
 /**
