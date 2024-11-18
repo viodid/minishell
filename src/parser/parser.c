@@ -60,6 +60,8 @@ static	t_list	*descent_parser(t_list *token_list)
 	t_list	*cmds;
 	t_token	*look_ahead;
 
+	if (!token_list)
+		return (NULL);
 	look_ahead = (t_token *)token_list->content;
 	cmds = full_command(token_list, &look_ahead);
 	if (errno)
