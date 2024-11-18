@@ -111,6 +111,7 @@ typedef struct s_line
 	int		**fds;
 	int		*pids;
 	int		nbcommands;
+	int		haschild;
 }	t_line;
 
 /**
@@ -162,11 +163,9 @@ t_list		*execute_expansions(t_list *token_list, const t_list *env, int err);
 char		*find_var(const t_list *env, char *key, int errcode);
 char		*expand_var_concat(const t_list *env, const char *value, int errcode);
 
-int			tmp_parser(t_data *core, char **cmds);
-
 /* exec */
 
-int				executor(t_data *core); //TODO
+int				executor(t_data *core);
 int				get_redirs(t_command *command, t_fds *fds);
 int				get_infiles(t_list *redirs, t_fds *fds, int iscommand);
 int				get_outfiles(t_list *redirs, t_fds *fds);
@@ -206,8 +205,6 @@ void			free_cmd(void *cont);
 void			free_var(void *cont);
 void			free_token(void *cont);
 void			free_line(t_line *line);
-
-int				tmp_parser(t_data *core, char **cmds);
 
 /* errors */
 int send_error(char *err_msg, char *detail_msg, int exit_status);

@@ -18,7 +18,6 @@ uint8_t	curr_signal;
 
 int	main(int argc, char **argv, char **envp)
 {
-	int					i;
 	int					retcode;
 	t_data				core;
 	(void)argc;
@@ -30,12 +29,6 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
 		retcode = minishell(&core);
-		while (1)
-		{
-			i = waitpid(-1, NULL, 0);
-			if (i < 0)
-				break ;
-		}
 		free_line(core.line);
 		core.line = NULL;
 		if (retcode)

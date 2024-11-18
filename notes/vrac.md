@@ -1,11 +1,12 @@
-- Read &status at wait for last process
-- **close fds to prevent them leaking**
 - before defence
 	- norminette
 	- battery tests with valgrind
 	- check relinks
 
 - - - - - -
+x `echo $?` bugs with builtins
+x Read &status at wait for last process
+x close fds to prevent them leaking
 x set `$?` var in builtins
 x `< notexist ls > ret` shouldn't create ret nor execute ls
 	x don't execute cmd in case of failed redir

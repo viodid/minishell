@@ -31,20 +31,37 @@ void	extra_parsings(t_data *core)
 	}
 }
 
+int	check_retstatus(int status)
+{
+	if (WIFEXITED(status) == TRUE)
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status) == TRUE)
+		return (WTERMSIG(status));
+	return (EXIT_SUCCESS);
+}
+
 int	minishell(t_data *core)
 {
-	int			retcode;
-	char		**cmds;
-	(void)cmds;
+	int		i;
+	int		wstatus;
+	int		retcode;
 
 	errno = 0;
+	i = 0;
 	parser(core);
 	extra_parsings(core);
 	if (errno)
 		return (EXIT_SUCCESS);
 	retcode = executor(core);
-	// ft_fdprintf(2, "size: %i\n", ft_lstsize(core->env));
-	retcode = 0;
+	while (core->line->haschild)
+	{
+		i = waitpid(-1, &wstatus, 0);
+		if (i < 0)
+		{
+			core->errcode = check_retstatus(wstatus);
+			break ;
+		}
+	}
 	return (retcode);
 }
 

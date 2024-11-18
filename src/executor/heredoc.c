@@ -24,7 +24,7 @@ char	*get_tmpname(void)
 		id = ft_itoa(i);
 		if (!id)
 			return (NULL);
-		ret = ft_strjoin_f2("tmp/minishell-", id);
+		ret = ft_strjoin_f2("/tmp/minishell-", id);
 		if (!ret)
 			return (NULL);
 		if (access(ret, F_OK) == -1)

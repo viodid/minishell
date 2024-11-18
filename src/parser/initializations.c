@@ -86,5 +86,6 @@ t_line	*initialize_line(void)
 	line->cmds = NULL;
 	line->fds = NULL;
 	line->pids = NULL;
+	line->haschild = 0;
 	return (line);
 }
