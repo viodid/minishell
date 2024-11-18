@@ -52,7 +52,7 @@ static void	command_name(t_list *token_list, t_token **look_ahead,
 	t_token	*token;
 
 	if (!*look_ahead)
-		return;
+		return ;
 	if (is_identifier(*look_ahead) == FALSE)
 	{
 		if (!errno)
