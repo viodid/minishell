@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/10/23 20:46:03 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/18 18:37:08 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void	command_name(t_list *token_list, t_token **look_ahead,
 {
 	t_token	*token;
 
+	if (!*look_ahead)
+		return;
 	if (is_identifier(*look_ahead) == FALSE)
 	{
 		if (!errno)
@@ -75,7 +77,7 @@ static void	redirection(t_list *token_list, t_token **look_ahead,
 	{
 		redir = initialize_redir(*look_ahead);
 		get_next_token(token_list, look_ahead);
-		if ((*look_ahead)->type != WORD)
+		if (!*look_ahead || (*look_ahead)->type != WORD)
 		{
 			if (!errno)
 			{
