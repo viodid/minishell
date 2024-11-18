@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:26:12 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/09 21:48:20 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/10/15 19:39:20 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_redir	*initialize_redir(t_token *token)
 	return (redir);
 }
 
-t_token	*initialize_identifier(void)
+t_token	*initialize_token(void)
 {
 	t_token	*token;
 
@@ -61,13 +61,18 @@ t_token	*initialize_identifier(void)
 t_command	*initialize_cmd(void)
 {
 	t_command	*cmd;
+	t_fds		fds;
 
 	cmd = (t_command *) malloc(sizeof(t_command));
+	fds.fdin = 0;
+	fds.fdout = 1;
+	fds.stdfdin = 0;
+	fds.stdfdout = 1;
 	if (!cmd)
 		exit(EXIT_FAILURE);
 	cmd->tokens = NULL;
 	cmd->redirs = NULL;
-	ft_memset(&cmd->fds, -1, sizeof(t_fds));
+	cmd->fds = fds;
 	return (cmd);
 }
 
