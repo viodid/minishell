@@ -113,5 +113,10 @@ static char	*loop_readline(void)
 		free(tmp_str1);
 		tmp_str1 = ft_strjoin_f12(tmp_str2, readline("> "));
 	}
+	if (tmp_str1 == NULL)
+	{
+		ft_putendl_fd("exit", STDOUT_FILENO);
+		exit(EXIT_SUCCESS);
+	}
 	return (tmp_str1);
 }
