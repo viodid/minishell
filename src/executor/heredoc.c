@@ -35,6 +35,13 @@ char	*get_tmpname(void)
 	return (NULL);
 }
 
+static void	heredoc_end_of_file(const char *line)
+{
+	if (line == NULL)
+		send_error("warning: ",
+			"here-document delimited by end-of-file", EXIT_SUCCESS);
+}
+
 char	*heredoc_loop(char *limiter, char *tmpname)
 {
 	int		fd;
@@ -51,13 +58,14 @@ char	*heredoc_loop(char *limiter, char *tmpname)
 	fd = open(tmpname, O_RDWR | O_CREAT | O_EXCL, 0644);
 	if (fd == -1 || access(tmpname, F_OK) == -1)
 		return (NULL);
-	line = readline(">");
+	line = readline("> ");
 	while (ft_strncmp(line, limiter, ft_strlen(limiter) + 1))
 	{
 		ft_putendl_fd(line, fd);
 		free(line);
-		line = readline(">");
+		line = readline("> ");
 	}
+	heredoc_end_of_file(line);
 	free(line);
 	close(fd);
 	return (tmpname);

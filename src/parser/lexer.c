@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/09/27 00:15:35 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/24 11:16:52 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ t_list	*lexer(void)
 	user_input = loop_readline();
 	if (!user_input || !*user_input)
 	{
-		free(user_input);
 		errno = 42;
-		return (NULL);
+		return (free(user_input), NULL);
 	}
 	token_list = tokenizer(user_input);
 	add_history(user_input);
@@ -113,6 +112,11 @@ static char	*loop_readline(void)
 		tmp_str2 = ft_strtrim(tmp_str1, "\\");
 		free(tmp_str1);
 		tmp_str1 = ft_strjoin_f12(tmp_str2, readline("> "));
+	}
+	if (tmp_str1 == NULL)
+	{
+		ft_putendl_fd("exit", STDOUT_FILENO);
+		exit(EXIT_SUCCESS);
 	}
 	return (tmp_str1);
 }

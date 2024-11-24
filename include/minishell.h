@@ -6,13 +6,24 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/10/23 20:14:58 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/24 12:41:29 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# ifndef HOSTNAME
+#  define HOSTNAME	"host"
+# endif
+
 # define METACHARACTERS " |<>\t\n"
+
+// TODO: siginterrupt in heredoc, i.e. ctrl-c
+
+# define GRN_BOLD		"\001\033[1;32m\002"
+# define BLU_BOLD		"\001\033[1;34m\002"
+# define RES			"\001\033[0m\002"
 
 # include "../libft/libft.h"
 # include <readline/history.h>
@@ -57,8 +68,6 @@ typedef enum e_token_type
 }	t_token_type;
 
 /* STRUCTS */
-
-
 typedef struct s_fds
 {
 	int	stdfdin;
@@ -133,11 +142,11 @@ typedef struct s_data
 
 /* core */
 
-int				minishell(t_data *core);
-t_var			*get_env(t_data *core, char *key);
-t_var			*split_var(char *var_brut);
-char			**get_env_array(t_list *env);
-int				init_core(t_data *core, char **argv, char **envp);
+int			minishell(t_data *core);
+t_var		*get_env(t_data *core, char *key);
+t_var		*split_var(char *var_brut);
+char		**get_env_array(t_list *env);
+int			init_core(t_data *core, char **argv, char **envp);
 
 /* lexer */
 
@@ -161,63 +170,64 @@ t_command	*command(t_list *token_list, t_token **look_ahead);
 void		get_next_token(t_list *token_list, t_token **look_ahead);
 t_list		*execute_expansions(t_list *token_list, const t_list *env, int err);
 char		*find_var(const t_list *env, char *key, int errcode);
-char		*expand_var_concat(const t_list *env, const char *value, int errcode);
+char		*expand_var_concat(const t_list *env,
+				const char *value, int errcode);
 
 /* exec */
 
-int				executor(t_data *core);
-int				get_redirs(t_command *command, t_fds *fds);
-int				get_infiles(t_list *redirs, t_fds *fds, int iscommand);
-int				get_outfiles(t_list *redirs, t_fds *fds);
-int				isbuiltin(char *cmdpath);
-char			*get_cmdpath(char *cmd, t_var *envpaths);
-char			**get_arg_array(t_command *command);
-int				hasinput(t_list *redirs);
-int				hasoutput(t_list *redirs);
-int				set_fds(t_fds *fds, t_data *core, int cmd_nb);
-int				close_fds(t_fds *fds);
-int				reset_stdfds(t_data *core);
-int				save_stdfds(t_data *core);
-int				init_pipes(t_data *core);
-int				do_heredocs(t_list *commands);
-int				do_fileredir(t_command *command, t_fds fds);
-int				exec_builtin(t_data *core, char *cmdpath, char **args);
-int				do_piperedir(t_data *core, int cmd_nb);
-int				close_parent_pipes(t_data *core, int cmd_nb);
+int			executor(t_data *core);
+int			get_redirs(t_command *command, t_fds *fds);
+int			get_infiles(t_list *redirs, t_fds *fds, int iscommand);
+int			get_outfiles(t_list *redirs, t_fds *fds);
+int			isbuiltin(char *cmdpath);
+char		*get_cmdpath(char *cmd, t_var *envpaths);
+char		**get_arg_array(t_command *command);
+int			hasinput(t_list *redirs);
+int			hasoutput(t_list *redirs);
+int			set_fds(t_fds *fds, t_data *core, int cmd_nb);
+int			close_fds(t_fds *fds);
+int			reset_stdfds(t_data *core);
+int			save_stdfds(t_data *core);
+int			init_pipes(t_data *core);
+int			do_heredocs(t_list *commands);
+int			do_fileredir(t_command *command, t_fds fds);
+int			exec_builtin(t_data *core, char *cmdpath, char **args);
+int			do_piperedir(t_data *core, int cmd_nb);
+int			close_parent_pipes(t_data *core, int cmd_nb);
 
 /* builtins */
 
-int				ft_pwd(t_data *core);
-int				ft_echo(char **args);
-int				ft_cd(t_data *core, char **args);
-int				ft_env(t_data *core);
-int				ft_export(t_data *core, char **args);
-int				export_single(t_data *core, char *arg);
-int				ft_unset(t_data *core, char **args);
-int				unset_single(t_data *core, char *key);
-int				ft_exit(char **args, int ischild);
+int			ft_pwd(t_data *core);
+int			ft_echo(char **args);
+int			ft_cd(t_data *core, char **args);
+int			ft_env(t_data *core);
+int			ft_export(t_data *core, char **args);
+int			export_single(t_data *core, char *arg);
+int			ft_unset(t_data *core, char **args);
+int			unset_single(t_data *core, char *key);
+int			ft_exit(char **args, int ischild);
 
 /* utils */
 
-void			free_struct(t_data *core);
-void			free_line(t_line *line);
-void			free_cmd(void *cont);
-void			free_var(void *cont);
-void			free_token(void *cont);
-void			free_line(t_line *line);
+void		free_struct(t_data *core);
+void		free_line(t_line *line);
+void		free_cmd(void *cont);
+void		free_var(void *cont);
+void		free_token(void *cont);
+void		free_line(t_line *line);
 
 /* errors */
-int send_error(char *err_msg, char *detail_msg, int exit_status);
+int			send_error(char *err_msg, char *detail_msg, int exit_status);
 
 /* printers */
 
-void	print_var_env(void *cont);
-void	print_var_exp(void *cont);
-void	print_str(void *cont);
-void	print_command(void *cont);
-void	print_tokens(void *cont);
-int		hola(char *str);
-void	print_execve(char *cmdpath, char **args, char **envp);
-void	print_fds(t_fds fds);
+void		print_var_env(void *cont);
+void		print_var_exp(void *cont);
+void		print_str(void *cont);
+void		print_command(void *cont);
+void		print_tokens(void *cont);
+int			hola(char *str);
+void		print_execve(char *cmdpath, char **args, char **envp);
+void		print_fds(t_fds fds);
 
 #endif
