@@ -28,7 +28,6 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)core/get_env_array.c			\
 				$(SRCDIR)parser/lexer.c					\
 				$(SRCDIR)parser/parser.c				\
-				$(SRCDIR)parser/tmp_parser.c			\
 				$(SRCDIR)parser/ast.c					\
 				$(SRCDIR)parser/initializations.c		\
 				$(SRCDIR)parser/expansions.c			\
@@ -50,6 +49,7 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)builtins/env.c					\
 				$(SRCDIR)builtins/exit.c				\
 				$(SRCDIR)utils/free_struct.c			\
+				$(SRCDIR)utils/free_cmd.c				\
 				$(SRCDIR)utils/printers.c				\
 				$(SRCDIR)utils/lexer_utils.c			\
 				$(SRCDIR)utils/errors.c					\
@@ -58,7 +58,8 @@ SRC				= $(SRCDIR)main.c						\
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -pedantic-errors -g3
+CFLAGS			= -Wall -Wextra -Werror -pedantic-errors
+CFLAGS			+= -g3
 LIBFLAG			=
 LIBREADLINE		= -lreadline
 LDFLAGS			= $(LIBREADLINE)
@@ -68,15 +69,12 @@ RFLAGS			= -rf
 
 all:			$(NAME)
 
-# asan:			fclean
 asan:			cleanbin
 asan:			CFLAGS += -fsanitize=address
 asan:			LIBFLAG = asan
 asan:			LIBNAME = libft_asan.a
-# asan:			LIBNAME = libft.a
 asan:			all
 
-# lsan:			fclean
 lsan:			cleanbin
 lsan:			CFLAGS += -fsanitize=leak
 lsan:			LIBFLAG = lsan
@@ -111,8 +109,8 @@ cleanbin:		clean
 				@echo "\033[0;32m--- $(NAME) cleaned successfully! ---\033[0m"
 
 fclean:			cleanbin
-				$(RM) $(RFLAGS) $(NAME) $(LIBNAME)
-				@echo "\033[0;32m--- Libft cleaned successfully! ---\033[0m"
+				$(RM) $(RFLAGS) $(LIBNAME)
+				@echo "\033[0;32m--- $(NAME) cleaned successfully! ---\033[0m"
 
 re:				fclean all
 

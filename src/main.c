@@ -14,14 +14,14 @@
 
 static void	signal_handler(int signum);
 
-uint8_t	curr_signal;
+uint8_t	g_curr_signal;
 
 int	main(int argc, char **argv, char **envp)
 {
-	int					retcode;
-	t_data				core;
-	(void)argc;
+	int		retcode;
+	t_data	core;
 
+	(void)argc;
 	if (init_core(&core, argv, envp))
 		return (ft_fdprintf(2, "minishell: allocation error\n"), EXIT_FAILURE);
 	while (1)
@@ -40,7 +40,7 @@ static void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		curr_signal = SIGINT;
+		g_curr_signal = SIGINT;
 		write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", FALSE);
 		rl_on_new_line();
