@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/24 12:41:29 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/25 19:10:09 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct s_redir
 {
 	char			*file;
 	t_redir_type	type;
-	t_token_type	token_type;
 }	t_redir;
 
 /**
@@ -150,11 +149,10 @@ int			init_core(t_data *core, char **argv, char **envp);
 
 /* lexer */
 
-t_list		*lexer(void);
+t_list		*lexer(t_data *core);
+char		*get_prompt(t_list *env);
 void		insert_token(char *value, t_list **token_list, int parse_quotes);
-uint8_t		is_flag(const char *value);
 uint8_t		is_word_token(const char *value);
-char		*handle_odd_quotes(char quote, uint16_t total_quotes, char *str);
 int32_t		get_next_quote_idx(const char *str, int32_t i);
 int			get_size_metachar(const char *user_input, uint32_t i);
 int32_t		get_str_size(const char *user_input, int32_t i);
@@ -214,7 +212,6 @@ void		free_line(t_line *line);
 void		free_cmd(void *cont);
 void		free_var(void *cont);
 void		free_token(void *cont);
-void		free_line(t_line *line);
 
 /* errors */
 int			send_error(char *err_msg, char *detail_msg, int exit_status);

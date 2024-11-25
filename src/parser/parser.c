@@ -18,7 +18,7 @@ void	parser(t_data *core)
 {
 	t_list	*token_list;
 
-	token_list = lexer();
+	token_list = lexer(core);
 	if (errno)
 	{
 		core->line = NULL;
