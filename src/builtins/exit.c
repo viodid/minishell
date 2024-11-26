@@ -45,10 +45,10 @@ void	do_exit(char *err, char *errarg, unsigned char errcode, int ischild)
 	exit(errcode);
 }
 
-int	ft_exit(char **args, int ischild)
+int	ft_exit(t_data *core, char **args, int ischild)
 {
 	if (!args[1])
-		do_exit(NULL, NULL, 0, ischild);
+		do_exit(NULL, NULL, core->errcode, ischild);
 	else if (!args[2] && ft_aredigits(args[1]))
 		do_exit(NULL, NULL, ft_atoi(args[1]), ischild);
 	else if (!ft_aredigits(args[1]))
