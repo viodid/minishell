@@ -33,8 +33,6 @@
 # include <sys/wait.h>
 # include <signal.h>
 
-extern volatile sig_atomic_t g_signum;
-
 /*================================== ENUMS ===================================*/
 
 typedef enum e_pipe_fds

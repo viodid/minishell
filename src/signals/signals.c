@@ -12,11 +12,8 @@
 
 #include "../../include/minishell.h"
 
-volatile sig_atomic_t	g_signum;
-
 static void	handle_interactive_signals(int g_signum)
 {
-	g_signum = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", FALSE);
 	rl_on_new_line();
@@ -37,7 +34,6 @@ static void	handle_non_interactive_signals(int g_signum)
 
 void	signal_handler(t_shell_mode mode)
 {
-	g_signum = 0;
 	if (mode == INTER)
 	{
 		signal(SIGINT, handle_interactive_signals);
