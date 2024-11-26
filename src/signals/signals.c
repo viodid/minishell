@@ -12,32 +12,32 @@
 
 #include "../../include/minishell.h"
 
-volatile sig_atomic_t	signum;
+volatile sig_atomic_t	g_signum;
 
-static void	handle_interactive_signals(int signum)
+static void	handle_interactive_signals(int g_signum)
 {
-	signum = 130;
+	g_signum = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", FALSE);
 	rl_on_new_line();
 	rl_redisplay();
-	(void) signum;
+	(void) g_signum;
 }
 
-static void	handle_non_interactive_signals(int signum)
+static void	handle_non_interactive_signals(int g_signum)
 {
-	if (signum == SIGINT)
+	if (g_signum == SIGINT)
 	{
 		ft_putendl_fd("\n", 2);
-		signum = 130;
+		g_signum = 130;
 	}
-	else if (signum == SIGQUIT)
+	else if (g_signum == SIGQUIT)
 		ft_putendl_fd("Quit\n", 5);
 }
 
 void	signal_handler(t_shell_mode mode)
 {
-	signum = 0;
+	g_signum = 0;
 	if (mode == INTER)
 	{
 		signal(SIGINT, handle_interactive_signals);
