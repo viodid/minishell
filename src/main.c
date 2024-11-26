@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:29:17 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/10/27 20:34:04 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 17:09:45 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	signal_handler(int signum);
 
-uint8_t	curr_signal;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -33,17 +32,5 @@ int	main(int argc, char **argv, char **envp)
 		core.line = NULL;
 		if (retcode)
 			return (free_struct(&core), retcode);
-	}
-}
-
-static void	signal_handler(int signum)
-{
-	if (signum == SIGINT)
-	{
-		curr_signal = SIGINT;
-		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", FALSE);
-		rl_on_new_line();
-		rl_redisplay();
 	}
 }

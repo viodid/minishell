@@ -13,6 +13,7 @@
 NAME			= minishell
 NAME_DBG		= dbg
 LIBNAME			= libft.a
+HOSTNAME		= $(shell hostname)
 
 SRCDIR			= src/
 INCDIR			= include/
@@ -101,7 +102,7 @@ $(LIBNAME):
 
 $(OBJDIR)%.o:	$(SRCDIR)%.c
 				@mkdir -p $(dir $@)
-				$(CC) $(CFLAGS) -c -o $@ $<
+				$(CC) -DHOSTNAME=\"$(HOSTNAME)\" $(CFLAGS) -c -o $@ $<
 
 clean:
 				$(RM) $(RFLAGS) $(OBJS)

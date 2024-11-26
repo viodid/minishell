@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/25 19:10:09 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 17:54:06 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # include <signal.h>
 
 # define HDOC_TMP	"_tmphdoc"
+
+extern volatile sig_atomic_t	g_signal;
 
 /* ENUMS */
 typedef enum e_pipe_fds
@@ -66,6 +68,13 @@ typedef enum e_token_type
 	SINGLE_QUOTES,
 	DOUBLE_QUOTES
 }	t_token_type;
+
+typedef enum s_mode
+{
+	INTER,
+	NONIN,
+	HERED,
+}	t_shell_mode;
 
 /* STRUCTS */
 typedef struct s_fds

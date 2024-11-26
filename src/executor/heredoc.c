@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/21 20:46:29 by dyunta            #+#    #+#             */
+/*   Updated: 2024/11/26 17:09:26 by dyunta           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 20:23:59 by kde-la-c          #+#    #+#             */
@@ -59,6 +71,7 @@ char	*heredoc_loop(char *limiter, char *tmpname)
 	if (fd == -1 || access(tmpname, F_OK) == -1)
 		return (NULL);
 	line = readline("> ");
+	g_signal = TRUE;
 	while (ft_strncmp(line, limiter, ft_strlen(limiter) + 1))
 	{
 		ft_putendl_fd(line, fd);
@@ -68,6 +81,7 @@ char	*heredoc_loop(char *limiter, char *tmpname)
 	heredoc_end_of_file(line);
 	free(line);
 	close(fd);
+	g_signal = FALSE;
 	return (tmpname);
 }
 
