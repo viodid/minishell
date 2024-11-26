@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:22:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/11/26 19:34:02 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 19:52:55 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	*get_prompt(t_list *env)
 	prompt = (char *) ft_calloc(1, sizeof(char));
 	if (!prompt)
 		exit(EXIT_FAILURE);
+    username = NULL;
+    cwd = NULL;
 	while (env)
 	{
 		content = (t_var *)env->content;
@@ -45,5 +47,9 @@ char	*get_prompt(t_list *env)
 			cwd = content->value;
 		env = env->next;
 	}
+    if (!username)
+		username = "";
+    if (!cwd)
+		cwd = "";
 	return (construct_words(prompt, username, cwd));
 }
