@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:18:39 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/26 17:59:23 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 18:27:08 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	exec_selector(t_data *core, t_command *command)
 	envp = get_env_array(core->env);
 	if (!envp)
 		exit(EXIT_FAILURE);
-	signal_handler(NONIN);
 	if (isbuiltin(args[0]))
 	{
 		retcode = exec_builtin(core, args[0], args);
@@ -106,6 +105,7 @@ int	executor(t_data *core)
 {
 	t_list	*commands;
 
+	signal_handler(NONIN);
 	if (core->line && core->line->cmds)
 		commands = core->line->cmds;
 	else
