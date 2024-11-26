@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: dyunta <dyunta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:22:00 by dyunta            #+#    #+#             */
-/*   Updated: 2024/11/26 16:34:07 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 19:34:02 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ char	*construct_words(char *prompt, char *username, char *cwd)
 	prompt = ft_strjoin_f1(prompt, BLU_BOLD);
 	prompt = ft_strjoin_f1(prompt, cwd);
 	prompt = ft_strjoin_f1(prompt, RES);
-	return(ft_strjoin_f1(prompt, "$ "));
+	return (ft_strjoin_f1(prompt, "$ "));
 }
 
 char	*get_prompt(t_list *env)
 {
 	char	*prompt;
-	t_var 	*content;
+	t_var	*content;
 	char	*username;
 	char	*cwd;
 
