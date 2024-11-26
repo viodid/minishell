@@ -1,3 +1,12 @@
+minishell
+dbg
+.vscode
+.idea
+ret
+_tmphdoc
+notes/test.c
+tmp
+
 # Prerequisites
 *.d
 
