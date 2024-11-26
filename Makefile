@@ -13,6 +13,7 @@
 NAME			= minishell
 NAME_DBG		= dbg
 LIBNAME			= libft.a
+HOSTNAME		= $(shell hostname)
 
 SRCDIR			= src/
 INCDIR			= include/
@@ -27,6 +28,7 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)core/init_core.c				\
 				$(SRCDIR)core/get_env_array.c			\
 				$(SRCDIR)parser/lexer.c					\
+				$(SRCDIR)parser/prompt.c				\
 				$(SRCDIR)parser/parser.c				\
 				$(SRCDIR)parser/ast.c					\
 				$(SRCDIR)parser/initializations.c		\
@@ -98,7 +100,7 @@ $(LIBNAME):
 
 $(OBJDIR)%.o:	$(SRCDIR)%.c
 				@mkdir -p $(dir $@)
-				$(CC) $(CFLAGS) -c -o $@ $<
+				$(CC) -DHOSTNAME=\"$(HOSTNAME)\" $(CFLAGS) -c -o $@ $<
 
 clean:
 				$(RM) $(RFLAGS) $(OBJS)

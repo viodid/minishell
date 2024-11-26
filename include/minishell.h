@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/24 12:41:29 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 18:15:14 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,13 @@ typedef enum e_token_type
 	DOUBLE_QUOTES
 }	t_token_type;
 
-/*================================= STRUCTS ==================================*/
+typedef enum s_mode
+{
+	INTER,
+	NONIN
+}	t_shell_mode;
 
+/* STRUCTS */
 typedef struct s_fds
 {
 	int	stdfdin;
@@ -94,7 +99,6 @@ typedef struct s_redir
 {
 	char			*file;
 	t_redir_type	type;
-	t_token_type	token_type;
 }	t_redir;
 
 /**
@@ -150,9 +154,13 @@ t_var		*split_var(char *var_brut);
 char		**get_env_array(t_list *env);
 int			init_core(t_data *core, char **argv, char **envp);
 
-/*================================== lexer ===================================*/
+/* signals */
+void		signal_handler(t_shell_mode mode);
 
-t_list		*lexer(void);
+/* lexer */
+
+t_list		*lexer(t_data *core);
+char		*get_prompt(t_list *env);
 void		insert_token(char *value, t_list **token_list, int parse_quotes);
 uint8_t		is_word_token(const char *value);
 int32_t		get_next_quote_idx(const char *str, int32_t i);

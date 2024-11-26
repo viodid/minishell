@@ -6,23 +6,23 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/11/24 11:16:52 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 18:09:49 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static t_list		*tokenizer(const char *user_input);
-static char			*loop_readline(void);
+static char			*loop_readline(t_data *core);
 static t_token_type	enum_token_value(const char *value, int parse_quotes);
 
-t_list	*lexer(void)
+t_list	*lexer(t_data *core)
 {
 	char	*user_input;
 	t_list	*token_list;
 
-	user_input = loop_readline();
-	if (!user_input || !*user_input)
+	user_input = loop_readline(core);
+	if (!*user_input)
 	{
 		errno = 42;
 		return (free(user_input), NULL);
@@ -99,14 +99,15 @@ static t_token_type	enum_token_value(const char *value, int parse_quotes)
 	return (-1);
 }
 
-static char	*loop_readline(void)
+static char	*loop_readline(t_data *core)
 {
 	char		*tmp_str1;
 	char		*tmp_str2;
 
 	tmp_str1 = NULL;
 	tmp_str2 = NULL;
-	tmp_str1 = readline("ˢʰᵉˡˡ > ");
+	signal_handler(INTER);
+	tmp_str1 = readline(get_prompt(core->env));
 	while (tmp_str1 && tmp_str1[0] && tmp_str1[ft_strlen(tmp_str1) - 1] == '\\')
 	{
 		tmp_str2 = ft_strtrim(tmp_str1, "\\");
