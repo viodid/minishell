@@ -25,6 +25,8 @@
 # define BLU_BOLD		"\001\033[1;34m\002"
 # define RES			"\001\033[0m\002"
 
+# define HDOC_TMP	"_tmphdoc"
+
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -33,9 +35,8 @@
 # include <sys/wait.h>
 # include <signal.h>
 
-# define HDOC_TMP	"_tmphdoc"
+/*================================== ENUMS ===================================*/
 
-/* ENUMS */
 typedef enum e_pipe_fds
 {
 	READ_FD,
@@ -145,7 +146,7 @@ typedef struct s_data
 	int		sv_stdout;
 }	t_data;
 
-/* core */
+/*=================================== core ===================================*/
 
 int			minishell(t_data *core);
 t_var		*get_env(t_data *core, char *key);
@@ -167,7 +168,8 @@ int			get_size_metachar(const char *user_input, uint32_t i);
 int32_t		get_str_size(const char *user_input, int32_t i);
 char		*remove_quotes(char *str);
 
-/* parser */
+/*================================== parser ==================================*/
+
 void		parser(t_data *core);
 t_redir		*initialize_redir(t_token *token);
 t_command	*initialize_cmd(void);
@@ -180,7 +182,7 @@ char		*find_var(const t_list *env, char *key, int errcode);
 char		*expand_var_concat(const t_list *env,
 				const char *value, int errcode);
 
-/* exec */
+/*=================================== exec ===================================*/
 
 int			executor(t_data *core);
 int			get_redirs(t_command *command, t_fds *fds);
@@ -202,7 +204,7 @@ int			exec_builtin(t_data *core, char *cmdpath, char **args);
 int			do_piperedir(t_data *core, int cmd_nb);
 int			close_parent_pipes(t_data *core, int cmd_nb);
 
-/* builtins */
+/*================================= builtins =================================*/
 
 int			ft_pwd(t_data *core);
 int			ft_echo(char **args);
@@ -214,7 +216,7 @@ int			ft_unset(t_data *core, char **args);
 int			unset_single(t_data *core, char *key);
 int			ft_exit(char **args, int ischild);
 
-/* utils */
+/*================================== utils ===================================*/
 
 void		free_struct(t_data *core);
 void		free_line(t_line *line);
@@ -222,18 +224,19 @@ void		free_cmd(void *cont);
 void		free_var(void *cont);
 void		free_token(void *cont);
 
-/* errors */
+/*================================== errors ==================================*/
+
 int			send_error(char *err_msg, char *detail_msg, int exit_status);
 
-/* printers */
+/*================================= printers =================================*/
 
 void		print_var_env(void *cont);
 void		print_var_exp(void *cont);
-void		print_str(void *cont);
-void		print_command(void *cont);
-void		print_tokens(void *cont);
-int			hola(char *str);
-void		print_execve(char *cmdpath, char **args, char **envp);
-void		print_fds(t_fds fds);
+
+// void		print_command(void *cont);
+// void		print_redirs(void *cont);
+// void		print_tokens(void *cont);
+// void		print_execve(char *cmdpath, char **args, char **envp);
+// void		print_fds(t_fds fds);
 
 #endif

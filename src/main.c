@@ -14,10 +14,10 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int					retcode;
-	t_data				core;
-	(void)argc;
+	int		retcode;
+	t_data	core;
 
+	(void)argc;
 	if (init_core(&core, argv, envp))
 		return (ft_fdprintf(2, "minishell: allocation error\n"), EXIT_FAILURE);
 	while (1)
