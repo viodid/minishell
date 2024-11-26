@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/26 17:54:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 18:07:39 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,9 @@ t_var		*get_env(t_data *core, char *key);
 t_var		*split_var(char *var_brut);
 char		**get_env_array(t_list *env);
 int			init_core(t_data *core, char **argv, char **envp);
+
+/* signals */
+void		signal_handler(t_shell_mode mode);
 
 /* lexer */
 
