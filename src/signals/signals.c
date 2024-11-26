@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: dyunta <dyunta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:22:43 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/26 18:28:51 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 20:20:50 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+volatile sig_atomic_t	signum;
+
 static void	handle_interactive_signals(int signum)
 {
+	signum = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", FALSE);
 	rl_on_new_line();
@@ -24,13 +27,17 @@ static void	handle_interactive_signals(int signum)
 static void	handle_non_interactive_signals(int signum)
 {
 	if (signum == SIGINT)
+	{
 		ft_putendl_fd("\n", 2);
+		signum = 130;
+	}
 	else if (signum == SIGQUIT)
 		ft_putendl_fd("Quit\n", 5);
 }
 
 void	signal_handler(t_shell_mode mode)
 {
+	signum = 0;
 	if (mode == INTER)
 	{
 		signal(SIGINT, handle_interactive_signals);

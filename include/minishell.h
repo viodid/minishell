@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
+/*   By: dyunta <dyunta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/26 18:15:14 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 20:19:17 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # endif
 
 # define METACHARACTERS " |<>\t\n"
-
-// TODO: siginterrupt in heredoc, i.e. ctrl-c
 
 # define GRN_BOLD		"\001\033[1;32m\002"
 # define BLU_BOLD		"\001\033[1;34m\002"
@@ -34,6 +32,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+
+extern volatile sig_atomic_t signum;
 
 /*================================== ENUMS ===================================*/
 
