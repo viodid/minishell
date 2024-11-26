@@ -36,8 +36,8 @@ char	*get_prompt(t_list *env)
 	prompt = (char *) ft_calloc(1, sizeof(char));
 	if (!prompt)
 		exit(EXIT_FAILURE);
-    username = NULL;
-    cwd = NULL;
+	username = NULL;
+	cwd = NULL;
 	while (env)
 	{
 		content = (t_var *)env->content;
@@ -47,9 +47,9 @@ char	*get_prompt(t_list *env)
 			cwd = content->value;
 		env = env->next;
 	}
-    if (!username)
+	if (!username)
 		username = "";
-    if (!cwd)
+	if (!cwd)
 		cwd = "";
 	return (construct_words(prompt, username, cwd));
 }
