@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid>       +#+  +:+       +#+        */
+/*   By: dyunta <dyunta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/26 18:15:14 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 20:19:17 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # endif
 
 # define METACHARACTERS " |<>\t\n"
-
-// TODO: siginterrupt in heredoc, i.e. ctrl-c
 
 # define GRN_BOLD		"\001\033[1;32m\002"
 # define BLU_BOLD		"\001\033[1;34m\002"
@@ -214,7 +212,7 @@ int			ft_export(t_data *core, char **args);
 int			export_single(t_data *core, char *arg);
 int			ft_unset(t_data *core, char **args);
 int			unset_single(t_data *core, char *key);
-int			ft_exit(char **args, int ischild);
+int			ft_exit(t_data *core, char **args, int ischild);
 
 /*================================== utils ===================================*/
 

@@ -36,7 +36,7 @@ int	exec_builtin(t_data *core, char *cmdpath, char **args)
 	else if (!ft_strncmp(cmdpath, "env", 4))
 		core->errcode = ft_env(core);
 	else if (!ft_strncmp(cmdpath, "exit", 5))
-		core->errcode = ft_exit(args, core->line->nbcommands > 1);
+		core->errcode = ft_exit(core, args, core->line->nbcommands > 1);
 	else if (!ft_strncmp(cmdpath, "export", 7))
 		core->errcode = ft_export(core, args);
 	else if (!ft_strncmp(cmdpath, "unset", 6))

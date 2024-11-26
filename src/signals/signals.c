@@ -3,29 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kde-la-c <kde-la-c@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: dyunta <dyunta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:22:43 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/26 18:28:51 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 20:20:50 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	handle_interactive_signals(int signum)
+static void	handle_interactive_signals(int g_signum)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", FALSE);
 	rl_on_new_line();
 	rl_redisplay();
-	(void) signum;
+	(void) g_signum;
 }
 
-static void	handle_non_interactive_signals(int signum)
+static void	handle_non_interactive_signals(int g_signum)
 {
-	if (signum == SIGINT)
+	if (g_signum == SIGINT)
+	{
 		ft_putendl_fd("\n", 2);
-	else if (signum == SIGQUIT)
+		g_signum = 130;
+	}
+	else if (g_signum == SIGQUIT)
 		ft_putendl_fd("Quit\n", 5);
 }
 

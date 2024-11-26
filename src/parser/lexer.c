@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:12:28 by dyunta            #+#    #+#             */
-/*   Updated: 2024/11/26 18:09:49 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/26 21:52:46 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,16 @@ static t_token_type	enum_token_value(const char *value, int parse_quotes)
 
 static char	*loop_readline(t_data *core)
 {
-	char		*tmp_str1;
-	char		*tmp_str2;
+	char	*tmp_str1;
+	char	*tmp_str2;
+	char	*prompt;
 
 	tmp_str1 = NULL;
 	tmp_str2 = NULL;
 	signal_handler(INTER);
-	tmp_str1 = readline(get_prompt(core->env));
+	prompt = get_prompt(core->env);
+	tmp_str1 = readline(prompt);
+	free(prompt);
 	while (tmp_str1 && tmp_str1[0] && tmp_str1[ft_strlen(tmp_str1) - 1] == '\\')
 	{
 		tmp_str2 = ft_strtrim(tmp_str1, "\\");
