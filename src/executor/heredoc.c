@@ -67,9 +67,8 @@ char	*heredoc_loop(t_data *core, char *limiter, char *tmpname)
 		line = readline("> ");
 	}
 	heredoc_end_of_file(line);
-	free(line);
 	close(fd);
-	return (tmpname);
+	return (free(line), tmpname);
 }
 
 char	*do_heredoc(t_data *core, t_list *redirs, t_redir **lasthdoc)
@@ -100,7 +99,6 @@ int	do_heredocs(t_data *core)
 	t_list		*redirs;
 	t_redir		*lasthdoc;
 	char		*tmpfile;
-
 
 	commands = core->line->cmds;
 	while (commands && commands->content)
