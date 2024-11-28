@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:27:29 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/28 19:32:47 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/28 19:48:23 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int			close_fds(t_fds *fds);
 int			reset_stdfds(t_data *core);
 int			save_stdfds(t_data *core);
 int			init_pipes(t_data *core);
-int			do_heredocs(t_list *commands);
+int			do_heredocs(t_data *core);
 int			do_fileredir(t_command *command, t_fds fds);
 int			exec_builtin(t_data *core, char *cmdpath, char **args);
 int			do_piperedir(t_data *core, int cmd_nb);
