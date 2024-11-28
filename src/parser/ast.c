@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/11/21 21:05:06 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/28 18:43:54 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,12 @@ t_command	*command(t_list *token_list, t_token **look_ahead)
 	if (!errno && !cmd->tokens && !cmd->redirs)
 	{
 		errno = 42;
-		send_error("syntax error near unexpected token: ",
-			(*look_ahead)->value, 1);
+		if (*look_ahead)
+			send_error("syntax error near unexpected token: ",
+				(*look_ahead)->value, 1);
+		else
+			send_error("syntax error near unexpected token: ",
+				((t_token *)ft_lstlast(token_list)->content)->value, 1);
 	}
 	if (errno)
 		return (free_cmd(cmd), NULL);
