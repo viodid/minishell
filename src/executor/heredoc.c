@@ -49,7 +49,8 @@ char	*heredoc_loop(t_data *core, char *limiter, char *tmpname)
 
 	if (!tmpname)
 	{
-		if (!get_tmpname())
+		tmpname = get_tmpname();
+		if (!tmpname)
 			return (NULL);
 	}
 	else
