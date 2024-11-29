@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/11/29 18:49:07 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/29 19:36:11 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,23 @@ t_list	*execute_expansions(t_list *token_list, const t_list *env, int err)
 	t_token_type	type;
 	t_list			*head;
 	char			*value;
+	uint8_t			flag;
 
 	head = token_list;
+	flag = FALSE;
 	while (token_list)
 	{
 		type = ((t_token *)token_list->content)->type;
 		value = ((t_token *)token_list->content)->value;
-		if (type == WORD)
+		if (!ft_strncmp(value, "<<", ft_strlen("<<")))
+			flag = TRUE;
+		else if (type == WORD)
 		{
-			value = expand_home(value, env, err);
-			((t_token *)token_list->content)->value = expand(env, value, err);
+			if (!flag)
+				((t_token *)token_list->content)->value = expand(env,
+						expand_home(value, env, err), err);
+			else
+				flag = FALSE;
 		}
 		token_list = token_list->next;
 	}
@@ -46,6 +53,7 @@ static char	*expand(const t_list *env, char *value, int errcode)
 	t_token	*token;
 
 	tmp_token_list = tokenizer(value);
+	free(value);
 	head_list = tmp_token_list;
 	expand_token_filter_quotes(tmp_token_list, env, errcode);
 	value = ft_calloc(1, 1);
