@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/10/23 20:43:09 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/29 18:23:51 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static char		*expand(const t_list *env, char *value, int errcode);
 static t_list	*tokenizer(const char *user_input);
+static void		expand_token_filter_quotes(t_list *token_list,
+					const t_list *env, int errcode);
 
 t_list	*execute_expansions(t_list *token_list, const t_list *env, int err)
 {
@@ -42,6 +44,26 @@ t_list	*execute_expansions(t_list *token_list, const t_list *env, int err)
 		token_list = token_list->next;
 	}
 	return (head);
+}
+
+static char	*expand(const t_list *env, char *value, int errcode)
+{
+	t_list	*tmp_token_list;
+	t_list	*head_list;
+	t_token	*token;
+
+	tmp_token_list = tokenizer(value);
+	head_list = tmp_token_list;
+	expand_token_filter_quotes(tmp_token_list, env, errcode);
+	value = ft_calloc(1, 1);
+	while (tmp_token_list)
+	{
+		token = tmp_token_list->content;
+		value = ft_strjoin_f1(value, token->value);
+		tmp_token_list = tmp_token_list->next;
+	}
+	ft_lstclear(&head_list, &free_token);
+	return (value);
 }
 
 static t_list	*tokenizer(const char *user_input)
@@ -93,26 +115,6 @@ static void	expand_token_filter_quotes(t_list *token_list,
 		}
 		token_list = token_list->next;
 	}
-}
-
-static char	*expand(const t_list *env, char *value, int errcode)
-{
-	t_list	*tmp_token_list;
-	t_list	*head_list;
-	t_token	*token;
-
-	tmp_token_list = tokenizer(value);
-	head_list = tmp_token_list;
-	expand_token_filter_quotes(tmp_token_list, env, errcode);
-	value = ft_calloc(1, 1);
-	while (tmp_token_list)
-	{
-		token = tmp_token_list->content;
-		value = ft_strjoin_f1(value, token->value);
-		tmp_token_list = tmp_token_list->next;
-	}
-	ft_lstclear(&head_list, &free_token);
-	return (value);
 }
 
 /*
