@@ -6,13 +6,14 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/11/29 18:23:51 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/29 18:49:07 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static char		*expand(const t_list *env, char *value, int errcode);
+char			*expand_home(char *value, const t_list *env, int err);
 static t_list	*tokenizer(const char *user_input);
 static void		expand_token_filter_quotes(t_list *token_list,
 					const t_list *env, int errcode);
@@ -22,7 +23,6 @@ t_list	*execute_expansions(t_list *token_list, const t_list *env, int err)
 	t_token_type	type;
 	t_list			*head;
 	char			*value;
-	char			*tmp_str;
 
 	head = token_list;
 	while (token_list)
@@ -31,15 +31,8 @@ t_list	*execute_expansions(t_list *token_list, const t_list *env, int err)
 		value = ((t_token *)token_list->content)->value;
 		if (type == WORD)
 		{
-			tmp_str = value;
-			if (*value == '~')
-			{
-				value = ft_strjoin_f1(find_var(env, "HOME", err), value + 1);
-				free(tmp_str);
-				tmp_str = value;
-			}
+			value = expand_home(value, env, err);
 			((t_token *)token_list->content)->value = expand(env, value, err);
-			free(tmp_str);
 		}
 		token_list = token_list->next;
 	}
@@ -115,6 +108,20 @@ static void	expand_token_filter_quotes(t_list *token_list,
 		}
 		token_list = token_list->next;
 	}
+}
+
+char	*expand_home(char *value, const t_list *env, int err)
+{
+	char	*tmp_val;
+
+	tmp_val = value;
+	if (*value == '~')
+	{
+		value = ft_strjoin_f1(find_var(env, "HOME", err), value + 1);
+		free(tmp_val);
+		tmp_val = value;
+	}
+	return (tmp_val);
 }
 
 /*
