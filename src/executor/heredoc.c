@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 18:45:12 by dyunta            #+#    #+#             */
+/*   Updated: 2024/11/29 19:43:06 by dyunta           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: kde-la-c <kde-la-c@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 20:23:59 by kde-la-c          #+#    #+#             */
@@ -46,6 +58,7 @@ char	*heredoc_loop(t_data *core, char *limiter, char *tmpname)
 {
 	int		fd;
 	char	*line;
+	char	*tmp_line;
 
 	if (!tmpname)
 	{
@@ -61,7 +74,9 @@ char	*heredoc_loop(t_data *core, char *limiter, char *tmpname)
 	line = readline("> ");
 	while (ft_strncmp(line, limiter, ft_strlen(limiter) + 1))
 	{
-		line = expand_var_concat(core->env, line, core->errcode);
+		tmp_line = expand_var_concat(core->env, line, core->errcode);
+		free(line);
+		line = tmp_line;
 		ft_putendl_fd(line, fd);
 		free(line);
 		line = readline("> ");
