@@ -143,10 +143,11 @@ t_var		*split_var(char *var_brut);
 char		**get_env_array(t_list *env);
 int			init_core(t_data *core, char **argv, char **envp);
 
-/* signals */
+/*================================= signals ==================================*/
+
 void		signal_handler(t_shell_mode mode);
 
-/* lexer */
+/*================================== lexer ===================================*/
 
 t_list		*lexer(t_data *core);
 char		*get_prompt(t_list *env);

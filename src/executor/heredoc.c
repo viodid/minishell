@@ -48,14 +48,6 @@ char	*heredoc_loop(t_data *core, char *limiter, char *tmpname)
 	char	*line;
 	char	*tmp_line;
 
-	if (!tmpname)
-	{
-		tmpname = get_tmpname();
-		if (!tmpname)
-			return (NULL);
-	}
-	else
-		unlink(tmpname);
 	fd = open(tmpname, O_RDWR | O_CREAT | O_EXCL, 0644);
 	if (fd == -1 || access(tmpname, F_OK) == -1)
 		return (NULL);
@@ -85,6 +77,14 @@ char	*do_heredoc(t_data *core, t_list *redirs, t_redir **lasthdoc)
 		redir = (t_redir *)redirs->content;
 		if (redir->type == HEREDOC)
 		{
+			if (!ret)
+			{
+				ret = get_tmpname();
+				if (!ret)
+					return (NULL);
+			}
+			else
+				unlink(ret);
 			ret = heredoc_loop(core, redir->file, ret);
 			if (!ret)
 				return (perror("heredoc"), NULL);
