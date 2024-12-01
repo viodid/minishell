@@ -56,6 +56,7 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)utils/lexer_utils.c			\
 				$(SRCDIR)utils/errors.c					\
 				$(SRCDIR)utils/expansions_utils.c		\
+				$(SRCDIR)utils/expansions_utils_2.c		\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
