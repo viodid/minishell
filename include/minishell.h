@@ -147,6 +147,7 @@ int			init_core(t_data *core, char **argv, char **envp);
 /*================================= signals ==================================*/
 
 void		signal_handler(t_shell_mode mode);
+void		set_child_signals(void);
 
 /*================================== lexer ===================================*/
 

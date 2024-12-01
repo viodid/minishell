@@ -59,7 +59,7 @@ char	*get_cmdpath(char *cmd, t_var *envpaths)
 	char	*ret;
 	char	**paths;
 
-	if (!access(cmd, X_OK))
+	if ((!envpaths || ft_strchr(cmd, '/')) && !access(cmd, X_OK))
 		return (cmd);
 	if (!envpaths)
 		return (ft_fdprintf(2, "%s: command not found\n", cmd), NULL);

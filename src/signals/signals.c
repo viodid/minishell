@@ -12,23 +12,23 @@
 
 #include "../../include/minishell.h"
 
-static void	handle_interactive_signals(int g_signum)
+static void	handle_interactive_signals(int signum)
 {
-	write(STDOUT_FILENO, "\n", 1);
+	write(STDERR_FILENO, "\n", 1);
 	rl_replace_line("", FALSE);
 	rl_on_new_line();
 	rl_redisplay();
-	(void) g_signum;
+	(void) signum;
 }
 
-static void	handle_non_interactive_signals(int g_signum)
+static void	handle_non_interactive_signals(int signum)
 {
-	if (g_signum == SIGINT)
+	if (signum == SIGINT)
 	{
 		ft_putendl_fd("\n", 2);
-		g_signum = 130;
+		signum = 130;
 	}
-	else if (g_signum == SIGQUIT)
+	else if (signum == SIGQUIT)
 		ft_putendl_fd("Quit\n", 5);
 }
 
