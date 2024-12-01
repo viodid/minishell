@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # ifndef HOSTNAME
-#  define HOSTNAME	"host"
+#  define HOSTNAME		"host"
 # endif
 
 # define METACHARACTERS " |<>\t\n"
@@ -63,7 +63,8 @@ typedef enum s_mode
 	NONIN
 }	t_shell_mode;
 
-/* STRUCTS */
+/*================================= STRUCTS ==================================*/
+
 typedef struct s_fds
 {
 	int	stdfdin;
