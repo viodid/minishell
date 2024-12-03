@@ -6,7 +6,7 @@
 /*   By: dyunta <dyunta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:22:43 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/29 19:59:36 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/12/03 20:15:36 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	handle_non_interactive_signals(int signum)
 	if (signum == SIGINT)
 		ft_putendl_fd("\n", 2);
 	else if (signum == SIGQUIT)
-		ft_putendl_fd("Quit\n", 5);
+		ft_putendl_fd("Quit\n", 2);
 }
 
 void	signal_handler(t_shell_mode mode)
