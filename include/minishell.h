@@ -147,7 +147,6 @@ int			init_core(t_data *core, char **argv, char **envp);
 /*================================= signals ==================================*/
 
 void		signal_handler(t_shell_mode mode);
-void		set_child_signals(void);
 
 /*================================== lexer ===================================*/
 
@@ -205,7 +204,6 @@ int			ft_env(t_data *core);
 int			ft_export(t_data *core, char **args);
 int			export_single(t_data *core, char *arg);
 int			ft_unset(t_data *core, char **args);
-int			unset_single(t_data *core, char *key);
 int			ft_exit(t_data *core, char **args, int ischild);
 
 /*================================== utils ===================================*/

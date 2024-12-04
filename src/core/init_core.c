@@ -41,7 +41,7 @@ t_var	*split_var(char *var_brut)
 	return (free(tmpenv), var);
 }
 
-int	set_shlvl(t_data *core)
+static int	set_shlvl(t_data *core)
 {
 	int		lvlnb;
 	char	*newvar;
@@ -60,7 +60,7 @@ int	set_shlvl(t_data *core)
 	return (EXIT_SUCCESS);
 }
 
-char	**set_basic_env(char *argv0)
+static char	**set_basic_env(char *argv0)
 {
 	char	**ret;
 	char	*cwd;
@@ -83,7 +83,7 @@ char	**set_basic_env(char *argv0)
 	return (ret);
 }
 
-t_list	*set_env(char **argv, char **envp)
+static t_list	*set_env(char **argv, char **envp)
 {
 	int		i;
 	char	**env;

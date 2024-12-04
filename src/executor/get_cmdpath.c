@@ -33,7 +33,7 @@ char	**get_arg_array(t_command *command)
 	return (ret);
 }
 
-char	*loop_path(char *cmd, char **paths)
+static char	*loop_path(char *cmd, char **paths)
 {
 	int		i;
 	char	*ret;

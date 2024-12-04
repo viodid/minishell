@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	ft_aredigits(char *str)
+static int	ft_aredigits(char *str)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ int	ft_aredigits(char *str)
 	return (TRUE);
 }
 
-void	do_exit(char *err, char *errarg, unsigned char errcode, int ischild)
+static void	do_exit(char *err, char *errarg, unsigned char errcode, int ischild)
 {
 	if (ischild)
 		return ;

@@ -30,7 +30,7 @@ int	hasoutput(t_list *redirs)
 	return (FALSE);
 }
 
-int	create_outfile(char *filename, int fd, int type)
+static int	create_outfile(char *filename, int fd, int type)
 {
 	int	flags;
 
@@ -44,7 +44,7 @@ int	create_outfile(char *filename, int fd, int type)
 	return (fd);
 }
 
-int	get_output(t_list *redirs)
+static int	get_output(t_list *redirs)
 {
 	int		fd;
 	t_redir	*redir;
