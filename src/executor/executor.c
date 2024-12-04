@@ -6,7 +6,7 @@
 /*   By: kde-la-c <kde-la-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:18:39 by kde-la-c          #+#    #+#             */
-/*   Updated: 2024/11/26 18:27:08 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/28 19:48:51 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,9 @@ int	executor(t_data *core)
 	t_list	*commands;
 
 	signal_handler(NONIN);
-	if (core->line && core->line->cmds)
-		commands = core->line->cmds;
-	else
+	if (!core->line || !core->line->cmds)
 		return (EXIT_SUCCESS);
-	if (do_heredocs(commands) || init_pipes(core) || save_stdfds(core))
+	if (do_heredocs(core) || init_pipes(core) || save_stdfds(core))
 		return (EXIT_FAILURE);
 	commands = core->line->cmds;
 	if (ft_lstsize(commands) == 0)

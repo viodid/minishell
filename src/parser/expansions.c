@@ -6,42 +6,65 @@
 /*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:10:08 by dyunta            #+#    #+#             */
-/*   Updated: 2024/10/23 20:43:09 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/11/29 19:36:11 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static char		*expand(const t_list *env, char *value, int errcode);
+char			*expand_home(char *value, const t_list *env, int err);
 static t_list	*tokenizer(const char *user_input);
+static void		expand_token_filter_quotes(t_list *token_list,
+					const t_list *env, int errcode);
 
 t_list	*execute_expansions(t_list *token_list, const t_list *env, int err)
 {
 	t_token_type	type;
 	t_list			*head;
 	char			*value;
-	char			*tmp_str;
+	uint8_t			flag;
 
 	head = token_list;
+	flag = FALSE;
 	while (token_list)
 	{
 		type = ((t_token *)token_list->content)->type;
 		value = ((t_token *)token_list->content)->value;
-		if (type == WORD)
+		if (!ft_strncmp(value, "<<", ft_strlen("<<")))
+			flag = TRUE;
+		else if (type == WORD)
 		{
-			tmp_str = value;
-			if (*value == '~')
-			{
-				value = ft_strjoin_f1(find_var(env, "HOME", err), value + 1);
-				free(tmp_str);
-				tmp_str = value;
-			}
-			((t_token *)token_list->content)->value = expand(env, value, err);
-			free(tmp_str);
+			if (!flag)
+				((t_token *)token_list->content)->value = expand(env,
+						expand_home(value, env, err), err);
+			else
+				flag = FALSE;
 		}
 		token_list = token_list->next;
 	}
 	return (head);
+}
+
+static char	*expand(const t_list *env, char *value, int errcode)
+{
+	t_list	*tmp_token_list;
+	t_list	*head_list;
+	t_token	*token;
+
+	tmp_token_list = tokenizer(value);
+	free(value);
+	head_list = tmp_token_list;
+	expand_token_filter_quotes(tmp_token_list, env, errcode);
+	value = ft_calloc(1, 1);
+	while (tmp_token_list)
+	{
+		token = tmp_token_list->content;
+		value = ft_strjoin_f1(value, token->value);
+		tmp_token_list = tmp_token_list->next;
+	}
+	ft_lstclear(&head_list, &free_token);
+	return (value);
 }
 
 static t_list	*tokenizer(const char *user_input)
@@ -95,45 +118,16 @@ static void	expand_token_filter_quotes(t_list *token_list,
 	}
 }
 
-static char	*expand(const t_list *env, char *value, int errcode)
+char	*expand_home(char *value, const t_list *env, int err)
 {
-	t_list	*tmp_token_list;
-	t_list	*head_list;
-	t_token	*token;
+	char	*tmp_val;
 
-	tmp_token_list = tokenizer(value);
-	head_list = tmp_token_list;
-	expand_token_filter_quotes(tmp_token_list, env, errcode);
-	value = ft_calloc(1, 1);
-	while (tmp_token_list)
+	tmp_val = value;
+	if (*value == '~')
 	{
-		token = tmp_token_list->content;
-		value = ft_strjoin_f1(value, token->value);
-		tmp_token_list = tmp_token_list->next;
+		value = ft_strjoin_f1(find_var(env, "HOME", err), value + 1);
+		free(tmp_val);
+		tmp_val = value;
 	}
-	ft_lstclear(&head_list, &free_token);
-	return (value);
-}
-
-/*
- * find_var finds the correct value in t_list *env at key, allocates enough
- * space for value and returns it.
-*/
-char	*find_var(const t_list *env, char *key, int errcode)
-{
-	t_var	*var;
-	char	*empty_str;
-
-	if (ft_strncmp(key, "?", ft_strlen(key)) == 0)
-		return (ft_itoa(errcode));
-	while (env)
-	{
-		var = ((t_var *)env->content);
-		if (ft_strlen(key) == ft_strlen(var->key)
-			&& ft_strncmp(key, var->key, ft_strlen(key)) == 0)
-			return (ft_strdup(var->value));
-		env = env->next;
-	}
-	empty_str = ft_calloc(1, 1);
-	return (empty_str);
+	return (tmp_val);
 }
