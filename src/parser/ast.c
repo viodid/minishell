@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   production_rules.c                                 :+:      :+:    :+:   */
+/*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyunta <dyunta@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: dyunta <dyunta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:33:21 by dyunta            #+#    #+#             */
-/*   Updated: 2024/11/28 18:43:54 by dyunta           ###   ########.fr       */
+/*   Updated: 2024/12/04 19:13:10 by dyunta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ static void	redirection(t_list *token_list, t_token **look_ahead,
 		get_next_token(token_list, look_ahead);
 		if (!*look_ahead || (*look_ahead)->type != WORD)
 		{
+			free(redir);
 			if (!errno)
 			{
-				free(redir);
 				if (*look_ahead == NULL)
 					send_error("missing redirection identifier",
 						"", 1);
