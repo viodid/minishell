@@ -22,7 +22,7 @@ void	free_token(void *cont)
 	free(cont);
 }
 
-void	free_redir(void *cont)
+static void	free_redir(void *cont)
 {
 	t_redir	*redir;
 

@@ -23,7 +23,7 @@ void	free_var(void *cont)
 	free(cont);
 }
 
-void	unlink_hdocs(t_line *line)
+static void	unlink_hdocs(t_line *line)
 {
 	t_list		*commands;
 	t_command	*command;

@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void	extra_parsings(t_data *core)
+static void	extra_parsings(t_data *core)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ void	extra_parsings(t_data *core)
 	}
 }
 
-int	check_retstatus(int status)
+static int	check_retstatus(int status)
 {
 	if (WIFEXITED(status) == TRUE)
 		return (WEXITSTATUS(status));
@@ -64,25 +64,3 @@ int	minishell(t_data *core)
 	}
 	return (retcode);
 }
-
-// int	minishell(t_data *core)
-// {
-// 	int			retcode;
-// 	char		*str;
-// 	char		**cmds;
-
-// 	str = readline("ˢʰᵉˡˡ$>");
-// 	cmds = ft_split(str, '|');
-// 	if (!cmds)
-// 		return (EXIT_SUCCESS);
-// 	if (core->line && core->line->cmds)
-// 		ft_lstclear(&core->line->cmds, free_cmd);
-// 	tmp_parser(core, cmds);
-
-// 	retcode = executor(core);
-// 	if (ft_strlen(str))
-// 		add_history(str);
-// 	free(str);
-// 	ft_dfree((void **)cmds);
-// 	return (retcode);
-// }

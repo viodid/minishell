@@ -30,7 +30,7 @@ int	hasinput(t_list *redirs)
 	return (FALSE);
 }
 
-int	check_infile(char *infile, int fd, int iscommand)
+static int	check_infile(char *infile, int fd, int iscommand)
 {
 	if (fd > 2)
 		close(fd);
@@ -43,7 +43,7 @@ int	check_infile(char *infile, int fd, int iscommand)
 	return (fd);
 }
 
-int	get_input(t_list *redirs, int iscommand)
+static int	get_input(t_list *redirs, int iscommand)
 {
 	int		fd;
 	t_redir	*redir;

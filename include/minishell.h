@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # ifndef HOSTNAME
-#  define HOSTNAME	"host"
+#  define HOSTNAME		"host"
 # endif
 
 # define METACHARACTERS " |<>\t\n"
@@ -63,7 +63,8 @@ typedef enum s_mode
 	NONIN
 }	t_shell_mode;
 
-/* STRUCTS */
+/*================================= STRUCTS ==================================*/
+
 typedef struct s_fds
 {
 	int	stdfdin;
@@ -203,7 +204,6 @@ int			ft_env(t_data *core);
 int			ft_export(t_data *core, char **args);
 int			export_single(t_data *core, char *arg);
 int			ft_unset(t_data *core, char **args);
-int			unset_single(t_data *core, char *key);
 int			ft_exit(t_data *core, char **args, int ischild);
 
 /*================================== utils ===================================*/
