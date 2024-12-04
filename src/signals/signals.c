@@ -14,7 +14,7 @@
 
 static void	handle_interactive_signals(int signum)
 {
-	write(STDOUT_FILENO, "\n", 1);
+	write(STDERR_FILENO, "\n", 1);
 	rl_replace_line("", FALSE);
 	rl_on_new_line();
 	rl_redisplay();
@@ -24,9 +24,12 @@ static void	handle_interactive_signals(int signum)
 static void	handle_non_interactive_signals(int signum)
 {
 	if (signum == SIGINT)
+	{
 		ft_putendl_fd("\n", 2);
+		signum = 130;
+	}
 	else if (signum == SIGQUIT)
-		ft_putendl_fd("Quit\n", 2);
+		ft_putendl_fd("Quit\n", 5);
 }
 
 void	signal_handler(t_shell_mode mode)

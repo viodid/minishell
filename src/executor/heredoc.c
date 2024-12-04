@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char	*get_tmpname(void)
+static char	*get_tmpname(void)
 {
 	int		i;
 	char	*id;
@@ -42,7 +42,7 @@ static void	heredoc_end_of_file(const char *line)
 			"here-document delimited by end-of-file", EXIT_SUCCESS);
 }
 
-char	*heredoc_loop(t_data *core, char *limiter, char *tmpname)
+static char	*heredoc_loop(t_data *core, char *limiter, char *tmpname)
 {
 	int		fd;
 	char	*line;
@@ -66,7 +66,7 @@ char	*heredoc_loop(t_data *core, char *limiter, char *tmpname)
 	return (free(line), tmpname);
 }
 
-char	*do_heredoc(t_data *core, t_list *redirs, t_redir **lasthdoc)
+static char	*do_heredoc(t_data *core, t_list *redirs, t_redir **lasthdoc)
 {
 	char	*ret;
 	t_redir	*redir;

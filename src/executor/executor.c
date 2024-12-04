@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	exec_selector(t_data *core, t_command *command)
+static int	exec_selector(t_data *core, t_command *command)
 {
 	int		retcode;
 	char	*cmdpath;
@@ -38,7 +38,7 @@ int	exec_selector(t_data *core, t_command *command)
 	exit(EXIT_FAILURE);
 }
 
-int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
+static int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 {
 	int		retcode;
 
@@ -57,7 +57,7 @@ int	run_single(t_data *core, t_command *command, t_fds fds, int cmd_nb)
 	return (retcode);
 }
 
-int	process_single(t_data *core, t_command *command, int cmd_nb)
+static int	process_single(t_data *core, t_command *command, int cmd_nb)
 {
 	int		pid;
 
@@ -85,7 +85,7 @@ int	process_single(t_data *core, t_command *command, int cmd_nb)
 	return (EXIT_SUCCESS);
 }
 
-int	process_multiple(t_data *core, t_list *commands)
+static int	process_multiple(t_data *core, t_list *commands)
 {
 	int			i;
 	t_command	*command;

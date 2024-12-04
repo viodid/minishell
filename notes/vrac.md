@@ -1,3 +1,6 @@
+- fix CTRL-C
+	- handle return value
+	- CTRL-C inside nested shells shouldn't send signal to all shells (multiple `\n`)
 - before defence
 	- norminette
 	- battery tests with valgrind

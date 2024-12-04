@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	unset_single(t_data *core, char *key)
+static int	unset_single(t_data *core, char *key)
 {
 	t_list	*tmp;
 	t_var	*var;

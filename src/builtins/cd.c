@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	update_pwd(t_data *core, char *oldpwd)
+static int	update_pwd(t_data *core, char *oldpwd)
 {
 	char	*newcwd;
 	char	*var;
@@ -31,7 +31,7 @@ int	update_pwd(t_data *core, char *oldpwd)
 	return (EXIT_SUCCESS);
 }
 
-char	*get_oldpwd(t_data *core)
+static char	*get_oldpwd(t_data *core)
 {
 	char	*ret;
 	t_var	*var;
@@ -45,7 +45,7 @@ char	*get_oldpwd(t_data *core)
 	return (ret);
 }
 
-int	access_newcwd(char *path)
+static int	access_newcwd(char *path)
 {
 	int		ret;
 	char	*oldpwd;

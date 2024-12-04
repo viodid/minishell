@@ -57,6 +57,7 @@ SRC				= $(SRCDIR)main.c						\
 				$(SRCDIR)utils/errors.c					\
 				$(SRCDIR)utils/expansions_utils.c		\
 				$(SRCDIR)utils/expansions_utils_2.c		\
+				# $(SRCDIR)utils/printers_debug.c			\
 
 OBJS			= $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
